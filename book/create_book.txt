@@ -1,0 +1,21 @@
+Based on the reference documents starter.md, tasks.md, status.md, structure.md, backend.md, and frontend.md, develop a comprehensive, detailed technical book that fully describes the entire system. The book must include exhaustive explanations of every component, workflow, architecture decision, and implementation detail to enable any user to achieve a complete, in-depth understanding of the system. 
+
+Save this full book as book.md and store it in the dedicated book folder.
+
+Additionally, create all necessary SVG format illustration files to visually explain each system component, data flow, interaction model, and architectural layer. Embed these SVG illustrations directly within the appropriate sections of book.md to enhance readability and clarify complex concepts.
+
+Upon completion of the English version of the book, translate the entire content of book.md into Traditional Chinese and save the translated version as book_hk.md in the same book folder.
+
+Finally, adapt the Traditional Chinese content of book_hk.md into a conversational Cantonese YouTube script formatted for video presentation, and output the final script as book_hk.script.txt in the book folder. The script must be tailored for a video audience, maintaining all technical accuracy while being engaging and easy to follow for YouTube viewers. 
+
+The scripts must follows: 
+Script Requirements
+- Output only the spoken words.
+- Do not include tags, labels, notes, timestamps, headings in brackets, or production instructions.
+- Do not include text such as [sound effects], (music), [pause], or any similar notation.
+- Write in natural, conversational Cantonese optimized for listening.
+- Use a good mix of short and medium-length sentences for rhythm and clarity.
+- Preserve the original meaning, tone, and key details.
+- Do not add opinions, modern commentary, or unrelated material.
+- Make the script engaging for YouTube listeners while staying faithful to the source.
+- If the source includes dialogue, adapt it smoothly into spoken narration.

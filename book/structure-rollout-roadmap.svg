@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+  <rect width="1200" height="520" fill="#f8fafc"/>
+  <text x="600" y="40" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#0f172a">Structure.md Rollout vs Product Bar (current)</text>
+  <text x="600" y="68" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#64748b">Original 90-day vision mapped to shipped mark-100 scope</text>
+
+  <rect x="60" y="110" width="250" height="120" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="185" y="150" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#0f172a">Days 1–14</text>
+  <text x="185" y="178" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#334155">Foundation / harness</text>
+  <text x="185" y="200" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#16a34a">DONE &#183; dual harness + schemas</text>
+
+  <rect x="340" y="110" width="250" height="120" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="465" y="150" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#0f172a">Days 15–45</text>
+  <text x="465" y="178" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#334155">Control plane + execution</text>
+  <text x="465" y="200" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#16a34a">DONE &#183; Postgres + adapters</text>
+
+  <rect x="620" y="110" width="250" height="120" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="745" y="150" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#0f172a">Days 46–70</text>
+  <text x="745" y="178" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#334155">PI + evolution + corpus</text>
+  <text x="745" y="200" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#16a34a">DONE &#183; P3/P4</text>
+
+  <rect x="900" y="110" width="250" height="120" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="1025" y="150" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#0f172a">Days 71–90+</text>
+  <text x="1025" y="178" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#334155">Retrieval + improve</text>
+  <text x="1025" y="200" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#7c3aed">DONE &#183; P5 + SI layer</text>
+
+  <rect x="120" y="300" width="960" height="140" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="600" y="340" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#0f172a">Shipped bar (not full enterprise infinite content)</text>
+  <text x="600" y="372" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#334155">E1 path &#183; Postgres durability &#183; real tools &#183; PI artifacts &#183; canary evolution</text>
+  <text x="600" y="398" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#334155">Tiered retrieval &#183; FE ops forms &#183; self-improvement loops &#183; dual Trae/Grok</text>
+  <text x="600" y="424" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#64748b">Deferred: full LightRAG vendor, live CRM/email, host code self-rewrite</text>
+</svg>

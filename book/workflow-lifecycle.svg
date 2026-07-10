@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .text { font: 15px Arial, sans-serif; fill: #334155; }
+      .box { rx: 18; ry: 18; stroke-width: 2.5; }
+      .arrow { stroke: #475569; stroke-width: 3; fill: none; marker-end: url(#head); }
+    </style>
+    <marker id="head" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="720" fill="#f8fafc"/>
+  <text x="600" y="52" text-anchor="middle" class="title">Workflow Run Lifecycle</text>
+
+  <rect x="80" y="120" width="160" height="80" class="box" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="160" y="167" text-anchor="middle" class="label">Queued</text>
+
+  <rect x="340" y="120" width="180" height="80" class="box" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="430" y="167" text-anchor="middle" class="label">Running</text>
+
+  <rect x="640" y="120" width="240" height="80" class="box" fill="#fef3c7" stroke="#d97706"/>
+  <text x="760" y="158" text-anchor="middle" class="label">Waiting For Approval</text>
+  <text x="760" y="182" text-anchor="middle" class="text">Paused until reviewer acts</text>
+
+  <rect x="960" y="120" width="160" height="80" class="box" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="1040" y="167" text-anchor="middle" class="label">Completed</text>
+
+  <rect x="340" y="300" width="180" height="80" class="box" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="430" y="347" text-anchor="middle" class="label">Failed</text>
+
+  <rect x="640" y="300" width="180" height="80" class="box" fill="#e2e8f0" stroke="#64748b"/>
+  <text x="730" y="347" text-anchor="middle" class="label">Cancelled</text>
+
+  <rect x="920" y="300" width="180" height="80" class="box" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="1010" y="340" text-anchor="middle" class="label">Retry</text>
+  <text x="1010" y="364" text-anchor="middle" class="text">If policy allows</text>
+
+  <line x1="240" y1="160" x2="340" y2="160" class="arrow"/>
+  <line x1="520" y1="160" x2="640" y2="160" class="arrow"/>
+  <line x1="880" y1="160" x2="960" y2="160" class="arrow"/>
+
+  <path d="M760 200 C760 245, 430 240, 430 300" class="arrow"/>
+  <text x="600" y="255" class="text">approval rejected or execution error</text>
+
+  <path d="M760 200 C760 250, 1040 250, 1040 120" class="arrow"/>
+  <text x="930" y="250" class="text">approval granted then resume</text>
+
+  <path d="M430 200 C430 240, 430 240, 430 300" class="arrow"/>
+  <text x="448" y="260" class="text">runtime failure</text>
+
+  <path d="M160 200 C160 340, 730 340, 730 300" class="arrow"/>
+  <text x="300" y="402" class="text">Run can be cancelled before work starts or while running</text>
+
+  <path d="M1010 300 C1010 250, 430 250, 430 200" class="arrow"/>
+  <text x="970" y="280" class="text">retry creates controlled re-entry</text>
+
+  <rect x="110" y="500" width="980" height="150" rx="20" ry="20" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="140" y="540" class="label">What the lifecycle must preserve</text>
+  <text x="140" y="575" class="text">- Every run has auditable status changes</text>
+  <text x="140" y="603" class="text">- Approval can pause execution before risky actions</text>
+  <text x="140" y="631" class="text">- Failures, cancellations, retries, and final output remain traceable</text>
+</svg>

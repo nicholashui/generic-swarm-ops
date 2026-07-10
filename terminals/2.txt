@@ -1,0 +1,43 @@
+---
+pid: 5532
+cwd: "C:\Project\generic-swarm-ops"
+command: "cd C:\\Project\\generic-swarm-ops\\frontend && pnpm build 2>&1; echo \"EXIT:$LASTEXITCODE\""
+started_at: 2026-07-10T05:10:19.266Z
+running_for_ms: 40008    
+---
+
+> generic-swarm-ops-frontend@0.1.0 build C:\Project\generic-swarm-ops\frontend
+> next build
+
+▲ Next.js 16.2.10 (Turbopack)
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 4.8s
+  Running TypeScript ...
+  Finished TypeScript in 5.5s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/10) ...
+  Generating static pages using 7 workers (2/10) 
+  Generating static pages using 7 workers (4/10) 
+  Generating static pages using 7 workers (7/10) 
+✓ Generating static pages using 7 workers (10/10) in 550ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /accept-invite
+├ ○ /app
+├ ƒ /app/[...slug]
+├ ○ /forgot-password
+├ ○ /login
+├ ○ /register
+└ ○ /reset-password
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+EXIT:0

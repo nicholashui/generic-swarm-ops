@@ -1,0 +1,1 @@
+export function LogViewer({ lines }: { lines: string[] }) { return <div className="scrollbar-thin max-h-[360px] overflow-auto rounded-2xl border border-white/10 bg-[#030811] p-4 font-[var(--font-mono)] text-xs leading-6 text-[var(--accent-2)]">{lines.map((line) => <div key={line}>{line}</div>)}</div>; }

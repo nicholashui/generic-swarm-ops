@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.1",
+  "organization": "generic-swarm-ops-demo",
+  "updated_at": "2026-07-09",
+  "systems": [
+    {
+      "id": "ai_sys_business_orchestrator",
+      "name": "Business Orchestrator Runtime",
+      "type": "multi_agent_workflow_runtime",
+      "owner": "platform",
+      "owner_contact": "ops-lead@example.com",
+      "risk_tier_max": "tier_4_execute_with_gate",
+      "status": "active_mvp",
+      "data_classes": ["business_process", "customer_metadata", "audit_events"],
+      "human_oversight": "risk_tier_and_step_gates",
+      "persistence": "postgres_runtime_state_jsonb",
+      "model_card": "business/governance/model-cards/customer-onboarding-orchestrator.md",
+      "assurance_case": "business/governance/assurance-cases/customer-onboarding-tier4.md",
+      "notes": "Postgres primary store; JSON snapshot backup. Local tool adapters with audited tool_effects."
+    },
+    {
+      "id": "ai_sys_evolution_sandbox",
+      "name": "Evolution Sandbox (offline)",
+      "type": "workflow_variant_evaluation",
+      "owner": "governance",
+      "owner_contact": "governance-lead@example.com",
+      "risk_tier_max": "tier_0_observe",
+      "status": "sandbox_only",
+      "data_classes": ["evaluation_metrics", "workflow_dna", "fitness_metrics"],
+      "human_oversight": "mandatory_before_canary",
+      "notes": "Must never mutate production DNA directly (structure.md §5.1). Corpus-backed sandbox eval; canary + rollback only."
+    },
+    {
+      "id": "ai_sys_process_intelligence",
+      "name": "Process Intelligence Miner",
+      "type": "event_log_analytics",
+      "owner": "operations",
+      "owner_contact": "ops-lead@example.com",
+      "risk_tier_max": "tier_1_suggest",
+      "status": "active_mvp",
+      "data_classes": ["event_logs", "pi_artifacts"],
+      "human_oversight": "artifact_review",
+      "notes": "Ingest writes discovered/conformance/bottleneck artifacts under business/process-intelligence/."
+    }
+  ]
+}

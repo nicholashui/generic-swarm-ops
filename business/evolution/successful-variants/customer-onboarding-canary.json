@@ -1,0 +1,17 @@
+{
+  "id": "variant_customer_onboarding_canary_001",
+  "baseline_workflow_id": "wf_customer_onboarding_v12",
+  "direct_production_mutation": false,
+  "regression_test_result": "pass",
+  "adversarial_test_result": "pass",
+  "compliance_check": "pass",
+  "rollback_plan": [
+    "disable_customer_record",
+    "void_initial_invoice",
+    "notify_ops_owner",
+    "open incident ticket if billing reversal fails"
+  ],
+  "approval_record": "approval_ops_lead_2026_07_07",
+  "risk_tier": "tier_4_execute_with_gate",
+  "status": "approved_for_canary"
+}

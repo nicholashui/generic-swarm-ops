@@ -1,0 +1,39 @@
+{
+  "id": "evt_customer_onboarding_001",
+  "timestamp": "2026-07-06T14:03:00Z",
+  "actor_type": "agent",
+  "actor_id": "business_orchestrator",
+  "process_id": "customer_onboarding",
+  "case_id": "customer_12345",
+  "activity": "route_contract_exception",
+  "input_refs": [
+    "signed_contract_v3",
+    "customer_risk_profile"
+  ],
+  "output_refs": [
+    "legal_review_ticket_789"
+  ],
+  "tools_used": [
+    "crm",
+    "policy_retriever"
+  ],
+  "decision_point": true,
+  "decision_reason_summary": "Non-standard liability clause requires legal review and a human gate.",
+  "confidence": 0.82,
+  "risk_tier": "tier_4_execute_with_gate",
+  "human_approved": true,
+  "outcome": {
+    "status": "completed",
+    "latency_minutes": 42,
+    "quality_score": 0.94
+  },
+  "provenance": {
+    "source_refs": [
+      "structure.md",
+      "starter.md",
+      "business/materials/sops/customer-onboarding.md"
+    ],
+    "captured_by": "business_orchestrator",
+    "recorded_at": "2026-07-07T10:00:00Z"
+  }
+}

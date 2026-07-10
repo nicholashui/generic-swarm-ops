@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="900" height="460" fill="#ffffff"/>
+  <text x="450" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Autonomy Risk Tiers</text>
+  <text x="450" y="54" text-anchor="middle" font-size="12" fill="#64748b">Autonomy is earned per workflow through evidence, not granted by default</text>
+
+  <g font-size="13">
+    <rect x="120" y="80"  width="660" height="46" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="140" y="108" font-weight="700" fill="#14532d">Tier 0 &#183; Observe</text>
+    <text x="360" y="108" fill="#166534">Log and summarize only</text>
+
+    <rect x="150" y="132" width="630" height="46" rx="6" fill="#d1fae5" stroke="#059669"/>
+    <text x="170" y="160" font-weight="700" fill="#065f46">Tier 1 &#183; Recommend</text>
+    <text x="390" y="160" fill="#047857">Suggest; human acts</text>
+
+    <rect x="180" y="184" width="600" height="46" rx="6" fill="#fef9c3" stroke="#ca8a04"/>
+    <text x="200" y="212" font-weight="700" fill="#713f12">Tier 2 &#183; Draft</text>
+    <text x="420" y="212" fill="#854d0e">Prepare artifacts; human approves before send</text>
+
+    <rect x="210" y="236" width="570" height="46" rx="6" fill="#ffedd5" stroke="#ea580c"/>
+    <text x="230" y="264" font-weight="700" fill="#7c2d12">Tier 3 &#183; Execute (reversible)</text>
+    <text x="470" y="264" fill="#9a3412">Act if rollback exists and risk is low</text>
+
+    <rect x="240" y="288" width="540" height="46" rx="6" fill="#fecaca" stroke="#dc2626"/>
+    <text x="260" y="316" font-weight="700" fill="#7f1d1d">Tier 4 &#183; Execute + gate</text>
+    <text x="500" y="316" fill="#991b1b">Act, but human approves the critical step</text>
+
+    <rect x="270" y="340" width="510" height="46" rx="6" fill="#fca5a5" stroke="#b91c1c"/>
+    <text x="290" y="368" font-weight="700" fill="#7f1d1d">Tier 5 &#183; Restricted</text>
+    <text x="520" y="368" fill="#7f1d1d">No autonomous action until an assurance case exists</text>
+  </g>
+
+  <text x="450" y="420" text-anchor="middle" font-size="12" fill="#475569">Anchored to NIST AI RMF, ISO/IEC 42001, and the EU AI Act (employment decisions = high-risk).</text>
+</svg>

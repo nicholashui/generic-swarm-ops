@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="600" fill="#ffffff"/>
+  <text x="480" y="30" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Backend API Server &#183; Layered Architecture</text>
+  <text x="480" y="52" text-anchor="middle" font-size="12" fill="#64748b">Routes stay thin &#183; Runtime + infrastructure own logic &#183; Postgres primary</text>
+
+  <rect x="280" y="72" width="400" height="42" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="480" y="98" text-anchor="middle" font-size="13" font-weight="700" fill="#312e81">Frontend (REST / SSE)</text>
+
+  <rect x="50" y="132" width="860" height="100" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="480" y="156" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">API Layer &#183; /api/v1</text>
+  <g font-size="11" fill="#1e40af" text-anchor="middle">
+    <text x="120" y="182">auth</text>
+    <text x="200" y="182">agents</text>
+    <text x="290" y="182">tools</text>
+    <text x="390" y="182">workflows</text>
+    <text x="510" y="182">workflow_runs</text>
+    <text x="640" y="182">approvals</text>
+    <text x="760" y="182">governance</text>
+    <text x="870" y="182">health</text>
+    <text x="130" y="208">knowledge</text>
+    <text x="250" y="208">memory</text>
+    <text x="370" y="208">evaluations</text>
+    <text x="500" y="208">processes</text>
+    <text x="620" y="208">evolution</text>
+    <text x="750" y="208">improvement</text>
+    <text x="870" y="208">loops</text>
+  </g>
+
+  <rect x="50" y="250" width="860" height="42" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="480" y="276" text-anchor="middle" font-size="12" font-weight="600" fill="#713f12">Cross-cutting: auth &#183; RBAC &#183; rate limit &#183; request IDs &#183; error envelopes &#183; metrics &#183; security headers</text>
+
+  <rect x="50" y="310" width="860" height="88" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="480" y="334" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">Runtime + Domain Services</text>
+  <g font-size="11" fill="#166534" text-anchor="middle">
+    <text x="140" y="360">Workflow engine</text>
+    <text x="300" y="360">Tool adapters</text>
+    <text x="460" y="360">Approvals / gates</text>
+    <text x="640" y="360">Memory scopes</text>
+    <text x="820" y="360">Corpus eval</text>
+    <text x="180" y="382">Auto-reflect / lessons</text>
+    <text x="420" y="382">PI artifacts</text>
+    <text x="640" y="382">K1-lite graph</text>
+    <text x="820" y="382">Loop runner</text>
+  </g>
+
+  <rect x="50" y="416" width="860" height="96" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="480" y="440" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Infrastructure</text>
+  <g font-size="12" fill="#334155" text-anchor="middle">
+    <text x="160" y="468">PostgreSQL</text>
+    <text x="160" y="486" font-size="10">runtime_state JSONB</text>
+    <text x="360" y="468">JSON snapshot</text>
+    <text x="360" y="486" font-size="10">backup / offline</text>
+    <text x="560" y="468">Embeddings</text>
+    <text x="560" y="486" font-size="10">hashing + optional pgvector</text>
+    <text x="780" y="468">Local adapters</text>
+    <text x="780" y="486" font-size="10">crm &#183; billing &#183; email</text>
+  </g>
+
+  <rect x="240" y="532" width="480" height="40" rx="8" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="480" y="557" text-anchor="middle" font-size="12" font-weight="600" fill="#4c1d95">Long tasks: dispatch_queued_runs &#183; SSE stream events &#183; auto-reflect on terminal status</text>
+
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#barr)">
+    <line x1="480" y1="114" x2="480" y2="130"/>
+    <line x1="480" y1="232" x2="480" y2="248"/>
+    <line x1="480" y1="292" x2="480" y2="308"/>
+    <line x1="480" y1="398" x2="480" y2="414"/>
+    <line x1="480" y1="512" x2="480" y2="530"/>
+  </g>
+  <defs>
+    <marker id="barr" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>

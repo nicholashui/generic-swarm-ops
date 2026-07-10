@@ -1,0 +1,2 @@
+class BaseObjectStorage:
+    pass

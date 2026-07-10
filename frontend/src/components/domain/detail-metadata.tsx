@@ -1,0 +1,2 @@
+import { Card } from "@/components/ui/card";
+export function DetailMetadata({ items }: { items: Array<{ label: string; value: string }> }) { return <Card className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">{items.map((item) => <div key={item.label}><p className="text-xs uppercase tracking-[0.22em] text-muted">{item.label}</p><p className="mt-2 text-sm font-medium text-white">{item.value}</p></div>)}</Card>; }

@@ -1,0 +1,10 @@
+---
+name: memory-stewardship
+description: >
+  Maintain provenance, retention, and quality across episodic, semantic,
+  procedural, and evaluation memory. Use when editing business memory or provenance.
+---
+
+# Memory Stewardship
+
+Maintain provenance, retention, and quality controls across episodic, semantic, procedural, and evaluation memory.

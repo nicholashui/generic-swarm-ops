@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="780" viewBox="0 0 1300 780">
+  <defs>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .text { font: 15px Arial, sans-serif; fill: #334155; }
+      .box { rx: 18; ry: 18; stroke-width: 2.5; }
+      .arrow { stroke: #475569; stroke-width: 3; fill: none; marker-end: url(#head); }
+    </style>
+    <marker id="head" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect width="1300" height="780" fill="#f8fafc"/>
+  <text x="650" y="52" text-anchor="middle" class="title">Process Intelligence Layer (shipped)</text>
+
+  <rect x="80" y="120" width="260" height="100" class="box" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="210" y="162" text-anchor="middle" class="label">Operational Traces</text>
+  <text x="210" y="190" text-anchor="middle" class="text">tickets, CRM, ERP, calendars, email, approvals, edits, API calls</text>
+
+  <line x1="340" y1="170" x2="420" y2="170" class="arrow"/>
+
+  <rect x="420" y="120" width="460" height="100" class="box" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="650" y="160" text-anchor="middle" class="label">Event Log Schema</text>
+  <text x="650" y="190" text-anchor="middle" class="text">actor, case, activity, tools, decision point, confidence, risk tier, approval, outcome</text>
+
+  <line x1="880" y1="170" x2="970" y2="170" class="arrow"/>
+
+  <rect x="970" y="120" width="250" height="100" class="box" fill="#fef3c7" stroke="#d97706"/>
+  <text x="1095" y="160" text-anchor="middle" class="label">Observable Evidence</text>
+  <text x="1095" y="190" text-anchor="middle" class="text">real work, not just interview claims</text>
+
+  <rect x="90" y="330" width="220" height="110" class="box" fill="#ffffff" stroke="#2563eb"/>
+  <text x="200" y="372" text-anchor="middle" class="label">Process Miner</text>
+  <text x="200" y="400" text-anchor="middle" class="text">discovers actual workflows</text>
+
+  <rect x="350" y="330" width="220" height="110" class="box" fill="#ffffff" stroke="#16a34a"/>
+  <text x="460" y="372" text-anchor="middle" class="label">Task Mining Agent</text>
+  <text x="460" y="400" text-anchor="middle" class="text">observes UI and human steps</text>
+
+  <rect x="610" y="330" width="220" height="110" class="box" fill="#ffffff" stroke="#d97706"/>
+  <text x="720" y="372" text-anchor="middle" class="label">Conformance Agent</text>
+  <text x="720" y="400" text-anchor="middle" class="text">compares work against SOPs</text>
+
+  <rect x="870" y="330" width="220" height="110" class="box" fill="#ffffff" stroke="#7c3aed"/>
+  <text x="980" y="372" text-anchor="middle" class="label">Bottleneck Analyzer</text>
+  <text x="980" y="400" text-anchor="middle" class="text">finds delay, loops, rework, handoff failures</text>
+
+  <rect x="500" y="510" width="300" height="120" class="box" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="650" y="552" text-anchor="middle" class="label">Causal Improvement Agent</text>
+  <text x="650" y="582" text-anchor="middle" class="text">proposes interventions that may improve outcomes</text>
+  <text x="650" y="608" text-anchor="middle" class="text">but only feeds bounded execution and sandbox evolution</text>
+
+  <line x1="650" y1="220" x2="200" y2="330" class="arrow"/>
+  <line x1="650" y1="220" x2="460" y2="330" class="arrow"/>
+  <line x1="650" y1="220" x2="720" y2="330" class="arrow"/>
+  <line x1="650" y1="220" x2="980" y2="330" class="arrow"/>
+  <line x1="720" y1="440" x2="650" y2="510" class="arrow"/>
+  <line x1="980" y1="440" x2="750" y2="510" class="arrow"/>
+
+  <rect x="150" y="660" width="1000" height="90" class="box" fill="#f1f5f9" stroke="#475569"/>
+  <text x="650" y="700" text-anchor="middle" class="label">Shipped: artifacts on event ingest</text>
+  <text x="650" y="728" text-anchor="middle" class="text">business/process-intelligence/ · discovered · conformance · bottlenecks JSON</text>
+</svg>

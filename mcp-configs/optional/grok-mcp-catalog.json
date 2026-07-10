@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "note": "Optional MCP catalog for Grok. Copy enabled entries into .grok/config.toml with real secrets via env vars — never commit tokens.",
+  "servers": {
+    "sequential-thinking": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "requires_secrets": false,
+      "default_enabled": true
+    },
+    "memory": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "requires_secrets": false,
+      "default_enabled": true
+    },
+    "github": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": [
+        "GITHUB_PERSONAL_ACCESS_TOKEN"
+      ],
+      "requires_secrets": true,
+      "default_enabled": false,
+      "reference": "external/sources/ecc/mcp-configs/mcp-servers.json"
+    },
+    "filesystem": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "<repo-root>"
+      ],
+      "requires_secrets": false,
+      "default_enabled": false
+    },
+    "mcp-official-servers": {
+      "note": "Many official servers live under external/sources/modelcontextprotocol-servers — enable case-by-case",
+      "path": "external/sources/modelcontextprotocol-servers",
+      "default_enabled": false
+    }
+  }
+}

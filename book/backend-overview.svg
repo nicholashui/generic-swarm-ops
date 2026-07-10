@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <style>
+      .title { font: 700 26px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 13px Arial, sans-serif; fill: #64748b; }
+      .label { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .text { font: 14px Arial, sans-serif; fill: #1f2937; }
+      .small { font: 13px Arial, sans-serif; fill: #334155; }
+      .box { rx: 16; ry: 16; stroke-width: 2; }
+      .arrow { stroke: #475569; stroke-width: 3; fill: none; marker-end: url(#head); }
+    </style>
+    <marker id="head" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="800" fill="#f8fafc"/>
+  <text x="600" y="44" text-anchor="middle" class="title">Backend API Server Overview (shipped)</text>
+  <text x="600" y="70" text-anchor="middle" class="subtitle">Postgres primary · real adapters · improvement + loops · E1 green</text>
+
+  <rect x="120" y="96" width="960" height="100" class="box" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="600" y="134" text-anchor="middle" class="label">Frontend Ops Console</text>
+  <text x="600" y="164" text-anchor="middle" class="text">Dashboard · Runs · Approvals · Improve · Evolution · Knowledge · Audit</text>
+  <text x="600" y="184" text-anchor="middle" class="small">REST actions + SSE stream · DEMO_MODE=false for live ops</text>
+
+  <line x1="600" y1="196" x2="600" y2="236" class="arrow"/>
+
+  <rect x="120" y="236" width="960" height="140" class="box" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="600" y="274" text-anchor="middle" class="label">API Layer /api/v1</text>
+  <text x="600" y="306" text-anchor="middle" class="text">auth · workflows · runs · approvals · knowledge · memory · processes</text>
+  <text x="600" y="334" text-anchor="middle" class="text">evolution · improvement · loops · evaluations · audit · health</text>
+  <text x="600" y="358" text-anchor="middle" class="small">RBAC · rate limits · request IDs · error envelopes · security headers</text>
+
+  <line x1="600" y1="376" x2="600" y2="416" class="arrow"/>
+
+  <rect x="120" y="416" width="960" height="120" class="box" fill="#fef3c7" stroke="#d97706"/>
+  <text x="600" y="456" text-anchor="middle" class="label">Runtime + Domain Services</text>
+  <text x="600" y="488" text-anchor="middle" class="text">Workflow engine · tool adapters · gates · memory scopes · corpus eval</text>
+  <text x="600" y="516" text-anchor="middle" class="text">auto-reflect · PI artifacts · K1-lite graph · Loop runner</text>
+
+  <line x1="600" y1="536" x2="600" y2="576" class="arrow"/>
+
+  <rect x="120" y="576" width="960" height="140" class="box" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="600" y="620" text-anchor="middle" class="label">Infrastructure</text>
+  <text x="600" y="656" text-anchor="middle" class="text">PostgreSQL runtime_state JSONB · JSON snapshot backup</text>
+  <text x="600" y="686" text-anchor="middle" class="text">hashing embeddings / optional pgvector · local CRM/billing/email adapters</text>
+</svg>

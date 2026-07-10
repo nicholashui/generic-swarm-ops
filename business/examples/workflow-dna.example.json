@@ -1,0 +1,152 @@
+{
+  "id": "wf_customer_onboarding_v12",
+  "name": "Customer Onboarding",
+  "domain": "operations",
+  "objective": "Onboard a customer with minimal delay and no compliance regressions.",
+  "owner": "business_orchestrator",
+  "version": "12.0",
+  "risk_tier": "tier_4_execute_with_gate",
+  "production_ready": true,
+  "inputs": [
+    "signed_contract",
+    "customer_profile",
+    "billing_details"
+  ],
+  "preconditions": [
+    "contract_status == signed",
+    "customer_risk_score <= threshold OR legal_approval == true"
+  ],
+  "steps": [
+    {
+      "id": "verify_contract",
+      "state": "research",
+      "next": [
+        "create_customer_record"
+      ],
+      "agent": "governance_officer",
+      "tools": [
+        "contract_parser",
+        "policy_retriever"
+      ],
+      "action_type": "analysis",
+      "human_gate_required": false,
+      "irreversible": false
+    },
+    {
+      "id": "create_customer_record",
+      "state": "execution",
+      "next": [
+        "activate_billing"
+      ],
+      "agent": "business_orchestrator",
+      "tools": [
+        "crm"
+      ],
+      "action_type": "reversible_execution",
+      "human_gate_required": false,
+      "irreversible": false
+    },
+    {
+      "id": "activate_billing",
+      "state": "critical_gate",
+      "next": [
+        "send_welcome_packet"
+      ],
+      "agent": "tool_permission_broker",
+      "tools": [
+        "billing_system"
+      ],
+      "action_type": "irreversible_execution",
+      "human_gate_required": true,
+      "irreversible": true
+    },
+    {
+      "id": "send_welcome_packet",
+      "state": "notification",
+      "next": [
+        "audit_and_close"
+      ],
+      "agent": "business_orchestrator",
+      "tools": [
+        "email"
+      ],
+      "action_type": "notification",
+      "human_gate_required": false,
+      "irreversible": false
+    },
+    {
+      "id": "audit_and_close",
+      "state": "verification",
+      "next": [
+        "complete"
+      ],
+      "agent": "business_orchestrator",
+      "tools": [
+        "audit_log_writer"
+      ],
+      "action_type": "audit",
+      "human_gate_required": false,
+      "irreversible": false
+    }
+  ],
+  "memory_reads": [
+    "contract_rules",
+    "customer_exceptions",
+    "past_failures"
+  ],
+  "memory_writes": [
+    "event_log",
+    "decision_memory",
+    "lessons_learned"
+  ],
+  "guardrails": {
+    "human_approval_required_if": [
+      "risk_tier >= tier_4_execute_with_gate",
+      "tool_action_is_irreversible == true",
+      "exception_path_triggered == true",
+      "drc.human_approval_required == true"
+    ],
+    "decision_requirement_cards": [
+      "business/experts/decision-requirement-cards/drc_contract_exception_001.json"
+    ],
+    "forbidden_actions": [
+      "Mutate production workflow definitions directly",
+      "Use unrestricted shell or credential-bearing MCP access"
+    ]
+  },
+  "verification": {
+    "required_checks": [
+      "crm_record_created",
+      "billing_config_validated",
+      "welcome_packet_sent",
+      "audit_log_complete"
+    ]
+  },
+  "rollback": {
+    "reversible": false,
+    "rollback_steps": [
+      "disable_customer_record",
+      "void_initial_invoice",
+      "notify_ops_owner",
+      "open incident ticket if billing reversal fails"
+    ]
+  },
+  "fitness_metrics": [
+    "cycle_time",
+    "error_rate",
+    "customer_satisfaction",
+    "compliance_pass_rate",
+    "human_escalation_rate",
+    "cost_per_case"
+  ],
+  "audit_log_write_required": true,
+  "provenance": {
+    "source_refs": [
+      "structure.md",
+      "starter.md",
+      "business/materials/sops/customer-onboarding.md"
+    ],
+    "captured_by": "business_orchestrator",
+    "recorded_at": "2026-07-07T10:00:00Z"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "hooks": [
+    {
+      "id": "session-start-reminder",
+      "harness": "grok",
+      "path": ".grok/hooks/session-start.json",
+      "event": "SessionStart"
+    }
+  ],
+  "external_reference": [
+    "external/sources/ecc/hooks",
+    "external/sources/superpowers/hooks"
+  ]
+}

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="780" viewBox="0 0 1300 780">
+  <defs>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .text { font: 15px Arial, sans-serif; fill: #334155; }
+      .box { rx: 18; ry: 18; stroke-width: 2.5; }
+    </style>
+  </defs>
+
+  <rect width="1300" height="780" fill="#f8fafc"/>
+  <text x="650" y="52" text-anchor="middle" class="title">Design System And Status Language</text>
+
+  <rect x="70" y="110" width="250" height="250" class="box" fill="#ffffff" stroke="#2563eb"/>
+  <text x="195" y="148" text-anchor="middle" class="label">Design Tokens</text>
+  <text x="100" y="190" class="text">Color</text>
+  <text x="100" y="220" class="text">Typography</text>
+  <text x="100" y="250" class="text">Spacing</text>
+  <text x="100" y="280" class="text">Radii</text>
+  <text x="100" y="310" class="text">Shadows</text>
+  <text x="100" y="340" class="text">Borders</text>
+
+  <rect x="370" y="110" width="250" height="250" class="box" fill="#ffffff" stroke="#16a34a"/>
+  <text x="495" y="148" text-anchor="middle" class="label">Shared UI Primitives</text>
+  <text x="400" y="190" class="text">Button, Input, Select, Card</text>
+  <text x="400" y="220" class="text">Badge, StatusBadge, Dialog, Drawer</text>
+  <text x="400" y="250" class="text">Skeleton, EmptyState, ErrorState</text>
+  <text x="400" y="280" class="text">DataTable, Timeline, MetricCard</text>
+  <text x="400" y="310" class="text">Toast, Tooltip, ConfirmDialog</text>
+
+  <rect x="670" y="110" width="250" height="250" class="box" fill="#ffffff" stroke="#d97706"/>
+  <text x="795" y="148" text-anchor="middle" class="label">Domain Components</text>
+  <text x="700" y="190" class="text">AgentCard, WorkflowCard</text>
+  <text x="700" y="220" class="text">WorkflowRunTimeline, RunLogs</text>
+  <text x="700" y="250" class="text">ApprovalDecisionPanel</text>
+  <text x="700" y="280" class="text">KnowledgeSourceCard</text>
+  <text x="700" y="310" class="text">AuditLogTable, ApiKeyTable</text>
+
+  <rect x="970" y="110" width="250" height="250" class="box" fill="#ffffff" stroke="#7c3aed"/>
+  <text x="1095" y="148" text-anchor="middle" class="label">Behavior Rules</text>
+  <text x="1000" y="190" class="text">Responsive layouts</text>
+  <text x="1000" y="220" class="text">Accessible keyboard and focus flow</text>
+  <text x="1000" y="250" class="text">Loading, empty, error states</text>
+  <text x="1000" y="280" class="text">Permission-aware UI</text>
+  <text x="1000" y="310" class="text">Consistent confirmations</text>
+
+  <rect x="120" y="450" width="1060" height="220" class="box" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="650" y="490" text-anchor="middle" class="label">Semantic Status Palette</text>
+  <text x="180" y="540" class="text">Success</text>
+  <rect x="300" y="520" width="90" height="30" rx="10" ry="10" fill="#16a34a"/>
+  <text x="450" y="540" class="text">Warning</text>
+  <rect x="560" y="520" width="90" height="30" rx="10" ry="10" fill="#d97706"/>
+  <text x="700" y="540" class="text">Error</text>
+  <rect x="790" y="520" width="90" height="30" rx="10" ry="10" fill="#dc2626"/>
+  <text x="930" y="540" class="text">Info</text>
+  <rect x="1010" y="520" width="90" height="30" rx="10" ry="10" fill="#0284c7"/>
+
+  <text x="180" y="610" class="text">Neutral</text>
+  <rect x="300" y="590" width="90" height="30" rx="10" ry="10" fill="#64748b"/>
+  <text x="450" y="610" class="text">Running</text>
+  <rect x="560" y="590" width="90" height="30" rx="10" ry="10" fill="#2563eb"/>
+  <text x="700" y="610" class="text">Pending</text>
+  <rect x="790" y="590" width="90" height="30" rx="10" ry="10" fill="#f59e0b"/>
+  <text x="930" y="610" class="text">Cancelled</text>
+  <rect x="1030" y="590" width="90" height="30" rx="10" ry="10" fill="#94a3b8"/>
+</svg>

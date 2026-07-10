@@ -1,0 +1,18 @@
+Based on the content of backend_hk.md, complete the following tasks in sequence:
+1. Create a directory named "book" if it does not already exist in the current working directory
+2. Within the newly created "book" folder, generate a structured documentation file named book.backend_hk.md that transforms the original technical specification content from backend_hk.md into a human-readable, easy-to-understand explanatory book. The converted content must preserve all core technical information while organizing it with clear hierarchical headings, explanatory annotations, logical flow adjustments, and simplified language to eliminate jargon barriers for non-specialist readers
+3. Develop all relevant SVG diagram files required to supplement the content of book.backend_hk.md, save all generated SVG files in the "book" folder, and ensure all SVG file links referenced in the markdown file use correct relative paths that render properly
+4. Translate the complete content of the finalized book.backend_hk.md file into a natural, conversational Cantonese YouTube script. The script must be formatted to suit video presentation requirements, including scene cues, spoken dialogue segments, and on-screen text prompts, then save this translated script as book.backend_hk.script.txt in the "book" folder
+5. Verify all generated files are correctly saved in the target directory, confirm all cross-references between files are functional, and ensure the final output meets readability and usability standards
+
+The scripts must follows: 
+Script Requirements
+- Output only the spoken words.
+- Do not include tags, labels, notes, timestamps, headings in brackets, or production instructions.
+- Do not include text such as [sound effects], (music), [pause], or any similar notation.
+- Write in natural, conversational Cantonese optimized for listening.
+- Use a good mix of short and medium-length sentences for rhythm and clarity.
+- Preserve the original meaning, tone, and key details.
+- Do not add opinions, modern commentary, or unrelated material.
+- Make the script engaging for YouTube listeners while staying faithful to the source.
+- If the source includes dialogue, adapt it smoothly into spoken narration.

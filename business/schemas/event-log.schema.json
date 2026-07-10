@@ -1,0 +1,155 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "timestamp",
+    "actor_type",
+    "actor_id",
+    "process_id",
+    "case_id",
+    "activity",
+    "input_refs",
+    "output_refs",
+    "tools_used",
+    "decision_point",
+    "decision_reason_summary",
+    "confidence",
+    "risk_tier",
+    "human_approved",
+    "outcome",
+    "provenance"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "actor_type": {
+      "type": "string",
+      "enum": [
+        "human",
+        "agent",
+        "system"
+      ]
+    },
+    "actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "process_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "activity": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "output_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "tools_used": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "decision_point": {
+      "type": "boolean"
+    },
+    "decision_reason_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "risk_tier": {
+      "type": "string",
+      "enum": [
+        "tier_0_observe",
+        "tier_1_recommend",
+        "tier_2_draft",
+        "tier_3_execute_reversible",
+        "tier_4_execute_with_gate",
+        "tier_5_restricted"
+      ]
+    },
+    "human_approved": {
+      "type": "boolean"
+    },
+    "outcome": {
+      "type": "object",
+      "required": [
+        "status",
+        "latency_minutes",
+        "quality_score"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "latency_minutes": {
+          "type": "number",
+          "minimum": 0
+        },
+        "quality_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "source_refs",
+        "captured_by",
+        "recorded_at"
+      ],
+      "properties": {
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "captured_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

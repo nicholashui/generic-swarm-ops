@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-09T03:03:54.852Z",
+  "harness": "grok-build",
+  "policy": {
+    "external_sources": "reference until audited; discoverable via skills paths / plugins",
+    "secrets": "never committed; MCP needing tokens stay disabled until env provided",
+    "evolution": "sandbox-only until approved",
+    "folder_trust": "project hooks/MCP require /hooks-trust or --trust"
+  },
+  "skill_packs": [
+    {
+      "id": "first-party",
+      "label": "Project first-party skills",
+      "path": "skills",
+      "trust": "first-party",
+      "policy": "active",
+      "discovery": [
+        ".grok/skills",
+        "skills"
+      ],
+      "present": true,
+      "skill_md_count": 8,
+      "absolute_path": "C:\\Project\\generic-swarm-ops\\skills"
+    },
+    {
+      "id": "ecc",
+      "label": "ECC / Everything Claude Code",
+      "path": "external/sources/ecc/skills",
+      "trust": "curated-only",
+      "policy": "discoverable",
+      "notes": "Large pack (~277 skills). Prefer invoke by name; audit before relying on hooks/scripts.",
+      "present": true,
+      "skill_md_count": 277,
+      "absolute_path": "C:\\Project\\generic-swarm-ops\\external\\sources\\ecc\\skills"
+    },
+    {
+      "id": "ecc-agents-skills",
+      "label": "ECC .agents/skills subset",
+      "path": "external/sources/ecc/.agents/skills",
+      "trust": "curated-only",
+      "policy": "discoverable",
+      "present": true,
+      "skill_md_count": 37,
+      "absolute_path": "C:\\Project\\generic-swarm-ops\\external\\sources\\ecc\\.agents\\skills"
+    },
+    {
+      "id": "superpowers",
+      "label": "Superpowers",
+      "path": "external/sources/superpowers/skills",
+      "trust": "reference",
+      "policy": "discoverable",
+      "present": true,
+      "skill_md_count": 14,
+      "absolute_path": "C:\\Project\\generic-swarm-ops\\external\\sources\\superpowers\\skills"
+    },
+    {
+      "id": "anthropic-skills",
+      "label": "Anthropic Agent Skills",
+      "path": "external/sources/anthropic-skills/skills",
+      "trust": "quarantine",
+      "policy": "discoverable",
+      "present": true,
+      "skill_md_count": 17,
+      "absolute_path": "C:\\Project\\generic-swarm-ops\\external\\sources\\anthropic-skills\\skills"
+    },
+    {
+      "id": "vercel-agent-skills",
+      "label": "Vercel Agent Skills",
+      "path": "external/sources/vercel-agent-skills/skills",
+      "trust": "reference",
+      "policy": "discoverable",
+      "present": true,
+      "skill_md_count": 9,
+      "absolute_path": "C:\\Project\\generic-swarm-ops\\external\\sources\\vercel-agent-skills\\skills"
+    },
+    {
+      "id": "karpathy-guidelines",
+      "label": "Karpathy guidelines skill",
+      "path": "external/sources/andrej-karpathy-skills/skills",
+      "trust": "reference",
+      "policy": "discoverable",
+      "present": true,
+      "skill_md_count": 1,
+      "absolute_path": "C:\\Project\\generic-swarm-ops\\external\\sources\\andrej-karpathy-skills\\skills"
+    }
+  ],
+  "plugins": [
+    {
+      "id": "ecc",
+      "label": "ECC plugin root",
+      "path": "external/sources/ecc",
+      "junction": ".grok/plugins/ecc",
+      "present": true,
+      "wired": true
+    },
+    {
+      "id": "superpowers",
+      "label": "Superpowers plugin root",
+      "path": "external/sources/superpowers",
+      "junction": ".grok/plugins/superpowers",
+      "present": true,
+      "wired": true
+    }
+  ],
+  "hooks": {
+    "project_manifest": "hooks/manifest.json",
+    "project_hooks_dir": ".grok/hooks",
+    "external": [
+      {
+        "id": "ecc-hooks",
+        "path": "external/sources/ecc/hooks",
+        "present": true,
+        "policy": "reference-only-by-default (Claude-oriented; not auto-executed)"
+      },
+      {
+        "id": "superpowers-hooks",
+        "path": "external/sources/superpowers/hooks",
+        "present": true,
+        "policy": "available via superpowers plugin when trusted/enabled"
+      }
+    ]
+  },
+  "memory": [
+    {
+      "id": "project-handoff",
+      "path": "memory",
+      "role": "git-shared continuity"
+    },
+    {
+      "id": "business-memory",
+      "path": "business/memory",
+      "role": "product domain memory"
+    },
+    {
+      "id": "grok-experimental",
+      "path": "~/.grok/memory",
+      "role": "optional personal cross-session (not in repo)"
+    }
+  ],
+  "mcp": {
+    "project_minimal": "mcp-configs/minimal.json",
+    "optional_catalog": "mcp-configs/optional/grok-mcp-catalog.json",
+    "trae": ".trae/mcp.json",
+    "ecc_reference": "external/sources/ecc/mcp-configs/mcp-servers.json",
+    "project_config": ".grok/config.toml"
+  },
+  "totals": {
+    "skill_md": 363,
+    "skill_packs_present": 7,
+    "plugins_present": 2
+  },
+  "wired_at": "2026-07-09T03:03:54.858Z"
+}

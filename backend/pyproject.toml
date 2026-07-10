@@ -1,0 +1,18 @@
+[project]
+name = "generic-swarm-ops-backend"
+version = "0.1.0"
+description = "Backend API server for the Generic Swarm Business Operating System."
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115.0,<1.0.0",
+  "uvicorn>=0.30.0,<1.0.0",
+  "pydantic>=2.8.0,<3.0.0",
+  "python-dotenv>=1.0.0,<2.0.0",
+  "SQLAlchemy>=2.0.0,<3.0.0",
+  "psycopg[binary]>=3.1.0,<4.0.0",
+  "asyncpg>=0.29.0,<1.0.0"
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"

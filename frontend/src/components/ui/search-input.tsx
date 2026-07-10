@@ -1,0 +1,2 @@
+import { Search } from "lucide-react";
+export function SearchInput({ placeholder }: { placeholder: string }) { return <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-muted"><Search className="size-4 text-[var(--accent)]" /><input className="w-full bg-transparent text-white placeholder:text-slate-400 focus:outline-none" placeholder={placeholder} type="search" /></label>; }

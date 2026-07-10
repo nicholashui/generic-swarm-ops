@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="560" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Process Intelligence Layer (shipped)</text>
+  <text x="480" y="54" text-anchor="middle" font-size="12" fill="#64748b">Learn from real operational traces · disk artifacts on every ingest</text>
+
+  <!-- sources -->
+  <rect x="30" y="90" width="190" height="250" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="125" y="118" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Event Sources</text>
+  <g font-size="11" fill="#334155">
+    <text x="125" y="150" text-anchor="middle">tickets</text>
+    <text x="125" y="172" text-anchor="middle">CRM / ERP actions</text>
+    <text x="125" y="194" text-anchor="middle">calendar &amp; email</text>
+    <text x="125" y="216" text-anchor="middle">approvals</text>
+    <text x="125" y="238" text-anchor="middle">file edits</text>
+    <text x="125" y="260" text-anchor="middle">API calls</text>
+    <text x="125" y="282" text-anchor="middle">completion records</text>
+  </g>
+
+  <!-- event log -->
+  <rect x="270" y="150" width="200" height="130" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="370" y="190" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">Event Log</text>
+  <text x="370" y="214" text-anchor="middle" font-size="11" fill="#166534">actor, activity, case_id</text>
+  <text x="370" y="234" text-anchor="middle" font-size="11" fill="#166534">risk_tier, confidence</text>
+  <text x="370" y="254" text-anchor="middle" font-size="11" fill="#166534">outcome + latency</text>
+
+  <!-- mining agents -->
+  <rect x="520" y="80" width="410" height="280" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+  <text x="725" y="108" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">Process Mining (runtime)</text>
+  <g font-size="11" fill="#1e40af">
+    <rect x="540" y="128" width="170" height="40" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="625" y="153" text-anchor="middle">Process Miner</text>
+    <rect x="730" y="128" width="170" height="40" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="815" y="153" text-anchor="middle">Task Mining</text>
+    <rect x="540" y="184" width="170" height="40" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="625" y="209" text-anchor="middle">Conformance</text>
+    <rect x="730" y="184" width="170" height="40" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="815" y="209" text-anchor="middle">Bottleneck Analyzer</text>
+    <rect x="635" y="240" width="170" height="40" rx="6" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="720" y="265" text-anchor="middle">Causal Improvement</text>
+  </g>
+  <text x="725" y="310" text-anchor="middle" font-size="11" fill="#1e3a8a">discovered · conformance · bottlenecks</text>
+  <text x="725" y="330" text-anchor="middle" font-size="11" fill="#1e3a8a">API: processes summary + metrics</text>
+
+  <!-- arrows -->
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#a)">
+    <line x1="220" y1="215" x2="268" y2="215"/>
+    <line x1="470" y1="215" x2="518" y2="215"/>
+  </g>
+
+  <!-- disk artifacts footer -->
+  <rect x="80" y="400" width="800" height="100" rx="10" fill="#f1f5f9" stroke="#475569"/>
+  <text x="480" y="435" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Disk artifacts on ingest</text>
+  <text x="480" y="460" text-anchor="middle" font-size="12" fill="#334155">business/process-intelligence/  ·  discovered  ·  conformance  ·  bottlenecks JSON</text>
+  <text x="480" y="484" text-anchor="middle" font-size="12" fill="#475569">Feeds Knowledge distillation, Evaluation corpus, and Evolution sandbox</text>
+
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>

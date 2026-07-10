@@ -1,0 +1,44 @@
+{
+  "id": "wf_negative_no_gate",
+  "name": "Negative DNA — irreversible without gate",
+  "domain": "operations",
+  "objective": "Fixture that must fail production validation.",
+  "owner": "test",
+  "version": "0.0-negative",
+  "risk_tier": "tier_4_execute_with_gate",
+  "production_ready": true,
+  "inputs": ["x"],
+  "preconditions": ["true"],
+  "steps": [
+    {
+      "id": "danger",
+      "state": "execution",
+      "next": ["complete"],
+      "agent": "business_orchestrator",
+      "tools": ["billing_system"],
+      "action_type": "irreversible_execution",
+      "human_gate_required": false,
+      "irreversible": true
+    }
+  ],
+  "memory_reads": ["contract_rules"],
+  "memory_writes": ["event_log"],
+  "guardrails": {
+    "human_approval_required_if": ["never"],
+    "forbidden_actions": ["none"]
+  },
+  "verification": {
+    "required_checks": ["none"]
+  },
+  "rollback": {
+    "reversible": false,
+    "rollback_steps": []
+  },
+  "fitness_metrics": ["error_rate"],
+  "audit_log_write_required": true,
+  "provenance": {
+    "source_refs": ["fixtures/negative"],
+    "captured_by": "test",
+    "recorded_at": "2026-07-09T00:00:00Z"
+  }
+}

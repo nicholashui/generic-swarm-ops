@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "files": [
+    "00-constitution.md",
+    "10-karpathy.md",
+    "20-sdd.md",
+    "30-security.md",
+    "40-testing.md",
+    "50-token-efficiency.md",
+    "60-human-approval.md",
+    "70-business-operating-system.md",
+    "80-process-intelligence.md",
+    "90-governance-risk.md",
+    "100-evolution-sandbox.md",
+    "110-agentic-security.md",
+    "120-evaluation-and-provenance.md"
+  ]
+}

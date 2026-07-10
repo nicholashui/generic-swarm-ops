@@ -1,0 +1,26 @@
+{
+  "id": "hr_customer_onboarding_001",
+  "target": "wf_customer_onboarding_v12",
+  "eval_type": "historical_replay",
+  "test_set": "historical_onboarding_cases",
+  "metrics": {
+    "quality_score": 0.91,
+    "compliance_pass_rate": 0.99,
+    "average_cycle_time_minutes": 40,
+    "escalation_rate": 0.1,
+    "hallucination_rate": 0.01,
+    "unauthorized_tool_attempts": 0,
+    "cost_per_case_usd": 0.5
+  },
+  "result": "pass",
+  "promotion_decision": "canary_only",
+  "reviewer": "evaluation_harness",
+  "provenance": {
+    "source_refs": [
+      "business/materials/sops/customer-onboarding.md",
+      "business/evals/golden-tasks/customer-onboarding-baseline.json"
+    ],
+    "captured_by": "scorecard_remediation",
+    "recorded_at": "2026-07-09T00:00:00Z"
+  }
+}

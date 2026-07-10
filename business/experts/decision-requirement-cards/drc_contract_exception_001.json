@@ -1,0 +1,51 @@
+{
+  "id": "drc_contract_exception_001",
+  "domain": "legal_operations",
+  "decision_point": "approve_non_standard_clause",
+  "expert_sources": [
+    "senior_counsel_A",
+    "contract_manager_B"
+  ],
+  "context_signals": [
+    "customer_size",
+    "liability_cap",
+    "jurisdiction",
+    "renewal_value"
+  ],
+  "cues_experts_notice": [
+    "Clause shifts uncapped indirect damages to company.",
+    "Customer insists on governing law outside approved list."
+  ],
+  "normal_action": "route_to_legal_review",
+  "exception_paths": [
+    {
+      "condition": "enterprise_customer AND pre-approved fallback accepted",
+      "action": "approve_with_note"
+    }
+  ],
+  "red_flags": [
+    "unlimited liability",
+    "data protection indemnity"
+  ],
+  "required_evidence": [
+    "contract_diff",
+    "customer_risk_profile",
+    "approval_history"
+  ],
+  "risk_tier": "tier_4_execute_with_gate",
+  "human_approval_required": true,
+  "validation_tests": [
+    "Does the recommendation match senior counsel decisions on historical contract exceptions?"
+  ],
+  "confidence": 0.78,
+  "last_reviewed": "2026-07-06",
+  "provenance": {
+    "source_refs": [
+      "structure.md",
+      "starter.md",
+      "business/materials/sops/customer-onboarding.md"
+    ],
+    "captured_by": "business_orchestrator",
+    "recorded_at": "2026-07-07T10:00:00Z"
+  }
+}

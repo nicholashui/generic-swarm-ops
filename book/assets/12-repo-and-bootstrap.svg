@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="560" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Repository &amp; Bootstrap (dual harness)</text>
+  <text x="480" y="54" text-anchor="middle" font-size="12" fill="#64748b">Trae + Grok via npm run sync · external sources untrusted until audited</text>
+
+  <rect x="30" y="80" width="360" height="440" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="210" y="108" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Repository Layout</text>
+  <g font-size="11" fill="#334155" font-family="Consolas, monospace">
+    <text x="48" y="140">starter.md / structure.md</text>
+    <text x="48" y="160">backend.md / frontend.md / tasks.md</text>
+    <text x="48" y="180">plan_to_mark_100.md / status.md</text>
+    <text x="48" y="204">.trae/  +  .grok/  (generated)</text>
+    <text x="48" y="224">sources/  manifest + lock</text>
+    <text x="48" y="244">external/sources/  (git-ignored)</text>
+    <text x="48" y="264">scripts/  + scripts/business/</text>
+    <text x="48" y="284">rules/  skills/  hooks/  mcp-configs/</text>
+    <text x="48" y="308">business/  (PI, knowledge, evals,</text>
+    <text x="62" y="326">governance, evolution, security…)</text>
+    <text x="48" y="350">backend/  FastAPI + Postgres store</text>
+    <text x="48" y="370">frontend/ Next.js ops console</text>
+    <text x="48" y="390">docs/  examples/  tests/</text>
+    <text x="48" y="410">memory/ reviews/ suggestions/</text>
+    <text x="48" y="434">book/  + assets SVGs</text>
+    <text x="48" y="470" fill="#64748b">npm run sync → dual harness</text>
+    <text x="48" y="490" fill="#64748b">product bar ~100 shipped</text>
+  </g>
+
+  <rect x="420" y="80" width="510" height="440" rx="8" fill="#fafafa" stroke="#cbd5e1"/>
+  <text x="675" y="108" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">npm run bootstrap</text>
+  <g font-size="11">
+    <rect x="440" y="124" width="470" height="28" rx="5" fill="#dbeafe" stroke="#2563eb"/><text x="450" y="143" fill="#1e3a8a">doctor</text>
+    <rect x="440" y="158" width="470" height="28" rx="5" fill="#dbeafe" stroke="#2563eb"/><text x="450" y="177" fill="#1e3a8a">create dirs · validate manifest</text>
+    <rect x="440" y="192" width="470" height="28" rx="5" fill="#dcfce7" stroke="#16a34a"/><text x="450" y="211" fill="#14532d">clone sources · lock · audit</text>
+    <rect x="440" y="226" width="470" height="28" rx="5" fill="#fee2e2" stroke="#dc2626"/><text x="450" y="245" fill="#7f1d1d">security smoke</text>
+    <rect x="440" y="260" width="470" height="28" rx="5" fill="#fef9c3" stroke="#ca8a04"/><text x="450" y="279" fill="#713f12">sync dry-run → .trae/ + .grok/</text>
+    <rect x="440" y="294" width="470" height="28" rx="5" fill="#ede9fe" stroke="#7c3aed"/><text x="450" y="313" fill="#4c1d95">business:init / validate</text>
+    <rect x="440" y="328" width="470" height="28" rx="5" fill="#ede9fe" stroke="#7c3aed"/><text x="450" y="347" fill="#4c1d95">governance · security · evolution:check</text>
+    <rect x="440" y="362" width="470" height="28" rx="5" fill="#f1f5f9" stroke="#475569"/><text x="450" y="381" fill="#0f172a">run tests (node --test)</text>
+  </g>
+  <text x="675" y="420" text-anchor="middle" font-size="12" fill="#dc2626">Any required step fails → bootstrap fails</text>
+  <text x="675" y="450" text-anchor="middle" font-size="12" fill="#334155">After bootstrap: start Postgres + backend + FE ops</text>
+  <text x="675" y="478" text-anchor="middle" font-size="11" fill="#64748b">See docs/installation.md · backend/docs/postgres-runbook.md</text>
+</svg>

@@ -1,0 +1,10 @@
+---
+pid: 14596
+cwd: "C:\Project\generic-swarm-ops"
+command: "cd C:\\Project\\generic-swarm-ops\\backend && python -m pytest app/tests/unit -q 2>&1; echo \"EXIT:$LASTEXITCODE\""
+started_at: 2026-07-10T05:09:46.979Z
+running_for_ms: 70007    
+---
+.........................................................                [100%]
+57 passed in 48.59s
+EXIT:0

@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "skills": [
+    "planning",
+    "implementation",
+    "testing",
+    "review",
+    "security",
+    "memory",
+    "lifecycle"
+  ]
+}

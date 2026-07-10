@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780">
+  <defs>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .text { font: 15px Arial, sans-serif; fill: #334155; }
+      .arrow { stroke: #475569; stroke-width: 3; fill: none; marker-end: url(#head); }
+      .box { rx: 18; ry: 18; stroke-width: 2.5; }
+    </style>
+    <marker id="head" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="780" fill="#f8fafc"/>
+  <text x="600" y="52" text-anchor="middle" class="title">Knowledge And Memory Pipeline (shipped)</text>
+
+  <rect x="80" y="120" width="260" height="90" class="box" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="210" y="160" text-anchor="middle" class="label">Document Intake</text>
+  <text x="210" y="186" text-anchor="middle" class="text">upload, markdown, PDF, policy, records</text>
+
+  <rect x="400" y="120" width="220" height="90" class="box" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="510" y="160" text-anchor="middle" class="label">Object Storage</text>
+  <text x="510" y="186" text-anchor="middle" class="text">save original file</text>
+
+  <rect x="680" y="120" width="220" height="90" class="box" fill="#fef3c7" stroke="#d97706"/>
+  <text x="790" y="160" text-anchor="middle" class="label">Indexing Worker</text>
+  <text x="790" y="186" text-anchor="middle" class="text">extract, chunk, embed</text>
+
+  <rect x="960" y="120" width="170" height="90" class="box" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="1045" y="160" text-anchor="middle" class="label">Vector Store</text>
+  <text x="1045" y="186" text-anchor="middle" class="text">chunk embeddings</text>
+
+  <line x1="340" y1="165" x2="400" y2="165" class="arrow"/>
+  <line x1="620" y1="165" x2="680" y2="165" class="arrow"/>
+  <line x1="900" y1="165" x2="960" y2="165" class="arrow"/>
+
+  <rect x="120" y="320" width="280" height="120" class="box" fill="#ffffff" stroke="#64748b"/>
+  <text x="260" y="360" text-anchor="middle" class="label">KnowledgeDocument</text>
+  <text x="260" y="388" text-anchor="middle" class="text">status, sensitivity, ACL, metadata</text>
+  <text x="260" y="414" text-anchor="middle" class="text">keeps document-level control</text>
+
+  <rect x="470" y="320" width="280" height="120" class="box" fill="#ffffff" stroke="#64748b"/>
+  <text x="610" y="360" text-anchor="middle" class="label">KnowledgeChunk</text>
+  <text x="610" y="388" text-anchor="middle" class="text">content, chunk_index, embedding_id</text>
+  <text x="610" y="414" text-anchor="middle" class="text">supports semantic retrieval</text>
+
+  <rect x="820" y="320" width="280" height="120" class="box" fill="#ffffff" stroke="#64748b"/>
+  <text x="960" y="360" text-anchor="middle" class="label">MemoryItem</text>
+  <text x="960" y="388" text-anchor="middle" class="text">scope, owner, sensitivity, expiration</text>
+  <text x="960" y="414" text-anchor="middle" class="text">stores reusable operational memory</text>
+
+  <line x1="260" y1="210" x2="260" y2="320" class="arrow"/>
+  <line x1="790" y1="210" x2="610" y2="320" class="arrow"/>
+  <line x1="1045" y1="210" x2="610" y2="320" class="arrow"/>
+
+  <rect x="120" y="520" width="960" height="200" class="box" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="600" y="558" text-anchor="middle" class="label">Controlled Retrieval Path (Tier 0 / 1 + K1-lite)</text>
+  <text x="600" y="590" text-anchor="middle" class="text">permission · org / sensitivity filter · keyword + hashing embed · entity multi-hop</text>
+  <text x="600" y="620" text-anchor="middle" class="text">mandatory provenance / source_refs · graph extract + operators · federation export</text>
+  <text x="600" y="650" text-anchor="middle" class="text">memory scopes: agent · workflow · org · expiration · policy · audit on sensitive access</text>
+  <text x="600" y="684" text-anchor="middle" class="small">general agents never gain access just because matching text exists</text>
+</svg>

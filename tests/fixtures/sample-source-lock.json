@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-07-07T00:00:00.000Z",
+  "sources": [
+    {
+      "id": "ecc",
+      "name": "ECC / Everything Claude Code",
+      "url": "https://github.com/affaan-m/ECC.git",
+      "resolved_url": "https://github.com/affaan-m/ECC.git",
+      "target": "external/sources/ecc",
+      "status": "downloaded",
+      "commit": "abc123",
+      "branch": "main",
+      "last_commit_at": "2026-07-07T00:00:00Z",
+      "last_commit_subject": "fixture",
+      "license_files": [
+        "LICENSE"
+      ],
+      "package_files": [
+        "package.json"
+      ],
+      "quarantine": false,
+      "import_policy": "curated-only"
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,6 @@
+"use client";
+import Link from "next/link";
+import { Search } from "lucide-react";
+import { useCommandPalette } from "@/hooks/use-command-palette";
+const quickActions = [{ label: "Create agent", href: "/app/agents/new" }, { label: "Create workflow", href: "/app/workflows/new" }, { label: "Review approvals", href: "/app/approvals" }, { label: "Search knowledge", href: "/app/knowledge/search" }, { label: "Open API keys", href: "/app/settings/api-keys" }];
+export function CommandPalette() { const { open, setOpen } = useCommandPalette(); if (!open) return null; return <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 px-4 pt-20 backdrop-blur"><div className="surface-card-strong w-full max-w-2xl rounded-[28px] border p-4"><div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/4 px-4 py-3"><Search className="size-4 text-[var(--accent)]" /><input autoFocus className="w-full bg-transparent text-white placeholder:text-slate-400 focus:outline-none" placeholder="Search actions, routes, or recent items" type="search" /></div><div className="mt-4 space-y-2">{quickActions.map((action) => <Link key={action.href} href={action.href} className="block rounded-2xl border border-white/8 px-4 py-3 text-sm text-white hover:bg-white/6" onClick={() => setOpen(false)}>{action.label}</Link>)}</div></div></div>; }

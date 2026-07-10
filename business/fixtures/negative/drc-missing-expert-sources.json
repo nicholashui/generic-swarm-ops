@@ -1,0 +1,27 @@
+{
+  "id": "drc_negative_no_experts",
+  "domain": "legal_operations",
+  "decision_point": "approve_without_provenance",
+  "expert_sources": [],
+  "context_signals": ["x"],
+  "cues_experts_notice": ["y"],
+  "normal_action": "route_to_legal_review",
+  "exception_paths": [
+    {
+      "condition": "never",
+      "action": "deny"
+    }
+  ],
+  "red_flags": ["none"],
+  "required_evidence": ["none"],
+  "risk_tier": "tier_4_execute_with_gate",
+  "human_approval_required": true,
+  "validation_tests": ["none"],
+  "confidence": 0.1,
+  "last_reviewed": "2026-07-09",
+  "provenance": {
+    "source_refs": [],
+    "captured_by": "test",
+    "recorded_at": "2026-07-09T00:00:00Z"
+  }
+}

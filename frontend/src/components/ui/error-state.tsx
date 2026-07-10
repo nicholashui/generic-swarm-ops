@@ -1,0 +1,1 @@
+export function ErrorState({ title, description }: { title: string; description: string }) { return <div className="rounded-[24px] border border-[rgba(255,127,143,0.28)] bg-[rgba(255,127,143,0.08)] px-6 py-8"><h3 className="text-lg font-semibold text-white">{title}</h3><p className="mt-3 leading-7 text-[color:rgba(255,225,230,0.82)]">{description}</p></div>; }

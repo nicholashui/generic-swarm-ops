@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="800" viewBox="0 0 1300 800">
+  <defs>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .text { font: 15px Arial, sans-serif; fill: #334155; }
+      .box { rx: 18; ry: 18; stroke-width: 2.5; }
+      .arrow { stroke: #475569; stroke-width: 3; fill: none; marker-end: url(#head); }
+    </style>
+    <marker id="head" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="1300" height="800" fill="#f8fafc"/>
+  <text x="650" y="52" text-anchor="middle" class="title">Realtime Workflow Run Detail Experience</text>
+
+  <rect x="70" y="110" width="260" height="220" class="box" fill="#ffffff" stroke="#2563eb"/>
+  <text x="200" y="148" text-anchor="middle" class="label">Backend SSE Stream</text>
+  <text x="100" y="190" class="text">run.started</text>
+  <text x="100" y="220" class="text">step.started / completed / failed</text>
+  <text x="100" y="250" class="text">tool_call.started / completed</text>
+  <text x="100" y="280" class="text">approval.requested / approved / rejected</text>
+  <text x="100" y="310" class="text">run.completed / failed / cancelled</text>
+
+  <rect x="390" y="110" width="260" height="220" class="box" fill="#ffffff" stroke="#16a34a"/>
+  <text x="520" y="148" text-anchor="middle" class="label">useRealtimeRun Hook</text>
+  <text x="420" y="190" class="text">open connection</text>
+  <text x="420" y="220" class="text">dedupe events</text>
+  <text x="420" y="250" class="text">handle reconnect + backoff</text>
+  <text x="420" y="280" class="text">stop on final states</text>
+  <text x="420" y="310" class="text">allow manual disconnect / refresh</text>
+
+  <rect x="710" y="110" width="240" height="220" class="box" fill="#ffffff" stroke="#d97706"/>
+  <text x="830" y="148" text-anchor="middle" class="label">Run Status UI</text>
+  <text x="740" y="190" class="text">status summary</text>
+  <text x="740" y="220" class="text">connection state</text>
+  <text x="740" y="250" class="text">approval waiting state</text>
+  <text x="740" y="280" class="text">final outcome</text>
+
+  <rect x="1010" y="110" width="220" height="220" class="box" fill="#ffffff" stroke="#7c3aed"/>
+  <text x="1120" y="148" text-anchor="middle" class="label">Actions</text>
+  <text x="1040" y="190" class="text">cancel run</text>
+  <text x="1040" y="220" class="text">retry step</text>
+  <text x="1040" y="250" class="text">retry workflow</text>
+  <text x="1040" y="280" class="text">approve / reject</text>
+
+  <line x1="330" y1="220" x2="390" y2="220" class="arrow"/>
+  <line x1="650" y1="220" x2="710" y2="220" class="arrow"/>
+  <line x1="950" y1="220" x2="1010" y2="220" class="arrow"/>
+
+  <rect x="110" y="420" width="450" height="260" class="box" fill="#fef3c7" stroke="#d97706"/>
+  <text x="335" y="460" text-anchor="middle" class="label">Operations Split View</text>
+  <text x="150" y="510" class="text">Left side</text>
+  <text x="150" y="540" class="text">- timeline</text>
+  <text x="150" y="570" class="text">- step events</text>
+  <text x="150" y="600" class="text">- current progress</text>
+  <text x="330" y="510" class="text">Right side</text>
+  <text x="330" y="540" class="text">- selected step details</text>
+  <text x="330" y="570" class="text">- logs viewer</text>
+  <text x="330" y="600" class="text">- payloads and errors</text>
+
+  <rect x="680" y="420" width="510" height="260" class="box" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="935" y="460" text-anchor="middle" class="label">UX Rules That Matter</text>
+  <text x="720" y="510" class="text">- preserve scroll position</text>
+  <text x="720" y="540" class="text">- allow pause of auto-scroll</text>
+  <text x="720" y="570" class="text">- show reconnecting status clearly</text>
+  <text x="720" y="600" class="text">- keep received events even if connection drops</text>
+  <text x="720" y="630" class="text">- end reconnect loop when run reaches final state</text>
+</svg>

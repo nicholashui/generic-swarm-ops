@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "docs": [
+    {
+      "id": "trae-agent-docs",
+      "name": "Trae Create and Manage Agents",
+      "url": "https://docs.trae.ai/ide/agent?_lang=en",
+      "target": "external/docs/trae-agents.md",
+      "enabled": true,
+      "purpose": "Official Trae custom-agent model, built-in tool selection, and MCP attachment reference."
+    },
+    {
+      "id": "trae-skills-docs",
+      "name": "Trae Skills Docs",
+      "url": "https://docs.trae.ai/ide/skills?_lang=en",
+      "target": "external/docs/trae-skills.md",
+      "enabled": true,
+      "purpose": "Official Trae skill model, SKILL.md structure, and project-skill workflow reference."
+    },
+    {
+      "id": "trae-changelog",
+      "name": "Trae Changelog",
+      "url": "https://www.trae.ai/changelog",
+      "target": "external/docs/trae-changelog.md",
+      "enabled": true,
+      "purpose": "Official change log for Trae features such as command files, rules behavior, hooks, and IDE capabilities."
+    },
+    {
+      "id": "modelcontextprotocol-docs",
+      "name": "Model Context Protocol Docs",
+      "url": "https://modelcontextprotocol.io",
+      "target": "external/docs/modelcontextprotocol.md",
+      "enabled": true,
+      "purpose": "MCP concepts, protocol docs, client/server design, and safety references used by Trae agents."
+    }
+  ]
+}

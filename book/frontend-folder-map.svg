@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .mono { font: 15px 'Courier New', monospace; fill: #1e293b; }
+      .text { font: 15px Arial, sans-serif; fill: #334155; }
+      .box { rx: 18; ry: 18; stroke-width: 2.5; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="900" fill="#f8fafc"/>
+  <text x="700" y="48" text-anchor="middle" class="title">Recommended Frontend Folder Map</text>
+
+  <rect x="60" y="90" width="280" height="720" class="box" fill="#ffffff" stroke="#2563eb"/>
+  <text x="200" y="128" text-anchor="middle" class="label">Routes In app/</text>
+  <text x="90" y="170" class="mono">layout.tsx</text>
+  <text x="90" y="198" class="mono">page.tsx</text>
+  <text x="90" y="226" class="mono">login/page.tsx</text>
+  <text x="90" y="254" class="mono">register/page.tsx</text>
+  <text x="90" y="282" class="mono">forgot-password/page.tsx</text>
+  <text x="90" y="310" class="mono">reset-password/page.tsx</text>
+  <text x="90" y="338" class="mono">accept-invite/page.tsx</text>
+  <text x="90" y="378" class="mono">app/layout.tsx</text>
+  <text x="90" y="406" class="mono">app/page.tsx</text>
+  <text x="90" y="434" class="mono">app/agents/...</text>
+  <text x="90" y="462" class="mono">app/tools/...</text>
+  <text x="90" y="490" class="mono">app/workflows/...</text>
+  <text x="90" y="518" class="mono">app/workflow-runs/...</text>
+  <text x="90" y="546" class="mono">app/approvals/...</text>
+  <text x="90" y="574" class="mono">app/knowledge/...</text>
+  <text x="90" y="602" class="mono">app/memory/...</text>
+  <text x="90" y="630" class="mono">app/evaluations/...</text>
+  <text x="90" y="658" class="mono">app/processes/...</text>
+  <text x="90" y="686" class="mono">app/audit-logs/...</text>
+  <text x="90" y="714" class="mono">app/settings/...</text>
+
+  <rect x="390" y="90" width="280" height="360" class="box" fill="#ffffff" stroke="#16a34a"/>
+  <text x="530" y="128" text-anchor="middle" class="label">Components In src/</text>
+  <text x="420" y="170" class="mono">components/ui/</text>
+  <text x="420" y="198" class="mono">components/layout/</text>
+  <text x="420" y="226" class="mono">components/dashboard/</text>
+  <text x="420" y="254" class="mono">components/agents/</text>
+  <text x="420" y="282" class="mono">components/tools/</text>
+  <text x="420" y="310" class="mono">components/workflows/</text>
+  <text x="420" y="338" class="mono">components/approvals/</text>
+  <text x="420" y="366" class="mono">components/knowledge/</text>
+  <text x="420" y="394" class="mono">components/settings/</text>
+
+  <rect x="390" y="490" width="280" height="320" class="box" fill="#ffffff" stroke="#d97706"/>
+  <text x="530" y="528" text-anchor="middle" class="label">Design And Hooks</text>
+  <text x="420" y="570" class="mono">design/tokens.ts</text>
+  <text x="420" y="598" class="mono">design/theme.ts</text>
+  <text x="420" y="626" class="mono">design/status.ts</text>
+  <text x="420" y="666" class="mono">hooks/use-command-palette.ts</text>
+  <text x="420" y="694" class="mono">hooks/use-permissions.ts</text>
+  <text x="420" y="722" class="mono">hooks/use-realtime-run.ts</text>
+  <text x="420" y="750" class="mono">hooks/use-toast.ts</text>
+
+  <rect x="720" y="90" width="300" height="360" class="box" fill="#ffffff" stroke="#7c3aed"/>
+  <text x="870" y="128" text-anchor="middle" class="label">Libraries And Stores</text>
+  <text x="750" y="170" class="mono">lib/api/client.ts</text>
+  <text x="750" y="198" class="mono">lib/api/generated/</text>
+  <text x="750" y="226" class="mono">lib/auth/session.ts</text>
+  <text x="750" y="254" class="mono">lib/auth/permissions.ts</text>
+  <text x="750" y="282" class="mono">lib/config/env.ts</text>
+  <text x="750" y="310" class="mono">lib/realtime/sse.ts</text>
+  <text x="750" y="338" class="mono">lib/routes/paths.ts</text>
+  <text x="750" y="366" class="mono">stores/command-palette-store.ts</text>
+  <text x="750" y="394" class="mono">stores/notification-store.ts</text>
+
+  <rect x="1070" y="90" width="270" height="360" class="box" fill="#ffffff" stroke="#dc2626"/>
+  <text x="1205" y="128" text-anchor="middle" class="label">Docs And Tests</text>
+  <text x="1100" y="170" class="mono">docs/design/open-design-reference.md</text>
+  <text x="1100" y="198" class="mono">docs/design/layout-decisions.md</text>
+  <text x="1100" y="226" class="mono">docs/design/design-token-map.md</text>
+  <text x="1100" y="266" class="mono">docs/api/frontend-api-contract.md</text>
+  <text x="1100" y="306" class="mono">tests/e2e/</text>
+  <text x="1100" y="334" class="mono">tests/unit/</text>
+  <text x="1100" y="362" class="mono">tests/components/</text>
+
+  <rect x="760" y="520" width="540" height="190" class="box" fill="#ffffff" stroke="#0284c7"/>
+  <text x="1030" y="558" text-anchor="middle" class="label">Trae And MCP Configuration</text>
+  <text x="800" y="602" class="mono">.trae/mcp.json</text>
+  <text x="800" y="630" class="mono">.trae/project_rules.md</text>
+  <text x="800" y="658" class="mono">.mcp/opendesign-mcp.mjs</text>
+  <text x="800" y="698" class="text">These files enforce the design workflow before major page implementation.</text>
+</svg>

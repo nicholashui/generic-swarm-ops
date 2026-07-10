@@ -1,0 +1,28 @@
+{
+  "id": "rt_tier0_provenance_001",
+  "name": "Tier-0 knowledge search always returns provenance",
+  "eval_type": "retrieval",
+  "retrieval_tier": 0,
+  "assertions": [
+    {
+      "id": "source_refs_present",
+      "description": "Every hit includes non-empty source_refs",
+      "pass_if": "hit.source_refs.length >= 1"
+    },
+    {
+      "id": "provenance_block",
+      "description": "Provenance object records retrieval_tier and source_refs",
+      "pass_if": "hit.provenance.retrieval_tier == 0 AND hit.provenance.source_refs.length >= 1"
+    },
+    {
+      "id": "no_orphan_hits",
+      "description": "Hits without source fall back to knowledge:{id}",
+      "pass_if": "hit.source_refs[0] starts_with knowledge: OR hit.source_refs contains business/"
+    }
+  ],
+  "provenance": {
+    "source_refs": ["structure.md#3.4", "docs/knowledge-memory.md"],
+    "captured_by": "p5_retrieval",
+    "recorded_at": "2026-07-09"
+  }
+}

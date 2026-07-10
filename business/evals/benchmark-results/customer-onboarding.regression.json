@@ -1,0 +1,26 @@
+{
+  "target": "wf_customer_onboarding_v12",
+  "eval_type": "workflow_regression",
+  "test_set": "historical_onboarding_cases_q2",
+  "metrics": {
+    "quality_score": 0.94,
+    "compliance_pass_rate": 0.99,
+    "average_cycle_time_minutes": 38,
+    "escalation_rate": 0.12,
+    "hallucination_rate": 0.01,
+    "unauthorized_tool_attempts": 0,
+    "cost_per_case_usd": 0.42
+  },
+  "result": "pass",
+  "promotion_decision": "canary_only",
+  "reviewer": "ops_lead",
+  "provenance": {
+    "source_refs": [
+      "structure.md",
+      "starter.md",
+      "business/materials/sops/customer-onboarding.md"
+    ],
+    "captured_by": "business_orchestrator",
+    "recorded_at": "2026-07-07T10:00:00Z"
+  }
+}

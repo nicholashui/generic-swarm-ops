@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1350" height="900" viewBox="0 0 1350 900">
+  <defs>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .text { font: 15px Arial, sans-serif; fill: #334155; }
+      .box { rx: 18; ry: 18; stroke-width: 2.5; }
+    </style>
+  </defs>
+  <rect width="1350" height="900" fill="#f8fafc"/>
+  <text x="675" y="50" text-anchor="middle" class="title">Security Control Matrix For Agentic Systems</text>
+
+  <rect x="70" y="110" width="1210" height="110" class="box" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="675" y="150" text-anchor="middle" class="label">Most Important Security Fact</text>
+  <text x="675" y="180" text-anchor="middle" class="text">Indirect prompt injection is expected to remain possible. Safety must therefore be enforced outside the LLM with deterministic controls.</text>
+
+  <rect x="70" y="290" width="280" height="220" class="box" fill="#ffffff" stroke="#2563eb"/>
+  <text x="210" y="330" text-anchor="middle" class="label">Content Risks</text>
+  <text x="95" y="370" class="text">LLM01 prompt injection</text>
+  <text x="95" y="398" class="text">LLM02 sensitive data leakage</text>
+  <text x="95" y="426" class="text">LLM05 improper output handling</text>
+  <text x="95" y="454" class="text">LLM09 misinformation</text>
+
+  <rect x="390" y="290" width="280" height="220" class="box" fill="#ffffff" stroke="#16a34a"/>
+  <text x="530" y="330" text-anchor="middle" class="label">Supply And Memory Risks</text>
+  <text x="415" y="370" class="text">LLM03 supply chain</text>
+  <text x="415" y="398" class="text">LLM04 data and model poisoning</text>
+  <text x="415" y="426" class="text">LLM08 vector and embedding weaknesses</text>
+
+  <rect x="710" y="290" width="280" height="220" class="box" fill="#ffffff" stroke="#d97706"/>
+  <text x="850" y="330" text-anchor="middle" class="label">Autonomy Risks</text>
+  <text x="735" y="370" class="text">LLM06 excessive agency</text>
+  <text x="735" y="398" class="text">tool misuse and exploitation</text>
+  <text x="735" y="426" class="text">identity and privilege abuse</text>
+
+  <rect x="1030" y="290" width="250" height="220" class="box" fill="#ffffff" stroke="#7c3aed"/>
+  <text x="1155" y="330" text-anchor="middle" class="label">Resource Risks</text>
+  <text x="1055" y="370" class="text">LLM10 denial of wallet</text>
+  <text x="1055" y="398" class="text">timeouts, budget caps, rate limits</text>
+
+  <rect x="160" y="610" width="1030" height="200" class="box" fill="#ffffff" stroke="#0284c7"/>
+  <text x="675" y="652" text-anchor="middle" class="label">Required Controls Beyond The Model</text>
+  <text x="675" y="684" text-anchor="middle" class="text">Tool Permission Broker, memory-poisoning defense, skill and plugin vetting, full observability, AI incident response</text>
+  <text x="675" y="712" text-anchor="middle" class="text">Never store secrets in prompts. Never treat model output as trusted. Always minimize privileges and require approvals for sensitive or irreversible actions.</text>
+</svg>

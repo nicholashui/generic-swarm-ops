@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="920" height="520" fill="#ffffff"/>
+  <text x="460" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Tiered Hybrid Retrieval (shipped)</text>
+  <text x="460" y="54" text-anchor="middle" font-size="12" fill="#64748b">Start cheap; escalate for multi-hop. Full LightRAG vendor optional later.</text>
+
+  <rect x="360" y="78" width="200" height="42" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="460" y="104" text-anchor="middle" font-size="13" font-weight="600" fill="#1e1b4b">Incoming Query</text>
+
+  <!-- tiers with taller boxes + vertical gap -->
+  <rect x="100" y="148" width="720" height="64" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="120" y="174" font-size="14" font-weight="700" fill="#14532d">Tier 0 &#183; Keyword + hashing embeddings (default)</text>
+  <text x="120" y="196" font-size="12" fill="#166534">mandatory source_refs / provenance on every hit &#183; optional pgvector table</text>
+
+  <rect x="140" y="232" width="680" height="64" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="160" y="258" font-size="14" font-weight="700" fill="#713f12">Tier 1 &#183; Entity-link multi-hop (LightRAG-lite)</text>
+  <text x="160" y="280" font-size="12" fill="#854d0e">shared entities (wf_, pol_, paths) &#183; escalate on relational cues / multi_hop=true</text>
+
+  <rect x="180" y="316" width="640" height="64" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="200" y="342" font-size="14" font-weight="700" fill="#7f1d1d">Tier 2 &#183; Hierarchical summaries (deferred)</text>
+  <text x="200" y="364" font-size="12" fill="#991b1b">RAPTOR-style corpus synthesis &#183; not required for mark 100</text>
+
+  <rect x="100" y="400" width="720" height="52" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="460" y="422" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Always-on Provenance</text>
+  <text x="460" y="440" text-anchor="middle" font-size="11" fill="#334155">every answer cites source_refs &#183; K1-lite graph export (Cypher / GraphAnything JSON)</text>
+
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#tarr)">
+    <line x1="460" y1="120" x2="460" y2="146"/>
+  </g>
+  <text x="860" y="250" text-anchor="middle" font-size="11" fill="#64748b" transform="rotate(90 860 250)">escalate</text>
+  <defs>
+    <marker id="tarr" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>

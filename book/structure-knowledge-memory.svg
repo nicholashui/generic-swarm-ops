@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1350" height="860" viewBox="0 0 1350 860">
+  <defs>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .text { font: 15px Arial, sans-serif; fill: #334155; }
+      .small { font: 14px Arial, sans-serif; fill: #475569; }
+      .box { rx: 18; ry: 18; stroke-width: 2.5; }
+      .arrow { stroke: #475569; stroke-width: 3; fill: none; marker-end: url(#head); }
+    </style>
+    <marker id="head" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect width="1350" height="860" fill="#f8fafc"/>
+  <text x="675" y="50" text-anchor="middle" class="title">Knowledge Capture, Memory, And Retrieval (shipped)</text>
+
+  <rect x="70" y="110" width="280" height="140" class="box" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="210" y="150" text-anchor="middle" class="label">Capture Methods</text>
+  <text x="95" y="185" class="text">Shadow Mode</text>
+  <text x="95" y="212" class="text">Critical Decision Interview</text>
+  <text x="95" y="239" class="text">Think-Aloud Session</text>
+
+  <rect x="400" y="110" width="260" height="140" class="box" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="530" y="150" text-anchor="middle" class="label">Distilled Assets</text>
+  <text x="430" y="185" class="text">rules</text>
+  <text x="430" y="212" class="text">decision cards</text>
+  <text x="430" y="239" class="text">skills, workflows, playbooks</text>
+
+  <rect x="710" y="110" width="260" height="140" class="box" fill="#fef3c7" stroke="#d97706"/>
+  <text x="840" y="150" text-anchor="middle" class="label">Memory Types</text>
+  <text x="740" y="185" class="text">event, episodic, semantic, procedural</text>
+  <text x="740" y="212" class="text">decision, exception, evaluation, provenance</text>
+
+  <rect x="1020" y="110" width="260" height="140" class="box" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="1150" y="150" text-anchor="middle" class="label">Source Discipline</text>
+  <text x="1050" y="185" class="text">every answer must cite documents, experts, events, or decisions</text>
+
+  <line x1="350" y1="180" x2="400" y2="180" class="arrow"/>
+  <line x1="660" y1="180" x2="710" y2="180" class="arrow"/>
+  <line x1="970" y1="180" x2="1020" y2="180" class="arrow"/>
+
+  <rect x="160" y="340" width="1030" height="160" class="box" fill="#ffffff" stroke="#7c3aed"/>
+  <text x="675" y="382" text-anchor="middle" class="label">Layered Retrieval (mark 100 shipped)</text>
+  <text x="675" y="416" text-anchor="middle" class="text">Tier 0: keyword + hashing embeddings · mandatory source_refs / provenance</text>
+  <text x="675" y="446" text-anchor="middle" class="text">Tier 1: entity-link multi-hop (LightRAG-lite) · escalate on relational cues</text>
+  <text x="675" y="476" text-anchor="middle" class="text">Tier 2: hierarchical summaries (RAPTOR-style) · deferred beyond mark 100</text>
+
+  <rect x="160" y="540" width="1030" height="220" class="box" fill="#ffffff" stroke="#0284c7"/>
+  <text x="675" y="584" text-anchor="middle" class="label">Also shipped: K1-lite graph + lessons</text>
+  <text x="675" y="620" text-anchor="middle" class="text">Graph extract / operators / federation (Cypher or JSON) · auto-reflect lesson library</text>
+  <text x="675" y="652" text-anchor="middle" class="text">Start Tier 0; escalate Tier 1 for multi-hop; never grant access on text match alone</text>
+  <text x="675" y="684" text-anchor="middle" class="text">Full LightRAG vendor / Neo4j production mesh remains optional later</text>
+  <text x="675" y="720" text-anchor="middle" class="small">Policy: business/knowledge-base/provenance/retrieval-tier-policy.md</text>
+</svg>

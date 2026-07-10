@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="840" viewBox="0 0 1300 840">
+  <defs>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .text { font: 15px Arial, sans-serif; fill: #334155; }
+      .box { rx: 18; ry: 18; stroke-width: 2.5; }
+    </style>
+  </defs>
+  <rect width="1300" height="840" fill="#f8fafc"/>
+  <text x="650" y="52" text-anchor="middle" class="title">Six-Layer Operating Architecture</text>
+
+  <rect x="90" y="110" width="1120" height="90" class="box" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="650" y="150" text-anchor="middle" class="label">Evaluation Wraps Everything</text>
+  <text x="650" y="178" text-anchor="middle" class="text">golden tasks, regression, adversarial tests, replay, cost, safety, compliance, human review</text>
+
+  <rect x="100" y="260" width="320" height="130" class="box" fill="#ffffff" stroke="#2563eb"/>
+  <text x="260" y="302" text-anchor="middle" class="label">1. Process Intelligence</text>
+  <text x="260" y="332" text-anchor="middle" class="text">learns from event logs, discovers real workflows, detects bottlenecks and conformance gaps</text>
+
+  <rect x="490" y="260" width="320" height="130" class="box" fill="#ffffff" stroke="#16a34a"/>
+  <text x="650" y="302" text-anchor="middle" class="label">2. Knowledge</text>
+  <text x="650" y="332" text-anchor="middle" class="text">captures rules, decision cards, memory, provenance, and layered retrieval</text>
+
+  <rect x="880" y="260" width="320" height="130" class="box" fill="#ffffff" stroke="#d97706"/>
+  <text x="1040" y="302" text-anchor="middle" class="label">3. Execution</text>
+  <text x="1040" y="332" text-anchor="middle" class="text">runs bounded Workflow DNA through orchestrated state graphs and human gates</text>
+
+  <rect x="100" y="470" width="320" height="130" class="box" fill="#ffffff" stroke="#7c3aed"/>
+  <text x="260" y="512" text-anchor="middle" class="label">4. Evolution</text>
+  <text x="260" y="542" text-anchor="middle" class="text">proposes variants, tests them in sandbox, then canaries or rolls back</text>
+
+  <rect x="490" y="470" width="320" height="130" class="box" fill="#ffffff" stroke="#dc2626"/>
+  <text x="650" y="512" text-anchor="middle" class="label">5. Governance</text>
+  <text x="650" y="542" text-anchor="middle" class="text">sets risk tiers, approval rules, assurance requirements, and human oversight</text>
+
+  <rect x="880" y="470" width="320" height="130" class="box" fill="#ffffff" stroke="#0284c7"/>
+  <text x="1040" y="512" text-anchor="middle" class="label">6. Security</text>
+  <text x="1040" y="542" text-anchor="middle" class="text">handles prompt injection, tool misuse, privilege abuse, memory poisoning, and incident response</text>
+
+  <rect x="220" y="680" width="860" height="80" class="box" fill="#fef3c7" stroke="#d97706"/>
+  <text x="650" y="720" text-anchor="middle" class="text">The system is not six isolated modules. It is one controlled operating model where learning, acting, and improving all remain bounded by evidence, audit, and human review.</text>
+</svg>

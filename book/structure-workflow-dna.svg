@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1350" height="860" viewBox="0 0 1350 860">
+  <defs>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .text { font: 15px Arial, sans-serif; fill: #334155; }
+      .box { rx: 18; ry: 18; stroke-width: 2.5; }
+      .arrow { stroke: #475569; stroke-width: 3; fill: none; marker-end: url(#head); }
+    </style>
+    <marker id="head" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect width="1350" height="860" fill="#f8fafc"/>
+  <text x="675" y="50" text-anchor="middle" class="title">Workflow DNA And Bounded Execution</text>
+
+  <rect x="460" y="100" width="430" height="90" class="box" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="675" y="138" text-anchor="middle" class="label">Workflow DNA</text>
+  <text x="675" y="166" text-anchor="middle" class="text">objective, inputs, preconditions, steps, memory rules, guardrails, verification, rollback, fitness metrics</text>
+
+  <line x1="675" y1="190" x2="675" y2="250" class="arrow"/>
+
+  <rect x="460" y="250" width="430" height="95" class="box" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="675" y="290" text-anchor="middle" class="label">Risk Classifier + Orchestrator</text>
+  <text x="675" y="318" text-anchor="middle" class="text">runs the workflow as a bounded state graph instead of a free-form swarm</text>
+
+  <rect x="80" y="430" width="220" height="100" class="box" fill="#ffffff" stroke="#2563eb"/>
+  <text x="190" y="470" text-anchor="middle" class="label">Research</text>
+  <text x="190" y="498" text-anchor="middle" class="text">read context, retrieve knowledge</text>
+
+  <rect x="340" y="430" width="220" height="100" class="box" fill="#ffffff" stroke="#16a34a"/>
+  <text x="450" y="470" text-anchor="middle" class="label">Execution</text>
+  <text x="450" y="498" text-anchor="middle" class="text">agent steps and tool calls</text>
+
+  <rect x="600" y="430" width="220" height="100" class="box" fill="#ffffff" stroke="#d97706"/>
+  <text x="710" y="470" text-anchor="middle" class="label">Verification</text>
+  <text x="710" y="498" text-anchor="middle" class="text">check outputs and required evidence</text>
+
+  <rect x="860" y="430" width="220" height="100" class="box" fill="#ffffff" stroke="#7c3aed"/>
+  <text x="970" y="470" text-anchor="middle" class="label">Compliance</text>
+  <text x="970" y="498" text-anchor="middle" class="text">policy and risk checks</text>
+
+  <rect x="1120" y="430" width="160" height="100" class="box" fill="#ffffff" stroke="#dc2626"/>
+  <text x="1200" y="470" text-anchor="middle" class="label">Human Gate</text>
+  <text x="1200" y="498" text-anchor="middle" class="text">approval when required</text>
+
+  <line x1="675" y1="345" x2="190" y2="430" class="arrow"/>
+  <line x1="675" y1="345" x2="450" y2="430" class="arrow"/>
+  <line x1="675" y1="345" x2="710" y2="430" class="arrow"/>
+  <line x1="675" y1="345" x2="970" y2="430" class="arrow"/>
+  <line x1="675" y1="345" x2="1200" y2="430" class="arrow"/>
+
+  <rect x="260" y="640" width="830" height="130" class="box" fill="#fef3c7" stroke="#d97706"/>
+  <text x="675" y="682" text-anchor="middle" class="label">After Execution</text>
+  <text x="675" y="712" text-anchor="middle" class="text">write audit log and memory, evaluate outcome, and only then feed the sandbox evolution layer</text>
+  <text x="675" y="740" text-anchor="middle" class="text">irreversible or high-risk steps must trigger human approval and must never bypass rollback planning</text>
+</svg>

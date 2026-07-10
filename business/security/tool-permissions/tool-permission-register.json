@@ -1,0 +1,38 @@
+{
+  "schema_version": "2.1",
+  "tool_permissions": [
+    {
+      "tool": "crm",
+      "allowed_actions": [
+        "create_customer_record",
+        "read_customer_profile"
+      ],
+      "scope": "customer_onboarding_only",
+      "expires_after_minutes": 30,
+      "requires_human_gate_for": [
+        "activate_billing"
+      ]
+    },
+    {
+      "tool": "billing_system",
+      "allowed_actions": [
+        "prepare_invoice",
+        "activate_billing"
+      ],
+      "scope": "approved_customer_case_only",
+      "expires_after_minutes": 15,
+      "requires_human_gate_for": [
+        "activate_billing"
+      ]
+    },
+    {
+      "tool": "email",
+      "allowed_actions": [
+        "send_welcome_packet"
+      ],
+      "scope": "templated_onboarding_messages",
+      "expires_after_minutes": 10,
+      "requires_human_gate_for": []
+    }
+  ]
+}

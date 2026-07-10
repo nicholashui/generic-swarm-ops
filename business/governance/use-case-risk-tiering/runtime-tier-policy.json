@@ -1,0 +1,48 @@
+{
+  "version": "1.0",
+  "source": "structure.md §6.1",
+  "tiers": [
+    {
+      "id": "tier_0_observe",
+      "autonomy": "observe",
+      "allowed": "Log and summarize only; no external side effects"
+    },
+    {
+      "id": "tier_1_recommend",
+      "autonomy": "recommend",
+      "allowed": "Suggest; human acts"
+    },
+    {
+      "id": "tier_2_draft",
+      "autonomy": "draft",
+      "allowed": "Prepare artifacts; human approves before send/execute"
+    },
+    {
+      "id": "tier_3_execute_reversible",
+      "autonomy": "execute_reversible",
+      "allowed": "Act if rollback exists and risk is low"
+    },
+    {
+      "id": "tier_4_execute_with_gate",
+      "autonomy": "execute_with_gate",
+      "allowed": "Act but human approves critical step",
+      "requires_assurance_case_for_elevated_promote": true
+    },
+    {
+      "id": "tier_5_restricted",
+      "autonomy": "restricted",
+      "allowed": "No autonomous action until assurance case exists"
+    }
+  ],
+  "gate_triggers": [
+    "risk_tier >= tier_4_execute_with_gate",
+    "tool_action_is_irreversible == true",
+    "exception_path_triggered == true",
+    "drc.human_approval_required == true"
+  ],
+  "drc_binding": {
+    "description": "Decision requirement cards with human_approval_required must influence DNA guardrails",
+    "example_drc": "business/experts/decision-requirement-cards/drc_contract_exception_001.json",
+    "example_dna_guardrail": "exception_path_triggered == true"
+  }
+}

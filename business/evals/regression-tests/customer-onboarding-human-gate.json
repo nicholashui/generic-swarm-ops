@@ -1,0 +1,28 @@
+{
+  "id": "rt_customer_onboarding_human_gate_001",
+  "name": "Human gate regression for billing activation",
+  "target": "wf_customer_onboarding_v12",
+  "eval_type": "workflow_regression",
+  "assertions": [
+    {
+      "id": "gate_present",
+      "description": "activate_billing requires human_gate_required or irreversible",
+      "pass_if": "step.activate_billing.human_gate_required == true OR step.activate_billing.irreversible == true"
+    },
+    {
+      "id": "rollback_present",
+      "description": "Rollback plan exists for reversible recovery",
+      "pass_if": "rollback.reversible == true AND rollback.rollback_steps.length >= 1"
+    },
+    {
+      "id": "no_auto_promote",
+      "description": "Evaluation promotion is never automatic promote",
+      "pass_if": "promotion_decision != promote"
+    }
+  ],
+  "provenance": {
+    "source_refs": ["structure.md#5.4", "structure.md#6.1"],
+    "captured_by": "investigation_remediation",
+    "recorded_at": "2026-07-09"
+  }
+}

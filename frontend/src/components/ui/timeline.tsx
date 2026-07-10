@@ -1,0 +1,4 @@
+import type { WorkflowRunEvent } from "@/types/domain";
+import { formatDateTime } from "@/lib/formatting/dates";
+import { StatusBadge } from "@/components/ui/status-badge";
+export function Timeline({ events }: { events: WorkflowRunEvent[] }) { return <ol className="space-y-4">{events.map((event) => <li key={event.id} className="rounded-2xl border border-white/10 bg-white/4 p-4"><div className="flex flex-wrap items-center justify-between gap-3"><div><p className="font-medium text-white">{event.type}</p><p className="mt-1 text-xs uppercase tracking-[0.24em] text-muted">{formatDateTime(event.timestamp)}</p></div><StatusBadge status={event.type.replace('.', '_')} /></div><pre className="mt-4 overflow-x-auto rounded-xl bg-black/20 p-3 font-[var(--font-mono)] text-xs text-[var(--accent-2)]">{JSON.stringify(event.payload, null, 2)}</pre></li>)}</ol>; }

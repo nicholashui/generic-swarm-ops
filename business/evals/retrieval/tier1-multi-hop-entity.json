@@ -1,0 +1,33 @@
+{
+  "id": "rt_tier1_multihop_001",
+  "name": "Tier-1 entity-link multi-hop demo",
+  "eval_type": "retrieval",
+  "retrieval_tier": 1,
+  "scenario": "Two documents share entity pol_onboarding_default; relational query escalates from Tier 0 to entity-link expansion.",
+  "assertions": [
+    {
+      "id": "escalation_cue",
+      "description": "Query with related/which policy escalates",
+      "pass_if": "should_escalate_to_tier1(query) == true"
+    },
+    {
+      "id": "hop1_hit",
+      "description": "Second document appears with retrieval_hop == 1",
+      "pass_if": "exists hit where hit.retrieval_hop == 1 AND hit.shared_entities contains pol_onboarding_default"
+    },
+    {
+      "id": "provenance_on_hop1",
+      "description": "Multi-hop hits still carry source_refs",
+      "pass_if": "hit.retrieval_hop == 1 implies hit.source_refs.length >= 1"
+    }
+  ],
+  "provenance": {
+    "source_refs": [
+      "structure.md#3.4",
+      "backend/app/infrastructure/knowledge/retrieval.py",
+      "backend/app/tests/unit/test_retrieval.py"
+    ],
+    "captured_by": "p5_retrieval",
+    "recorded_at": "2026-07-09"
+  }
+}

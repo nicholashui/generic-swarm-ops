@@ -1,0 +1,35 @@
+{
+  "schema_version": "2.1",
+  "tiers": [
+    {
+      "id": "tier_0_observe",
+      "level": 0,
+      "meaning": "Observe only"
+    },
+    {
+      "id": "tier_1_recommend",
+      "level": 1,
+      "meaning": "Recommend only"
+    },
+    {
+      "id": "tier_2_draft",
+      "level": 2,
+      "meaning": "Draft, human approves"
+    },
+    {
+      "id": "tier_3_execute_reversible",
+      "level": 3,
+      "meaning": "Execute reversible low-risk actions"
+    },
+    {
+      "id": "tier_4_execute_with_gate",
+      "level": 4,
+      "meaning": "Execute with human gate for critical step"
+    },
+    {
+      "id": "tier_5_restricted",
+      "level": 5,
+      "meaning": "Restricted until assurance case exists"
+    }
+  ]
+}

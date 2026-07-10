@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="860" viewBox="0 0 1200 860">
+  <defs>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .text { font: 15px Arial, sans-serif; fill: #334155; }
+      .mono { font: 15px 'Courier New', monospace; fill: #1e293b; }
+      .box { rx: 18; ry: 18; stroke-width: 2.5; }
+      .arrow { stroke: #475569; stroke-width: 3; fill: none; marker-end: url(#head); }
+    </style>
+    <marker id="head" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="860" fill="#f8fafc"/>
+  <text x="600" y="48" text-anchor="middle" class="title">Recommended Backend Folder Map</text>
+
+  <rect x="60" y="90" width="240" height="680" class="box" fill="#ffffff" stroke="#2563eb"/>
+  <text x="180" y="128" text-anchor="middle" class="label">Entry And API</text>
+  <text x="90" y="170" class="mono">main.py</text>
+  <text x="90" y="200" class="mono">api/</text>
+  <text x="120" y="228" class="mono">dependencies.py</text>
+  <text x="120" y="256" class="mono">errors.py</text>
+  <text x="120" y="284" class="mono">v1/router.py</text>
+  <text x="120" y="312" class="mono">routes/auth.py</text>
+  <text x="120" y="340" class="mono">routes/agents.py</text>
+  <text x="120" y="368" class="mono">routes/workflows.py</text>
+  <text x="120" y="396" class="mono">routes/workflow_runs.py</text>
+  <text x="120" y="424" class="mono">routes/approvals.py</text>
+  <text x="120" y="452" class="mono">routes/governance.py</text>
+  <text x="120" y="480" class="mono">routes/knowledge.py</text>
+  <text x="120" y="508" class="mono">routes/memory.py</text>
+  <text x="120" y="536" class="mono">routes/evaluations.py</text>
+  <text x="120" y="564" class="mono">routes/audit_logs.py</text>
+  <text x="120" y="592" class="mono">routes/processes.py</text>
+  <text x="120" y="620" class="mono">routes/settings.py</text>
+  <text x="120" y="648" class="mono">routes/health.py</text>
+  <text x="90" y="710" class="text">Keep routes thin and validation focused.</text>
+
+  <rect x="330" y="90" width="240" height="300" class="box" fill="#ffffff" stroke="#16a34a"/>
+  <text x="450" y="128" text-anchor="middle" class="label">Core And Schemas</text>
+  <text x="360" y="170" class="mono">core/config.py</text>
+  <text x="360" y="198" class="mono">core/security.py</text>
+  <text x="360" y="226" class="mono">core/auth.py</text>
+  <text x="360" y="254" class="mono">core/permissions.py</text>
+  <text x="360" y="282" class="mono">core/logging.py</text>
+  <text x="360" y="310" class="mono">core/errors.py</text>
+  <text x="360" y="338" class="mono">core/pagination.py</text>
+  <text x="360" y="366" class="mono">core/idempotency.py</text>
+  <text x="360" y="394" class="mono">core/rate_limit.py</text>
+
+  <rect x="330" y="420" width="240" height="350" class="box" fill="#ffffff" stroke="#7c3aed"/>
+  <text x="450" y="458" text-anchor="middle" class="label">Domain</text>
+  <text x="360" y="500" class="mono">domain/agents/</text>
+  <text x="360" y="528" class="mono">domain/workflows/</text>
+  <text x="360" y="556" class="mono">domain/governance/</text>
+  <text x="360" y="584" class="mono">domain/approvals/</text>
+  <text x="360" y="612" class="mono">domain/knowledge/</text>
+  <text x="360" y="640" class="mono">domain/memory/</text>
+  <text x="360" y="668" class="mono">domain/evaluations/</text>
+  <text x="360" y="696" class="mono">domain/audit/</text>
+  <text x="360" y="724" class="mono">domain/processes/</text>
+  <text x="360" y="752" class="text">Holds models, policies, engines, and state rules.</text>
+
+  <rect x="600" y="90" width="250" height="680" class="box" fill="#ffffff" stroke="#d97706"/>
+  <text x="725" y="128" text-anchor="middle" class="label">Services</text>
+  <text x="630" y="170" class="mono">auth_service.py</text>
+  <text x="630" y="198" class="mono">user_service.py</text>
+  <text x="630" y="226" class="mono">organization_service.py</text>
+  <text x="630" y="254" class="mono">agent_service.py</text>
+  <text x="630" y="282" class="mono">tool_service.py</text>
+  <text x="630" y="310" class="mono">workflow_service.py</text>
+  <text x="630" y="338" class="mono">workflow_run_service.py</text>
+  <text x="630" y="366" class="mono">governance_service.py</text>
+  <text x="630" y="394" class="mono">approval_service.py</text>
+  <text x="630" y="422" class="mono">knowledge_service.py</text>
+  <text x="630" y="450" class="mono">memory_service.py</text>
+  <text x="630" y="478" class="mono">evaluation_service.py</text>
+  <text x="630" y="506" class="mono">audit_service.py</text>
+  <text x="630" y="534" class="mono">process_service.py</text>
+  <text x="630" y="562" class="mono">notification_service.py</text>
+  <text x="630" y="614" class="text">Coordinates use cases across domain modules and repositories.</text>
+
+  <rect x="880" y="90" width="260" height="460" class="box" fill="#ffffff" stroke="#dc2626"/>
+  <text x="1010" y="128" text-anchor="middle" class="label">Infrastructure</text>
+  <text x="910" y="170" class="mono">database/</text>
+  <text x="910" y="198" class="mono">repositories/</text>
+  <text x="910" y="226" class="mono">vector_store/</text>
+  <text x="910" y="254" class="mono">object_storage/</text>
+  <text x="910" y="282" class="mono">queue/</text>
+  <text x="910" y="310" class="mono">llm/</text>
+  <text x="910" y="338" class="mono">integrations/</text>
+  <text x="910" y="386" class="text">Adapters isolate provider and storage choices.</text>
+
+  <rect x="880" y="580" width="260" height="190" class="box" fill="#ffffff" stroke="#0284c7"/>
+  <text x="1010" y="618" text-anchor="middle" class="label">Workers And Tests</text>
+  <text x="910" y="660" class="mono">workers/workflow_worker.py</text>
+  <text x="910" y="688" class="mono">workers/knowledge_worker.py</text>
+  <text x="910" y="716" class="mono">workers/evaluation_worker.py</text>
+  <text x="910" y="744" class="mono">tests/unit | integration | e2e</text>
+
+  <line x1="300" y1="300" x2="330" y2="240" class="arrow"/>
+  <line x1="300" y1="420" x2="330" y2="560" class="arrow"/>
+  <line x1="570" y1="250" x2="600" y2="250" class="arrow"/>
+  <line x1="850" y1="250" x2="880" y2="250" class="arrow"/>
+</svg>
