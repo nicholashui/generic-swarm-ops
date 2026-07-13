@@ -1,0 +1,13 @@
+{
+  "domain_id": "example_education",
+  "version": "0.1.0",
+  "display_name": "Example Education Pack",
+  "default_risk_tier": "tier_1_recommend",
+  "requires_alc": true,
+  "agents": ["example.edu_planner", "example.edu_reviewer"],
+  "workflows": ["wf_example_education_v1"],
+  "api_hooks": {
+    "tool_namespace": "example.*",
+    "on_register": "noop"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "video.orchestrator",
+  "va_id": 53,
+  "domain_id": "video",
+  "name": "OrchestratorAgent",
+  "status": "draft",
+  "requires_alc": true,
+  "allowed_memory_scopes": ["agent", "organization"],
+  "alc_version": "1.0",
+  "hooks": { "reflect": true },
+  "tools": [],
+  "risk_tier": "tier_2_draft",
+  "provenance": {
+    "source_refs": ["va-agent-swarm/study/agents.md"]
+  }
+}

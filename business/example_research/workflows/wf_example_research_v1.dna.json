@@ -1,0 +1,46 @@
+{
+  "id": "wf_example_research_v1",
+  "name": "Example Research Brief",
+  "domain": "example_research",
+  "objective": "Produce a short research brief with review gate (N2 pack proof).",
+  "owner": "example.researcher",
+  "version": "1.0",
+  "risk_tier": "tier_1_recommend",
+  "production_ready": false,
+  "inputs": ["topic"],
+  "preconditions": ["topic is non-empty"],
+  "steps": [
+    {
+      "id": "research",
+      "state": "research",
+      "next": ["review"],
+      "agent": "example.researcher",
+      "tools": ["audit_log_writer"],
+      "action_type": "analysis",
+      "human_gate_required": false,
+      "irreversible": false
+    },
+    {
+      "id": "review",
+      "state": "verification",
+      "next": [],
+      "agent": "example.reviewer",
+      "tools": ["audit_log_writer"],
+      "action_type": "analysis",
+      "human_gate_required": false,
+      "irreversible": false
+    }
+  ],
+  "memory_reads": ["organization_memory"],
+  "memory_writes": ["organization_memory"],
+  "guardrails": ["sandbox_only_when_learning"],
+  "verification": ["brief_non_empty"],
+  "rollback": { "rollback_steps": ["discard_draft"] },
+  "fitness_metrics": ["quality", "latency"],
+  "audit_log_write_required": true,
+  "provenance": {
+    "source_refs": ["improvements.md#wave-1", "planning/improvement/wave-1/"],
+    "captured_by": "wave-1",
+    "recorded_at": "2026-07-11"
+  }
+}

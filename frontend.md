@@ -9,6 +9,8 @@
 **Related:** `backend.md` · `frontend/README.md` · `status.md` · `planning/structure/` · `planning/backend/` · `planning/frontend/` · `planning/gap_analysis_for_structure.md` · `planning/gap_analysis_for_backend.md` · `planning/gap_analysis_for_frontend.md`  
 **Primary Goal:** Build a professional, secure, responsive SaaS frontend that allows users to manage AI agents, workflows, tools, approvals, knowledge, memory, evaluations, audits, evolution sandbox variants, self-improvement actions, and organization settings.
 
+**Domain Pack (Wave 0):** No required UI changes. Future `/app/domains/video` roster views (Wave 1–2) will list the 114-agent catalog from `business/video/`. See `docs/domain-packs.md`.
+
 This document is the **frontend requirements, design, and implementation plan**. It refines how the architecture in `structure.md` becomes an operator console. Executable architecture SDD specs live under `planning/structure/`; the **backend API control-plane SDD** (requirements / design / tasks BE-01…24, code-path deliverables) lives under `planning/backend/` — see `backend.md` §24 and `planning/backend/TASK_TO_CODE_TRACEABILITY.md`. The **frontend sub-functional SDD** (requirements FE-01…20, sequential implementation order) lives under `planning/frontend/` — see `planning/frontend/README.md`. **As-built realization and non-goals** for this console are recorded in **§33** below and in `structure.md` §11.1 / §12. The frontend remains a presentation and interaction layer — **backend is the source of truth for authorization, execution, and governance.**
 ---
 

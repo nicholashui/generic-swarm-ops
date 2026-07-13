@@ -1,0 +1,15 @@
+{
+  "agent_id": "video.orchestrator",
+  "run_id": "run_example",
+  "step_id": "plan",
+  "lesson_text": "Always enter video processes via orchestrator or planner.",
+  "utility_score": 0.5,
+  "reuse_count": 0,
+  "source_refs": ["wave-0-fixture"],
+  "captured_by": "fixture",
+  "recorded_at": "2026-07-11T00:00:00Z",
+  "provenance": {
+    "source_refs": ["wave-0-fixture"],
+    "captured_by": "fixture"
+  }
+}

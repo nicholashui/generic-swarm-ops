@@ -206,6 +206,16 @@ export const backendApi = {
       method: "POST",
       body: JSON.stringify({ mode }),
     }),
+  runCoevolution: (payload: Record<string, unknown> = {}) =>
+    request("/evolution/coevolution/run", { method: "POST", body: JSON.stringify(payload) }),
+  governanceReview: () => request("/evolution/governance/review"),
+  lessonUtilityDashboard: (agentId?: string, limit = 20) => {
+    const params = new URLSearchParams();
+    if (agentId) params.set("agent_id", agentId);
+    params.set("limit", String(limit));
+    return request(`/improvement/lesson-utility?${params.toString()}`);
+  },
+  videoN3Status: () => request("/domains/video/n3-status"),
   federateKnowledgeGraph: (pushNeo4j = false) =>
     request("/knowledge/graph/federate", {
       method: "POST",

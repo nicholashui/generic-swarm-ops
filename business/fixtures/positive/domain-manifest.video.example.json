@@ -1,0 +1,14 @@
+{
+  "domain_id": "video",
+  "version": "0.1.0",
+  "display_name": "Video Production Domain Pack",
+  "default_risk_tier": "tier_2_draft",
+  "requires_alc": true,
+  "agents": ["video.orchestrator", "video.planner"],
+  "workflows": [],
+  "knowledge_seed_globs": ["business/video/knowledge/seeds/**"],
+  "api_hooks": {
+    "tool_namespace": "video.*",
+    "on_register": "noop"
+  }
+}

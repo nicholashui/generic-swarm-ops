@@ -1,0 +1,14 @@
+{
+  "id": "golden_example_research_brief_v1",
+  "workflow_id": "wf_example_research_v1",
+  "domain": "example_research",
+  "description": "Wave 1 N2 pack golden — research then review",
+  "input": { "topic": "domain pack isolation" },
+  "expected": {
+    "status_in": ["completed", "waiting_for_approval", "failed"],
+    "min_steps": 2
+  },
+  "provenance": {
+    "source_refs": ["improvements.md#wave-1"]
+  }
+}

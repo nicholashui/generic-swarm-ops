@@ -18,6 +18,21 @@ SUITE_DIRS: dict[str, str] = {
     "historical_replay": "business/evals/historical-replay",
 }
 
+# Domain pack eval overlays (Wave 3+): merged when domain_id matches.
+PACK_SUITE_DIRS: dict[str, dict[str, str]] = {
+    "video": {
+        "golden": "business/video/evals/golden",
+        "regression": "business/video/evals/regression",
+        "adversarial": "business/video/evals/adversarial",
+    },
+    "example_research": {
+        "golden": "business/example_research/evals/golden",
+    },
+    "example_education": {
+        "golden": "business/example_education/evals/golden",
+    },
+}
+
 
 def _now() -> str:
     return datetime.now(UTC).isoformat()
@@ -38,8 +53,35 @@ def _read_json_dir(path: Path) -> list[dict[str, Any]]:
     return items
 
 
-def load_eval_corpus(repo_root: Path) -> dict[str, list[dict[str, Any]]]:
-    return {name: _read_json_dir(repo_root / rel) for name, rel in SUITE_DIRS.items()}
+def _dedupe_by_id(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    seen: set[str] = set()
+    out: list[dict[str, Any]] = []
+    for item in items:
+        key = str(item.get("id") or item.get("_source_path") or id(item))
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(item)
+    return out
+
+
+def load_eval_corpus(
+    repo_root: Path,
+    *,
+    domain_id: str | None = None,
+) -> dict[str, list[dict[str, Any]]]:
+    """Load platform eval corpus; optionally merge domain pack fixtures (N1 isolation)."""
+    corpus = {name: _read_json_dir(repo_root / rel) for name, rel in SUITE_DIRS.items()}
+    domain = (domain_id or "").strip().lower()
+    pack_dirs = PACK_SUITE_DIRS.get(domain) if domain else None
+    if pack_dirs:
+        for suite_name, rel in pack_dirs.items():
+            pack_items = _read_json_dir(repo_root / rel)
+            if suite_name in corpus:
+                corpus[suite_name] = _dedupe_by_id(list(corpus[suite_name]) + pack_items)
+            else:
+                corpus[suite_name] = pack_items
+    return corpus
 
 
 def _step_map(dna: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -248,7 +290,14 @@ def evaluate_variant_against_corpus(
     variant_meta: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Run multi-suite sandbox evaluation; never mutates production DNA."""
-    corpus = load_eval_corpus(repo_root)
+    domain_id = (
+        (dna.get("domain") or dna.get("domain_id") or (variant_meta or {}).get("domain_id") or "")
+    )
+    if isinstance(domain_id, str):
+        domain_id = domain_id.strip().lower() or None
+    else:
+        domain_id = None
+    corpus = load_eval_corpus(repo_root, domain_id=domain_id)
     suite_results = {
         "golden": _eval_golden(dna, corpus["golden"]),
         "regression": _eval_regression(dna, corpus["regression"]),

@@ -1,0 +1,46 @@
+{
+  "id": "wf_example_education_v1",
+  "name": "Example Education Lesson Plan",
+  "domain": "example_education",
+  "objective": "Draft a short lesson plan with review (N2 third-pack proof).",
+  "owner": "example.edu_planner",
+  "version": "1.0",
+  "risk_tier": "tier_1_recommend",
+  "production_ready": false,
+  "inputs": ["topic"],
+  "preconditions": ["topic is non-empty"],
+  "steps": [
+    {
+      "id": "plan_lesson",
+      "state": "research",
+      "next": ["review_lesson"],
+      "agent": "example.edu_planner",
+      "tools": ["audit_log_writer"],
+      "action_type": "analysis",
+      "human_gate_required": false,
+      "irreversible": false
+    },
+    {
+      "id": "review_lesson",
+      "state": "verification",
+      "next": [],
+      "agent": "example.edu_reviewer",
+      "tools": ["audit_log_writer"],
+      "action_type": "analysis",
+      "human_gate_required": false,
+      "irreversible": false
+    }
+  ],
+  "memory_reads": ["organization_memory"],
+  "memory_writes": ["organization_memory"],
+  "guardrails": ["sandbox_only_when_learning"],
+  "verification": ["plan_non_empty"],
+  "rollback": { "rollback_steps": ["discard_draft"] },
+  "fitness_metrics": ["quality", "latency"],
+  "audit_log_write_required": true,
+  "provenance": {
+    "source_refs": ["improvements.md#wave-4", "planning/improvement/wave-4/"],
+    "captured_by": "wave-4",
+    "recorded_at": "2026-07-12"
+  }
+}

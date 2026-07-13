@@ -5,7 +5,9 @@
 **Architecture source of truth:** `structure.md` (implementation mapping §12)  
 **Status:** Product bar mark ~100 — as-built under `backend/`  
 **Last Updated:** 2026-07-10  
-**Related:** `frontend.md` · `backend_hk.md` · `backend/README.md` · `status.md` · `planning/structure/` · `planning/backend/` · `planning/gap_analysis_for_structure.md` · `planning/gap_analysis_for_backend.md`
+**Related:** `frontend.md` · `backend_hk.md` · `backend/README.md` · `status.md` · `planning/structure/` · `planning/backend/` · `planning/gap_analysis_for_structure.md` · `planning/gap_analysis_for_backend.md` · `docs/domain-packs.md`
+
+**Domain Pack (Wave 0):** Inventory gate `scripts/business/inventory_check.py` + schema tests for domain-manifest/agent-spec/learning-log. Register stub is CLI-only (`register_domain.py`); full `/domains` + ALC runtime is Wave 1. Video pack data lives under `business/video/` — not hard-coded in the control plane.
 
 This document is the **backend requirements, design, and implementation plan**. It refines how the architecture in `structure.md` becomes an API control plane. Executable **backend** sub-functional requirements live under `planning/backend/nn_*/requirements.md` (sequential order 01–24). Architecture SDD specs live under `planning/structure/`; **as-built realization and non-goals** are recorded in **§24** below and in `structure.md` §11.1 / §12. Those notes refine this document; they do not replace the architecture priorities: **Safety → Auditability → Correctness → Efficiency → Autonomy.**
 

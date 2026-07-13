@@ -1,0 +1,16 @@
+{
+  "id": "example.reviewer",
+  "domain_id": "example_research",
+  "name": "Example Reviewer",
+  "status": "draft",
+  "requires_alc": true,
+  "allowed_memory_scopes": ["agent", "organization"],
+  "alc_version": "1.0",
+  "hooks": { "reflect": true },
+  "tools": ["audit_log_writer"],
+  "allowed_tools": ["audit_log_writer"],
+  "risk_tier": "tier_1_recommend",
+  "provenance": {
+    "source_refs": ["improvements.md#wave-0"]
+  }
+}

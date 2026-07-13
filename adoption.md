@@ -1,12 +1,30 @@
 # Adoption Plan: generic-swarm-ops (Universal Platform) × va-agent-swarm (Video Domain)
 
-**Version:** 2.3  
-**Date:** 2026-07-10  
-**Status:** Executable merge strategy (post product-bar mark ~100) — **full va roster + full process tree required** (rethought sequencing)  
+**Version:** 2.4  
+**Date:** 2026-07-13  
+**Status:** **N3 implementation complete** on host (improvements Waves 0–5) — strategy v2.3 retained; execution evidence live in-repo  
 **Authors:** Review of both local repos per `review_adoption.md`  
-**Sources audited (deep local scan 2026-07-10):**
+**Sources audited (deep local scan 2026-07-10; implementation status 2026-07-13):**
 - `C:\Project\generic-swarm-ops` (https://github.com/nicholashui/generic-swarm-ops)
 - `C:\Project\va-agent-swarm` (https://github.com/nicholashui/va-agent-swarm)
+- Execution SoT: `improvements.md` v1.0 · SDD: `planning/improvement/wave-{0..5}/` · Gate: `python scripts/business/inventory_check.py` → `INVENTORY PASS count=114 n3=complete`
+
+### Implementation status (v2.4 — after improvements Waves 0–5)
+
+| Wave | Goal | Status |
+|------|------|--------|
+| **0** | Catalog, schemas, inventory gate, register CLI | **Done** |
+| **1** | ALC runtime + domain register API + example pack + FE DomainPackPanel | **Done** |
+| **2** | Spine + viral-hook DNA, video tool stubs, spine E2E | **Done** |
+| **3** | Coevolution, lesson utility, LQR evals, governance review | **Done** |
+| **4** | Multi-pack load/security, third pack, runbook | **Done** |
+| **5** | Full roster registered + process DNA/docs + N3 CI | **Done** |
+
+**N3 (honest, per § rethink framing):** All **114** agents ≥ **L1** (registered + standby/router reachable); spine ≥ **L2**; process coverage DNA or pack-linked (**va-only = 0**); inventory CI + `.github/workflows/n3-inventory.yml`.  
+
+**Still post-N3 (not claimed done):** deep L2 activation for every specialist; real Sora/Veo/etc. media providers; advanced timeline FE; Temporal adapters. Thin DNA stubs are intentional N3 representation depth.
+
+Evidence: `planning/improvement/chain-run-report.md`, `planning/improvement/wave-5/completion-report.md`, `docs/domain-packs.md`.
 
 ### Rethink (v2.3) — what we keep, what we change
 
@@ -35,6 +53,8 @@ What changed after rethinking execution risk:
 
 ### Research snapshot (empirical)
 
+**Baseline scan (2026-07-10)** — preserved for audit. Rows marked **[CLOSED]** were gaps at scan time and are closed by Waves 0–5 (2026-07-12/13).
+
 | Corpus | Measured fact |
 |--------|----------------|
 | **va** files | **92** `.md`, **141** script/txt variants, **19** SVG, **2** `.py` (SVG helpers only) |
@@ -44,15 +64,16 @@ What changed after rethinking execution risk:
 | **va** agent roster | **114** unique agents, ids **1–114**, **10** categories — parsed from `study/agents.md` (names ending in Agent); cross-checked with `SYSTEM_REFERENCE.md` |
 | **va** deep specs | Functional/technical: aesthetics, optimization, research, intent, coding, GCA, agentic RAG, podcast, psychological profile/recommendation, screenwriter/strategic goal, LLM usage, agent_loop v1–v3, planner v2.0–2.1, system_build_plan, etc. |
 | **generic** product bar | Mark **~100**, E1 **PASS** (`status.md`) |
-| **generic** API routes | auth, users, orgs, agents, tools, workflows, workflow_runs, approvals, governance, knowledge, memory, evaluations, audit_logs, processes, evolution, improvement, loops, settings, health — **no `domains` router** |
-| **generic** business schemas | WorkflowDNA, EvaluationCard, DecisionRequirementCard, EventLog only — **no** agent-spec / domain-manifest / learning-log |
-| **generic** video pack | **`business/video/` missing** |
-| **generic** seed agents | 5 ops agents: `business_orchestrator`, `quality_compliance_agent`, `execution_agent`, `finance_ops_agent`, `communications_agent` |
-| **generic** tool adapters | `audit_log_writer`, `crm`, `billing_system`, `email`, `contract_parser`, `policy_retriever` only |
-| **generic** goldens | **20** customer-onboarding JSON under `business/evals/golden-tasks/` |
-| **generic** lessons on disk | **~168** `business/evolution/lessons-learned/run_*.json` (workflow-level) |
-| **generic** learning gap | `Lesson` has `workflow_id`, **no `agent_id`**; reflect writes org memory with `agent=None` |
-| **generic** FE domain | Improve, evolution archive, run console, user admin, org settings — **no video domain pack UI** |
+| **generic** API routes | auth, users, orgs, agents, tools, workflows, workflow_runs, approvals, governance, knowledge, memory, evaluations, audit_logs, processes, evolution, improvement, loops, settings, health — **[+]** `domains` (register, video N3 status) **[CLOSED Wave 1/5]** |
+| **generic** business schemas | WorkflowDNA, EvaluationCard, DecisionRequirementCard, EventLog — **[+]** agent-spec, domain-manifest, learning-log **[CLOSED Wave 0]** |
+| **generic** video pack | **`business/video/` present** — 114 agents, ROSTER/MAP, standby/router, process_coverage, 14 DNA, retention policy **[CLOSED Waves 0–5]** |
+| **generic** seed agents | 5 ops agents: `business_orchestrator`, `quality_compliance_agent`, `execution_agent`, `finance_ops_agent`, `communications_agent` (+ pack agents on register) |
+| **generic** tool adapters | ops tools + **`video_*` stubs** (media, script, qc, package) **[CLOSED Wave 2]** |
+| **generic** goldens | platform customer-onboarding + **video pack** golden/LQR fixtures **[CLOSED Waves 2–3]** |
+| **generic** lessons | workflow-level lessons + **`agent_id` ALC lessons** / inject / metrics **[CLOSED Wave 1]** |
+| **generic** learning gap (scan-time) | *Was:* no `agent_id` — **now closed** (ALC). Residual: progressive deep L2 / live media. |
+| **generic** FE domain | ops console + **DomainPackPanel**, **LessonUtilityPanel**, **VideoN3RosterPanel** **[CLOSED Waves 1/3/5]** |
+| **generic** multi-pack | `example_research` + `example_education` + load/isolation/security tests **[CLOSED Waves 1/4]** |
 
 ---
 
@@ -709,23 +730,29 @@ gantt
 
 ### 7.5 Acceptance gates (DoD)
 
-**Platform**
+**Platform** (as of improvements Waves 0–5, 2026-07-13)
 
-- [ ] ALC enforced platform-wide for packs with `requires_alc: true`  
-- [ ] Video spine E2E green (orchestrator-down path)  
-- [ ] Second domain pack registers without runtime edits  
-- [ ] `sandbox_only` never bypassed  
-- [ ] Unit + e2e + business:eval green  
-- [ ] Gap note updated in `status.md` / handoff  
+- [x] ALC enforced platform-wide for packs with `requires_alc: true`  
+- [x] Video spine E2E green (orchestrator-down path)  
+- [x] Second domain pack registers without runtime edits (`example_research`; third: `example_education`)  
+- [x] `sandbox_only` never bypassed  
+- [x] Unit suite green (full `app/tests/unit`; wave suites) — keep E1 regression on every PR  
+- [x] Gap note updated in handoff / `planning/improvement/`  
 
-**Full va adoption (N3)**
+**Full va adoption (N3)** (honest exit: L1 roster + indexed processes + spine L2)
 
-- [ ] Agent count in `business/video/agents/` + MAP == full va roster (no omissions)  
-- [ ] All 10 agent categories present; meta-agents include orchestrator/planner/router/judge  
-- [ ] All va business processes indexed and represented as DNA / linked pack process docs  
-- [ ] Every agent is orchestrator-reachable (DNA step or standby_pool route)  
-- [ ] Retention policy enforced (CI fails on deleted roster agent)  
-- [ ] Activation waves documented; inactive agents remain in-project as draft/registered
+- [x] Agent count in `business/video/agents/` + MAP == full va roster (no omissions)  
+- [x] All 10 agent categories present; meta-agents include orchestrator/planner/router/judge  
+- [x] All va business processes indexed and represented as DNA / linked pack process docs (`process_coverage.json`, va_only=0)  
+- [x] Every agent is orchestrator-reachable (DNA step or standby_pool route)  
+- [x] Retention policy enforced (CI fails on deleted roster agent; `policies/roster-retention.md`)  
+- [x] Activation waves documented; agents remain in-project as **registered** (disk) + standby; progressive deep **active** L2 still ongoing  
+
+**Open (post-N3 product depth — not DoD blockers for N3 framing above)**
+
+- [ ] Live media providers (replace stubs) with budgets/rate limits  
+- [ ] Deep L2 activation for all 114 specialists (beyond thin DNA + registered catalog)  
+- [ ] Advanced timeline / pipeline FE (P2)
 
 ---
 
@@ -777,9 +804,23 @@ gantt
 | Doc | Owner |
 |-----|-------|
 | `adoption.md` (this file) | Platform + merge |
-| `docs/domain-packs.md` | Platform (to create) |
+| `docs/domain-packs.md` | Platform (**exists** — Wave 0+) |
+| `docs/add-domain-pack-runbook.md` | Platform (Wave 4) |
+| `docs/domain-pack-versioning-matrix.md` | Platform (Wave 4) |
 | `business/video/README.md` | Video pack |
+| `planning/improvement/wave-*/` | Wave SDD + completion evidence |
 | `structure.md` / `backend.md` / `frontend.md` | Update when ALC/pack land |
+
+---
+
+## 10. Changelog
+
+| Version | Date | Notes |
+|---------|------|--------|
+| **2.4** | **2026-07-13** | **N3 implementation status:** improvements Waves 0–5 complete on host. Header status, implementation table, research snapshot closed-gaps, §7.5 DoD checkboxes updated. Evidence: `planning/improvement/`, inventory `n3=complete`. Residual: deep L2 / live media / advanced FE called out as post-N3. |
+| **2.4.1** | **2026-07-13** | **Video corpus standalone:** executed `migration_plan.md` — full va study/plan/root copied to `business/video/corpus/` (325 files); all 114 agent SPEC.md expanded in-pack (no refer-only). `check_video_corpus_standalone.py` green. |
+| **2.3** | 2026-07-10 | Rethink: L0/L1/L2; catalog ≠ full SPEC; process index before DNA depth; ALC on active; namespace split. |
+| 2.x earlier | — | Prior strategy drafts (see git history). |
 | va `SYSTEM_REFERENCE.md` | Keep as domain encyclopedia; add “Implemented on generic pack path X” banners |
 
 ### 9.4 Reuse playbook (new MMA system)

@@ -484,59 +484,36 @@ class BusinessSourceLoader:
                 "allowed_actions": entry["allowed_actions"],
                 "scope": entry["scope"],
             })
-        tools.extend([
-            {
-                "id": "contract_parser",
+        # Ensure video pack stubs + core analysis tools exist even if register is partial
+        existing_ids = {t["id"] for t in tools}
+        for stub_id, actions, risk, gate in (
+            ("audit_log_writer", ["write_audit"], "tier_1_recommend", False),
+            ("contract_parser", ["parse_contract"], "tier_1_recommend", False),
+            ("policy_retriever", ["retrieve_policy"], "tier_1_recommend", False),
+            ("video_media_gen_stub", ["generate_media_stub"], "tier_3_execute_reversible", False),
+            ("video_script_format", ["format_script"], "tier_3_execute_reversible", False),
+            ("video_qc_stub", ["qc_pass"], "tier_3_execute_reversible", False),
+            ("video_package_stub", ["package_deliverable"], "tier_4_execute_with_gate", True),
+        ):
+            if stub_id in existing_ids:
+                continue
+            tools.append({
+                "id": stub_id,
                 "organization_id": organization_id,
-                "name": "contract_parser",
-                "description": "Contract parser",
-                "category": "file",
+                "name": stub_id,
+                "description": f"{stub_id} managed tool",
+                "category": "video_stub" if stub_id.startswith("video_") else "internal_api",
                 "input_schema": {"type": "object"},
                 "output_schema": {"type": "object"},
-                "risk_level": "tier_1_recommend",
+                "risk_level": risk,
                 "required_permissions": ["workflows:execute"],
-                "approval_requirement": False,
+                "approval_requirement": gate,
                 "timeout": 30,
                 "retry_policy": {"max_retries": 1},
                 "enabled": True,
-                "allowed_actions": ["parse_contract"],
-                "scope": "analysis_only",
-            },
-            {
-                "id": "policy_retriever",
-                "organization_id": organization_id,
-                "name": "policy_retriever",
-                "description": "Policy retrieval",
-                "category": "internal_api",
-                "input_schema": {"type": "object"},
-                "output_schema": {"type": "object"},
-                "risk_level": "tier_1_recommend",
-                "required_permissions": ["knowledge:read"],
-                "approval_requirement": False,
-                "timeout": 15,
-                "retry_policy": {"max_retries": 1},
-                "enabled": True,
-                "allowed_actions": ["retrieve_policy"],
-                "scope": "knowledge_only",
-            },
-            {
-                "id": "audit_log_writer",
-                "organization_id": organization_id,
-                "name": "audit_log_writer",
-                "description": "Append-only audit log writer",
-                "category": "internal_api",
-                "input_schema": {"type": "object"},
-                "output_schema": {"type": "object"},
-                "risk_level": "tier_1_recommend",
-                "required_permissions": ["audit:read"],
-                "approval_requirement": False,
-                "timeout": 10,
-                "retry_policy": {"max_retries": 1},
-                "enabled": True,
-                "allowed_actions": ["append_audit"],
-                "scope": "audit_only",
-            },
-        ])
+                "allowed_actions": actions,
+                "scope": "video_pack_ci_stub" if stub_id.startswith("video_") else "platform",
+            })
         return tools
 
     def load_knowledge_documents(self, organization_id: str) -> list[dict[str, Any]]:
@@ -1356,6 +1333,10 @@ class RuntimeServices:
             "runtime_configuration": payload.get("runtime_configuration", {"mode": "local"}),
             "status": payload.get("status", "draft"),
             "role": payload.get("role", "execution"),
+            "domain_id": payload.get("domain_id"),
+            "requires_alc": payload.get("requires_alc"),
+            "alc_version": payload.get("alc_version"),
+            "hooks": payload.get("hooks") or {},
         }
         self.store.collection("agents").append(created)
         self._append_audit(current_user.organization_id, current_user.id, "agent", "agent.created", "agent", created["id"], {}, "success")
@@ -1367,6 +1348,24 @@ class RuntimeServices:
         agent = next((item for item in self._scoped_items("agents", current_user.organization_id) if item["id"] == agent_id), None)
         if not agent:
             raise NotFoundError(f"Agent not found: {agent_id}")
+        if status == "active":
+            from app.infrastructure.governance.alc_validator import AlcRequiredError, assert_alc_ready
+
+            try:
+                assert_alc_ready(agent)
+            except AlcRequiredError as exc:
+                self._append_audit(
+                    current_user.organization_id,
+                    current_user.id,
+                    "agent",
+                    "agent.activate_denied_alc",
+                    "agent",
+                    agent_id,
+                    {"code": exc.code},
+                    "failed",
+                )
+                self.store.save()
+                raise ValidationError(str(exc.message)) from exc
         agent["status"] = status
         self._append_audit(current_user.organization_id, current_user.id, "agent", "agent.updated", "agent", agent_id, {"status": status}, "success")
         self.store.save()
@@ -1961,6 +1960,7 @@ class RuntimeServices:
             step_record["started_at"] = utc_now()
             self._emit_event("step.started", run["id"], step_definition["id"], f"Starting step {step_definition['id']}")
             agent = agent_lookup.get(step_definition["agent"])
+            step_record["agent_id"] = (agent or {}).get("id") or step_definition.get("agent")
             agent_status = (agent or {}).get("status", "active")
             if not agent or agent_status not in {"active", "enabled"}:
                 step_record["status"] = "failed"
@@ -2064,6 +2064,31 @@ class RuntimeServices:
                     if item.get("scope") == read_scope
                 ][:5]
                 memory_context.extend(hits)
+
+            # ALC pre-step: inject top-k agent lessons (Wave 1)
+            try:
+                from app.infrastructure.self_improvement.lessons import LessonLibrary
+
+                org_lessons = [
+                    i
+                    for i in self.store.collection("improvement_lessons")
+                    if i.get("organization_id") == run["organization_id"]
+                ]
+                lib = LessonLibrary(org_lessons)
+                injected = lib.retrieve(
+                    agent_id=agent.get("id"),
+                    workflow_id=run.get("workflow_id"),
+                    k=5,
+                    increment_uses=True,
+                )
+                step_record["injected_lessons"] = [l.to_dict() for l in injected]
+                # Persist use counters back into store
+                by_id = {i.get("id"): i for i in self.store.collection("improvement_lessons")}
+                for lesson in injected:
+                    if lesson.id in by_id:
+                        by_id[lesson.id]["uses"] = lesson.uses
+            except Exception:  # noqa: BLE001
+                step_record.setdefault("injected_lessons", [])
 
             # Execute tools via registered adapters (real side-effect records)
             from app.infrastructure.tools.adapters import ToolAdapterError, execute_tool
@@ -3165,6 +3190,9 @@ class RuntimeServices:
             )
             self.store.save()
             raise PermissionDeniedError("Evolution path must never mutate production DNA directly")
+        variant_type = payload.get("variant_type") or payload.get("type") or "workflow_dna"
+        if variant_type == "agent_genome" and not payload.get("agent_id"):
+            raise ValidationError("agent_genome variants require agent_id")
         base_workflow_id = payload.get("base_workflow_id")
         base = None
         if base_workflow_id:
@@ -3181,6 +3209,9 @@ class RuntimeServices:
             "status": "sandbox_proposed",
             "direct_production_mutation": False,
             "sandbox_only": True,
+            "variant_type": variant_type,
+            "agent_id": payload.get("agent_id"),
+            "genome": payload.get("genome") if variant_type == "agent_genome" else None,
             "dna": payload.get("dna") or (deepcopy(base) if base else {}),
             "changes": payload.get("changes") or [],
             "rollback_plan": payload.get("rollback_plan")
@@ -3232,15 +3263,38 @@ class RuntimeServices:
         evaluation = evaluate_variant_against_corpus(
             dna,
             self.repo_root,
-            variant_meta={"sandbox_only": variant.get("sandbox_only", True), "variant_id": variant_id},
+            variant_meta={
+                "sandbox_only": variant.get("sandbox_only", True),
+                "variant_id": variant_id,
+                "domain_id": (dna.get("domain") or dna.get("domain_id") or variant.get("domain_id")),
+            },
         )
         evaluation["evaluator"] = current_user.id
         evaluation["auto_promote"] = False
         # Never auto-promote
         if evaluation.get("promotion_decision") == "promote":
             evaluation["promotion_decision"] = "canary_only"
+        # Wave 3: enrich fitness with ALC growth/reuse when agent_id present
+        fitness = dict(evaluation.get("fitness_metrics") or {})
+        agent_id = variant.get("agent_id")
+        if agent_id:
+            try:
+                alc = self.improvement_metrics(current_user, agent_id=str(agent_id))
+            except Exception:
+                alc = {}
+            from app.infrastructure.evolution.coevolution import enrich_fitness_with_alc
+
+            fitness = enrich_fitness_with_alc(fitness, alc)
+        else:
+            from app.infrastructure.evolution.coevolution import composite_fitness
+
+            fitness = {
+                **fitness,
+                **composite_fitness(float(fitness.get("suite_pass_rate") or 0.0), 0.0, 0.0),
+            }
+        evaluation["fitness_metrics"] = fitness
         variant["evaluation"] = evaluation
-        variant["fitness_metrics"] = evaluation.get("fitness_metrics") or {}
+        variant["fitness_metrics"] = fitness
         variant["status"] = "sandbox_evaluated"
         variant["promotion_decision"] = evaluation["promotion_decision"]
         # Never write DNA into workflows collection here
@@ -3473,7 +3527,16 @@ class RuntimeServices:
         ]
         library = LessonLibrary(org_lessons)
         stored: list[dict[str, Any]] = []
-        for text in reflection.get("lessons") or []:
+        # Map step-level agents for multi-agent lesson tagging (ALC)
+        step_agents: list[str | None] = []
+        for step in run.get("steps") or []:
+            step_agents.append(step.get("agent_id") or step.get("agent"))
+        if not step_agents and workflow:
+            for sdef in workflow.get("steps") or []:
+                step_agents.append(sdef.get("agent"))
+        unique_agents = [a for a in dict.fromkeys(step_agents) if a]
+
+        def _store_lesson(text: str, agent_id: str | None) -> None:
             twin = next(
                 (
                     i
@@ -3481,23 +3544,28 @@ class RuntimeServices:
                     if i.get("text") == text
                     and i.get("workflow_id") == run.get("workflow_id")
                     and i.get("organization_id") == current_user.organization_id
+                    and (i.get("agent_id") or None) == (agent_id or None)
                 ),
                 None,
             )
             if twin:
                 stored.append(twin)
-                continue
+                return
             lesson = Lesson(
                 id=f"lesson_{uuid.uuid4().hex[:10]}",
                 text=text,
                 source_run_id=run_id,
                 workflow_id=run.get("workflow_id"),
-                tags=["reflection", reflection.get("status") or "unknown"],
+                agent_id=agent_id,
+                tags=["reflection", reflection.get("status") or "unknown"]
+                + ([f"agent:{agent_id}"] if agent_id else []),
                 provenance={
-                    "source_refs": [run_id, run.get("workflow_id") or "workflow"],
+                    "source_refs": [run_id, run.get("workflow_id") or "workflow"]
+                    + ([agent_id] if agent_id else []),
                     "captured_by": current_user.id,
                     "recorded_at": utc_now(),
                     "framework": "self_evolving_agents_reflexion",
+                    "agent_id": agent_id,
                 },
             )
             library.add(lesson)
@@ -3505,19 +3573,58 @@ class RuntimeServices:
             payload["organization_id"] = current_user.organization_id
             self.store.collection("improvement_lessons").append(payload)
             stored.append(payload)
-            self._write_memory(
-                current_user.organization_id,
-                current_user.id,
-                "organization_memory",
-                f"Lesson from {run_id}",
-                text,
-                {
-                    "source_refs": [run_id],
-                    "captured_by": current_user.id,
-                    "recorded_at": utc_now(),
-                },
-                agent=None,
-            )
+            mem_agent = None
+            if agent_id:
+                mem_agent = next(
+                    (
+                        a
+                        for a in self._scoped_items("agents", current_user.organization_id)
+                        if a.get("id") == agent_id
+                    ),
+                    {"id": agent_id, "allowed_memory_scopes": ["agent", "organization", "organization_memory"]},
+                )
+            try:
+                self._write_memory(
+                    current_user.organization_id,
+                    current_user.id,
+                    "organization_memory",
+                    f"Lesson from {run_id}" + (f" agent={agent_id}" if agent_id else ""),
+                    text,
+                    {
+                        "source_refs": [run_id],
+                        "captured_by": current_user.id,
+                        "recorded_at": utc_now(),
+                        "agent_id": agent_id,
+                    },
+                    agent=None,
+                )
+            except Exception:  # noqa: BLE001
+                pass
+            # Agent-scoped episode when ALC scopes allow
+            if agent_id and mem_agent:
+                try:
+                    scopes = set(mem_agent.get("allowed_memory_scopes") or [])
+                    if "agent" in scopes or "agent_memory" in scopes:
+                        self.store.collection("agent_episodes").append(
+                            {
+                                "id": f"ep_{uuid.uuid4().hex[:10]}",
+                                "organization_id": current_user.organization_id,
+                                "agent_id": agent_id,
+                                "run_id": run_id,
+                                "text": text,
+                                "created_at": utc_now(),
+                            }
+                        )
+                except Exception:  # noqa: BLE001
+                    pass
+
+        for text in reflection.get("lessons") or []:
+            if unique_agents:
+                # Attribute generic lessons to each step agent for multi-agent runs
+                for aid in unique_agents:
+                    _store_lesson(text, aid)
+            else:
+                _store_lesson(text, None)
 
         # Persist lessons learned under business path when possible
         try:
@@ -3551,6 +3658,7 @@ class RuntimeServices:
         current_user: AuthenticatedUser,
         *,
         workflow_id: str | None = None,
+        agent_id: str | None = None,
         limit: int = 50,
     ) -> list[dict[str, Any]]:
         self.assert_permission(current_user, "memory:read")
@@ -3559,12 +3667,304 @@ class RuntimeServices:
         items = [
             i
             for i in self._scoped_items("improvement_lessons", current_user.organization_id)
-            if not workflow_id or i.get("workflow_id") == workflow_id
+            if (not workflow_id or i.get("workflow_id") == workflow_id)
+            and (not agent_id or i.get("agent_id") == agent_id)
         ]
         library = LessonLibrary(items)
         # Return ranked by utility without double-counting uses for list view
         ranked = sorted(library.lessons, key=lambda l: l.utility, reverse=True)[:limit]
         return [l.to_dict() for l in ranked]
+
+    def improvement_metrics(
+        self,
+        current_user: AuthenticatedUser,
+        *,
+        agent_id: str | None = None,
+    ) -> dict[str, Any]:
+        """ALC growth/reuse metrics (Wave 1)."""
+        self.assert_permission(current_user, "memory:read")
+        lessons = self.list_improvement_lessons(current_user, agent_id=agent_id, limit=200)
+        total_uses = sum(int(l.get("uses") or 0) for l in lessons)
+        total_wins = sum(int(l.get("wins") or 0) for l in lessons)
+        growth = len(lessons)
+        reuse = (total_uses / growth) if growth else 0.0
+        episodes = [
+            e
+            for e in self.store.collection("agent_episodes")
+            if e.get("organization_id") == current_user.organization_id
+            and (not agent_id or e.get("agent_id") == agent_id)
+        ]
+        return {
+            "agent_id": agent_id,
+            "knowledge_growth_count": growth,
+            "lesson_reuse_rate": round(reuse, 4),
+            "lesson_win_rate": round((total_wins + 1) / (total_uses + 2), 4) if growth else 0.0,
+            "episode_count": len(episodes),
+        }
+
+    def reflect_on_agent(
+        self,
+        current_user: AuthenticatedUser,
+        agent_id: str,
+        *,
+        run_id: str | None = None,
+    ) -> dict[str, Any]:
+        """Reflect and return lessons filtered to a single agent."""
+        self.assert_permission(current_user, "workflow_runs:read")
+        if run_id:
+            result = self.reflect_on_workflow_run(current_user, run_id)
+            stored = [l for l in (result.get("stored_lessons") or []) if l.get("agent_id") == agent_id]
+            result["stored_lessons"] = stored
+            result["agent_id"] = agent_id
+            return result
+        lessons = self.list_improvement_lessons(current_user, agent_id=agent_id, limit=50)
+        return {"agent_id": agent_id, "stored_lessons": lessons, "status": "listed"}
+
+    def list_agent_episodes(
+        self,
+        current_user: AuthenticatedUser,
+        *,
+        agent_id: str,
+    ) -> list[dict[str, Any]]:
+        """Return agent-scoped episodes only for the requested agent (isolation)."""
+        self.assert_permission(current_user, "memory:read")
+        return deepcopy(
+            [
+                e
+                for e in self.store.collection("agent_episodes")
+                if e.get("organization_id") == current_user.organization_id and e.get("agent_id") == agent_id
+            ]
+        )
+
+    def register_domain_pack(
+        self,
+        current_user: AuthenticatedUser,
+        *,
+        manifest: dict[str, Any] | None = None,
+        manifest_path: str | None = None,
+    ) -> dict[str, Any]:
+        """Validate domain manifest and load agents as draft/registered (Wave 1)."""
+        self.assert_permission(current_user, "agents:create")
+        import sys
+
+        sys_path = self.repo_root / "scripts" / "business"
+        if str(sys_path) not in sys.path:
+            sys.path.insert(0, str(sys_path))
+        from schema_validate import SchemaError, validate  # type: ignore
+
+        if manifest is None:
+            if not manifest_path:
+                raise ValidationError("manifest or manifest_path required")
+            path = self.repo_root / manifest_path
+            if not path.is_file():
+                raise NotFoundError(f"Manifest not found: {manifest_path}")
+            manifest = json.loads(path.read_text(encoding="utf-8"))
+        schema_path = self.repo_root / "business" / "schemas" / "domain-manifest.schema.json"
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        try:
+            validate(manifest, schema)
+        except SchemaError as exc:
+            raise ValidationError(f"Invalid domain manifest: {exc}") from exc
+
+        domain_id = manifest["domain_id"]
+        agent_ids_raw = manifest.get("agents") or []
+        pack_ids: list[str] = []
+        for item in agent_ids_raw:
+            if isinstance(item, str):
+                pack_ids.append(item)
+            elif isinstance(item, dict) and item.get("id"):
+                pack_ids.append(str(item["id"]))
+
+        loaded: list[dict[str, Any]] = []
+        for pack_id in pack_ids:
+            # Prefer disk agent_spec under business/<domain>/agents/<pack_id>/
+            disk_spec = (
+                self.repo_root
+                / "business"
+                / domain_id
+                / "agents"
+                / pack_id
+                / "agent_spec.json"
+            )
+            if disk_spec.is_file():
+                spec = json.loads(disk_spec.read_text(encoding="utf-8"))
+            else:
+                spec = {
+                    "id": pack_id,
+                    "domain_id": domain_id,
+                    "name": pack_id,
+                    "status": "draft",
+                    "requires_alc": bool(manifest.get("requires_alc", True)),
+                    "allowed_memory_scopes": ["agent", "organization"],
+                    "alc_version": "1.0",
+                    "hooks": {"reflect": True},
+                    "tools": [],
+                }
+            existing = next(
+                (
+                    a
+                    for a in self._scoped_items("agents", current_user.organization_id)
+                    if a.get("id") == pack_id
+                ),
+                None,
+            )
+            record = {
+                "id": pack_id,
+                "organization_id": current_user.organization_id,
+                "name": spec.get("name") or pack_id,
+                "role": spec.get("role") or spec.get("name") or pack_id,
+                "status": "registered" if existing and existing.get("status") == "active" else "draft",
+                "domain_id": domain_id,
+                "requires_alc": bool(spec.get("requires_alc", manifest.get("requires_alc", True))),
+                "allowed_memory_scopes": list(spec.get("allowed_memory_scopes") or ["agent"]),
+                "alc_version": spec.get("alc_version") or "1.0",
+                "hooks": dict(spec.get("hooks") or {"reflect": True}),
+                "allowed_tools": list(spec.get("tools") or spec.get("allowed_tools") or []),
+                "risk_tier": spec.get("risk_tier") or manifest.get("default_risk_tier") or "tier_2_draft",
+                "knowledgeAccess": "pack",
+                "provenance": dict(spec.get("provenance") or {}),
+            }
+            # Keep active if already active and ALC still ok
+            if existing:
+                if existing.get("status") == "active":
+                    record["status"] = "active"
+                existing.update({k: v for k, v in record.items() if k != "status" or existing.get("status") != "active"})
+                if existing.get("status") != "active":
+                    existing["status"] = record["status"]
+                loaded.append(deepcopy(existing))
+            else:
+                self.store.collection("agents").append(record)
+                loaded.append(deepcopy(record))
+
+        pack_entry = {
+            "domain_id": domain_id,
+            "version": manifest.get("version"),
+            "organization_id": current_user.organization_id,
+            "requires_alc": bool(manifest.get("requires_alc")),
+            "agent_ids": pack_ids,
+            "registered_at": utc_now(),
+            "display_name": manifest.get("display_name"),
+        }
+        packs = self.store.collection("domain_packs")
+        packs[:] = [
+            p
+            for p in packs
+            if not (
+                p.get("domain_id") == domain_id
+                and p.get("organization_id") == current_user.organization_id
+            )
+        ]
+        packs.append(pack_entry)
+        self._append_audit(
+            current_user.organization_id,
+            current_user.id,
+            "domain",
+            "domain.registered",
+            "domain_pack",
+            domain_id,
+            {"agent_count": len(loaded)},
+            "success",
+        )
+        self.store.save()
+        return {
+            "status": "draft",
+            "domain_id": domain_id,
+            "agents_loaded": len(loaded),
+            "agents": loaded,
+            "requires_alc": pack_entry["requires_alc"],
+        }
+
+    def list_domain_packs(self, current_user: AuthenticatedUser) -> list[dict[str, Any]]:
+        self.assert_permission(current_user, "agents:read")
+        return deepcopy(
+            [
+                p
+                for p in self.store.collection("domain_packs")
+                if p.get("organization_id") == current_user.organization_id
+            ]
+        )
+
+    def video_n3_roster_status(self, current_user: AuthenticatedUser) -> dict[str, Any]:
+        """N3 completeness snapshot for the video pack (Wave 5). Reads pack disk artifacts."""
+        self.assert_permission(current_user, "agents:read")
+        video = self.repo_root / "business" / "video"
+        roster_path = video / "ROSTER.json"
+        standby_path = video / "standby_pool.json"
+        coverage_path = video / "process_coverage.json"
+        wf_dir = video / "workflows"
+
+        roster = json.loads(roster_path.read_text(encoding="utf-8")) if roster_path.is_file() else []
+        pack_ids = [r.get("pack_id") for r in roster if isinstance(r, dict) and r.get("pack_id")]
+        standby = {}
+        if standby_path.is_file():
+            standby = json.loads(standby_path.read_text(encoding="utf-8"))
+        s_agents = standby.get("agents") if isinstance(standby, dict) else []
+        s_ids = {a.get("pack_id") for a in (s_agents or []) if isinstance(a, dict)}
+        orphans_missing_standby = sorted(set(pack_ids) - s_ids)
+        orphans_extra_standby = sorted(s_ids - set(pack_ids))
+
+        by_category: dict[str, int] = {}
+        registered = 0
+        for row in roster:
+            if not isinstance(row, dict):
+                continue
+            cat = row.get("category") or "unknown"
+            by_category[cat] = by_category.get(cat, 0) + 1
+            pid = row.get("pack_id")
+            if not pid:
+                continue
+            spec_path = video / "agents" / pid / "agent_spec.json"
+            if spec_path.is_file():
+                try:
+                    spec = json.loads(spec_path.read_text(encoding="utf-8"))
+                except json.JSONDecodeError:
+                    continue
+                if (spec.get("status") or "").lower() in {"registered", "active"}:
+                    registered += 1
+
+        dna_files = sorted(p.name for p in wf_dir.glob("*.dna.json")) if wf_dir.is_dir() else []
+        coverage = {"total": 0, "dna": 0, "pack_linked": 0, "va_only": 0}
+        if coverage_path.is_file():
+            cov = json.loads(coverage_path.read_text(encoding="utf-8"))
+            procs = cov.get("processes") or []
+            coverage["total"] = len(procs)
+            for p in procs:
+                rep = p.get("representation")
+                if rep == "dna":
+                    coverage["dna"] += 1
+                elif rep == "pack_doc":
+                    coverage["pack_linked"] += 1
+                else:
+                    coverage["va_only"] += 1
+            if cov.get("va_only_count"):
+                coverage["va_only"] = max(coverage["va_only"], int(cov.get("va_only_count") or 0))
+
+        n3_complete = (
+            len(pack_ids) == 114
+            and len(s_ids) == 114
+            and not orphans_missing_standby
+            and not orphans_extra_standby
+            and registered == 114
+            and coverage["va_only"] == 0
+            and coverage["total"] > 0
+            and len(dna_files) >= 14
+            and (video / "policies" / "roster-retention.md").is_file()
+            and (video / "router_table.json").is_file()
+        )
+        return {
+            "domain_id": "video",
+            "roster_count": len(pack_ids),
+            "standby_count": len(s_ids),
+            "registered_or_active": registered,
+            "by_category": by_category,
+            "orphans": orphans_missing_standby + orphans_extra_standby,
+            "dna_workflows": [n.replace(".dna.json", "") for n in dna_files],
+            "dna_count": len(dna_files),
+            "process_coverage": coverage,
+            "entry": (standby.get("entry") if isinstance(standby, dict) else None) or "video.orchestrator",
+            "retention_policy": "business/video/policies/roster-retention.md",
+            "n3_complete": n3_complete,
+        }
 
     def auto_propose_from_failures(
         self,
@@ -3973,6 +4373,10 @@ class RuntimeServices:
             organization_id=current_user.organization_id,
             actor_id=current_user.id,
         )
+        if payload.get("domain") or payload.get("domain_id"):
+            proposal["domain"] = payload.get("domain") or payload.get("domain_id")
+        if payload.get("agent_id"):
+            proposal["agent_id"] = payload.get("agent_id")
         path = write_skill_sandbox(self.repo_root, proposal)
         proposal["written_path"] = path
         self.store.state.setdefault("skill_proposals", [])
@@ -3984,7 +4388,7 @@ class RuntimeServices:
             "skill.sandbox_proposed",
             "skill_proposal",
             proposal["id"],
-            {"sandbox_path": path, "skill_name": skill_name},
+            {"sandbox_path": path, "skill_name": skill_name, "domain": proposal.get("domain")},
             "success",
         )
         self.store.save()
@@ -4031,6 +4435,234 @@ class RuntimeServices:
         return deepcopy(
             [p for p in self.store.collection("skill_proposals") if p.get("organization_id") == current_user.organization_id]
         )
+
+    # --- Wave 3: coevolution, lesson utility, governance review ---
+
+    def run_coevolution_experiment(
+        self,
+        current_user: AuthenticatedUser,
+        *,
+        generations: int = 2,
+        domain_id: str = "video",
+        agent_ids: list[str] | None = None,
+        base_workflow_id: str = "wf_video_arch_a_viral_hook_v1",
+    ) -> dict[str, Any]:
+        """Multi-generation sandbox coevolution (planner × aesthetics genomes). Never auto-promotes."""
+        self.assert_permission(current_user, "workflows:create")
+        from app.infrastructure.evolution.coevolution import (
+            build_genome_propose_payload,
+            default_agent_pair,
+            load_pack_workflow_dna,
+            select_elite,
+            summarize_generation,
+        )
+
+        gens = max(2, int(generations or 2))
+        domain = (domain_id or "video").strip() or "video"
+        if agent_ids and len(agent_ids) >= 2:
+            planner_id, aesthetics_id = agent_ids[0], agent_ids[1]
+        else:
+            planner_id, aesthetics_id = default_agent_pair(domain)
+
+        base = next(
+            (w for w in self._scoped_items("workflows", current_user.organization_id) if w["id"] == base_workflow_id),
+            None,
+        )
+        production_version = base.get("version") if base else None
+        dna = deepcopy(base) if base else load_pack_workflow_dna(self.repo_root, domain, base_workflow_id)
+        if not dna:
+            dna = {
+                "id": base_workflow_id,
+                "domain": domain,
+                "production_ready": False,
+                "auto_promote": False,
+                "steps": [],
+                "risk_tier": "tier_3_execute_reversible",
+            }
+        dna = deepcopy(dna)
+        dna["domain"] = dna.get("domain") or domain
+        dna["production_ready"] = False
+        dna["auto_promote"] = False
+
+        # Only pass base_workflow_id into propose when present in production store
+        propose_base_id = base_workflow_id if base else None
+
+        parent_genomes: dict[str, dict[str, Any] | None] = {planner_id: None, aesthetics_id: None}
+        parent_variant_ids: dict[str, str | None] = {planner_id: None, aesthetics_id: None}
+        generation_summaries: list[dict[str, Any]] = []
+        all_variant_ids: list[str] = []
+
+        for g in range(1, gens + 1):
+            gen_variants: list[dict[str, Any]] = []
+            for agent_id, role in ((planner_id, "planner"), (aesthetics_id, "aesthetics")):
+                payload = build_genome_propose_payload(
+                    agent_id=agent_id,
+                    generation=g,
+                    parent_genome=parent_genomes.get(agent_id),
+                    base_workflow_id=propose_base_id,
+                    dna=dna,
+                    role=role,
+                    parent_variant_id=parent_variant_ids.get(agent_id),
+                )
+                variant = self.propose_evolution_variant(current_user, payload)
+                evaluated = self.sandbox_evaluate_variant(current_user, variant["id"])
+                gen_variants.append(evaluated)
+                all_variant_ids.append(evaluated["id"])
+            summary = summarize_generation(g, gen_variants)
+            generation_summaries.append(summary)
+            # Seed next gen from each role's best-of-generation for that agent, else overall elite
+            for v in gen_variants:
+                aid = v.get("agent_id")
+                if aid in parent_genomes:
+                    parent_genomes[aid] = v.get("genome")
+                    parent_variant_ids[aid] = v.get("id")
+            elite = select_elite(gen_variants)
+            if elite and elite.get("agent_id") in parent_genomes:
+                parent_genomes[elite["agent_id"]] = elite.get("genome")
+                parent_variant_ids[elite["agent_id"]] = elite.get("id")
+
+        run_id = f"coevo_{uuid.uuid4().hex[:12]}"
+        run_record = {
+            "id": run_id,
+            "organization_id": current_user.organization_id,
+            "domain_id": domain,
+            "generations_requested": gens,
+            "generations": generation_summaries,
+            "agent_ids": [planner_id, aesthetics_id],
+            "base_workflow_id": base_workflow_id,
+            "variant_ids": all_variant_ids,
+            "sandbox_only": True,
+            "auto_promote": False,
+            "created_at": utc_now(),
+            "created_by": current_user.id,
+        }
+        self.store.state.setdefault("coevolution_runs", [])
+        self.store.collection("coevolution_runs").append(run_record)
+
+        # Invariant: production DNA version unchanged when base was in store
+        if base is not None and production_version is not None:
+            current = next(
+                (w for w in self._scoped_items("workflows", current_user.organization_id) if w["id"] == base_workflow_id),
+                None,
+            )
+            if current and current.get("version") != production_version:
+                raise ValidationError("Invariant violated: production DNA changed during coevolution")
+
+        self._append_audit(
+            current_user.organization_id,
+            current_user.id,
+            "evolution",
+            "evolution.coevolution_completed",
+            "coevolution_run",
+            run_id,
+            {
+                "generations": gens,
+                "domain_id": domain,
+                "variant_count": len(all_variant_ids),
+                "auto_promote": False,
+                "sandbox_only": True,
+            },
+            "success",
+        )
+        self.store.save()
+        return deepcopy(run_record)
+
+    def lesson_utility_dashboard(
+        self,
+        current_user: AuthenticatedUser,
+        *,
+        agent_id: str | None = None,
+        limit: int = 20,
+    ) -> dict[str, Any]:
+        """Ranked lesson utility + aggregate reuse/growth metrics (Wave 3)."""
+        self.assert_permission(current_user, "memory:read")
+        lim = max(1, min(int(limit or 20), 200))
+        lessons = self.list_improvement_lessons(current_user, agent_id=agent_id, limit=lim)
+        metrics = self.improvement_metrics(current_user, agent_id=agent_id)
+        by_agent: dict[str, dict[str, Any]] = {}
+        for lesson in lessons:
+            aid = lesson.get("agent_id") or "_unscoped"
+            bucket = by_agent.setdefault(aid, {"count": 0, "utility_sum": 0.0, "uses": 0})
+            bucket["count"] += 1
+            bucket["utility_sum"] += float(lesson.get("utility") or 0.0)
+            bucket["uses"] += int(lesson.get("uses") or 0)
+        by_agent_out = {
+            k: {
+                "count": v["count"],
+                "avg_utility": round(v["utility_sum"] / max(v["count"], 1), 4),
+                "uses": v["uses"],
+            }
+            for k, v in by_agent.items()
+        }
+        return {
+            "lessons": lessons,
+            "aggregates": {
+                "total_lessons": metrics.get("knowledge_growth_count", len(lessons)),
+                "knowledge_growth_count": metrics.get("knowledge_growth_count", len(lessons)),
+                "lesson_reuse_rate": metrics.get("lesson_reuse_rate", 0.0),
+                "lesson_win_rate": metrics.get("lesson_win_rate", 0.0),
+                "by_agent": by_agent_out,
+            },
+            "limit": lim,
+            "agent_id": agent_id,
+        }
+
+    def governance_review_learned_artifacts(self, current_user: AuthenticatedUser) -> dict[str, Any]:
+        """List pending sandbox variants and skill proposals for human sign-off (no promote)."""
+        self.assert_permission(current_user, "workflows:read")
+        pending_statuses = {"sandbox_proposed", "sandbox_evaluated", "approved_for_canary"}
+        variants = self._scoped_items("evolution_variants", current_user.organization_id)
+        pending_variants = []
+        for v in variants:
+            if v.get("status") not in pending_statuses:
+                continue
+            if v.get("sandbox_only") is False and v.get("status") == "promoted":
+                continue
+            pending_variants.append(
+                {
+                    "id": v.get("id"),
+                    "name": v.get("name"),
+                    "status": v.get("status"),
+                    "sandbox_only": v.get("sandbox_only", True),
+                    "variant_type": v.get("variant_type"),
+                    "agent_id": v.get("agent_id"),
+                    "fitness_metrics": v.get("fitness_metrics")
+                    or (v.get("evaluation") or {}).get("fitness_metrics")
+                    or {},
+                    "promotion_decision": v.get("promotion_decision"),
+                    "created_at": v.get("created_at"),
+                }
+            )
+        self.store.state.setdefault("skill_proposals", [])
+        skills = [
+            p
+            for p in self.store.collection("skill_proposals")
+            if p.get("organization_id") == current_user.organization_id
+            and p.get("status") in {None, "sandbox_proposed", "proposed"}
+            and p.get("sandbox_only", True)
+        ]
+        pending_skills = [
+            {
+                "id": s.get("id"),
+                "skill_name": s.get("skill_name"),
+                "status": s.get("status"),
+                "sandbox_only": s.get("sandbox_only", True),
+                "sandbox_path": s.get("sandbox_path") or s.get("written_path"),
+                "domain": s.get("domain"),
+                "created_at": s.get("created_at"),
+            }
+            for s in skills
+        ]
+        return {
+            "pending_variants": pending_variants,
+            "pending_skills": pending_skills,
+            "policy": "human_signoff_required",
+            "auto_promote": False,
+            "counts": {
+                "variants": len(pending_variants),
+                "skills": len(pending_skills),
+            },
+        }
 
 
 runtime = RuntimeServices()

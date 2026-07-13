@@ -17,6 +17,10 @@ This document is the **architecture vision and source of truth**. Executable dec
 (requirements / design / tasks), product-bar evidence, and as-built notes live in §12 and the
 linked planning files — they refine this document; they do not replace it.
 
+### Domain Pack extension layer (Wave 0+)
+
+Multi-domain MMA packs live under `business/<domain_id>/` (first rich pack: `business/video/`, 114 agents, N3 retention). Shared contracts: `business/schemas/domain-manifest.schema.json`, `agent-spec.schema.json`, `learning-log.schema.json`. See `docs/domain-packs.md`, `adoption.md` v2.3 (N1/N2/N3), `improvements.md` Waves 0–5. Inventory gate: `python scripts/business/inventory_check.py`.
+
 ---
 
 ## 1. Core Principles

@@ -1,0 +1,42 @@
+{
+  "id": "video.trailereditor",
+  "va_id": 51,
+  "name": "TrailerEditorAgent",
+  "domain_id": "video",
+  "role": "TrailerEditorAgent",
+  "category": "8-AI",
+  "status": "registered",
+  "requires_alc": true,
+  "allowed_memory_scopes": [
+    "agent",
+    "organization"
+  ],
+  "alc_version": "1.0",
+  "hooks": {
+    "reflect": true
+  },
+  "tools": [
+    "audit_log_writer",
+    "video_package_stub"
+  ],
+  "risk_tier": "tier_2_draft",
+  "critique_rubric_ref": null,
+  "provenance": {
+    "source_refs": [
+      "business/video/agents/video.trailereditor/SPEC.md",
+      "business/video/agents/video.trailereditor/sources/",
+      "business/video/corpus/study/agents.md"
+    ],
+    "captured_by": "wave-0-catalog",
+    "framework": "domain_pack_l0",
+    "wave5_prepared": "2026-07-12",
+    "spec_depth": "self_contained_folder_v3",
+    "upstream_name": "va-agent-swarm"
+  },
+  "allowed_tools": [
+    "audit_log_writer",
+    "video_package_stub"
+  ],
+  "n3_maturity": "L1_indexed",
+  "activation_category": "8-AI"
+}

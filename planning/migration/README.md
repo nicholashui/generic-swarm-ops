@@ -1,0 +1,125 @@
+# Migration agent prompts index
+
+Generated from `agent_implement_order_list.md` using sample `video.orchestrator.md`.
+Each file is a full execution prompt with **role-specific capabilities research** topics.
+
+**Execution checklist (implement → review → score 100):** [`tasks.md`](./tasks.md) — **114/114** agents; no agent is done until score **100**.
+
+| order seq | agent id | prompt file |
+|----------:|----------|-------------|
+| 1 | `video.orchestrator` | [`video.orchestrator.md`](./video.orchestrator.md) |
+| 2 | `video.planner` | [`video.planner.md`](./video.planner.md) |
+| 3 | `video.router` | [`video.router.md`](./video.router.md) |
+| 4 | `video.judge` | [`video.judge.md`](./video.judge.md) |
+| 5 | `video.gatekeeper` | [`video.gatekeeper.md`](./video.gatekeeper.md) |
+| 6 | `video.producer` | [`video.producer.md`](./video.producer.md) |
+| 7 | `video.director` | [`video.director.md`](./video.director.md) |
+| 8 | `video.screenwriter` | [`video.screenwriter.md`](./video.screenwriter.md) |
+| 9 | `video.webresearch` | [`video.webresearch.md`](./video.webresearch.md) |
+| 10 | `video.aiqaconsistency` | [`video.aiqaconsistency.md`](./video.aiqaconsistency.md) |
+| 11 | `video.memory` | [`video.memory.md`](./video.memory.md) |
+| 12 | `video.showrunner` | [`video.showrunner.md`](./video.showrunner.md) |
+| 13 | `video.casting` | [`video.casting.md`](./video.casting.md) |
+| 14 | `video.cinematographer` | [`video.cinematographer.md`](./video.cinematographer.md) |
+| 15 | `video.cameraoperator` | [`video.cameraoperator.md`](./video.cameraoperator.md) |
+| 16 | `video.dronepilot` | [`video.dronepilot.md`](./video.dronepilot.md) |
+| 17 | `video.editor` | [`video.editor.md`](./video.editor.md) |
+| 18 | `video.colorist` | [`video.colorist.md`](./video.colorist.md) |
+| 19 | `video.vfxsupervisor` | [`video.vfxsupervisor.md`](./video.vfxsupervisor.md) |
+| 20 | `video.animator_2d` | [`video.animator_2d.md`](./video.animator_2d.md) |
+| 21 | `video.motiongraphics` | [`video.motiongraphics.md`](./video.motiongraphics.md) |
+| 22 | `video.storyboard` | [`video.storyboard.md`](./video.storyboard.md) |
+| 23 | `video.conceptartist` | [`video.conceptartist.md`](./video.conceptartist.md) |
+| 24 | `video.productiondesign` | [`video.productiondesign.md`](./video.productiondesign.md) |
+| 25 | `video.costumedesign` | [`video.costumedesign.md`](./video.costumedesign.md) |
+| 26 | `video.mua_makeup` | [`video.mua_makeup.md`](./video.mua_makeup.md) |
+| 27 | `video.sounddesign` | [`video.sounddesign.md`](./video.sounddesign.md) |
+| 28 | `video.composer` | [`video.composer.md`](./video.composer.md) |
+| 29 | `video.voiceover` | [`video.voiceover.md`](./video.voiceover.md) |
+| 30 | `video.soundmixer` | [`video.soundmixer.md`](./video.soundmixer.md) |
+| 31 | `video.choreography` | [`video.choreography.md`](./video.choreography.md) |
+| 32 | `video.musicvideodirector` | [`video.musicvideodirector.md`](./video.musicvideodirector.md) |
+| 33 | `video.comedywriter` | [`video.comedywriter.md`](./video.comedywriter.md) |
+| 34 | `video.talent` | [`video.talent.md`](./video.talent.md) |
+| 35 | `video.ugccreator` | [`video.ugccreator.md`](./video.ugccreator.md) |
+| 36 | `video.socialmediastrategist` | [`video.socialmediastrategist.md`](./video.socialmediastrategist.md) |
+| 37 | `video.copywriter` | [`video.copywriter.md`](./video.copywriter.md) |
+| 38 | `video.creativedirector` | [`video.creativedirector.md`](./video.creativedirector.md) |
+| 39 | `video.performancemarketer` | [`video.performancemarketer.md`](./video.performancemarketer.md) |
+| 40 | `video.instructionaldesign` | [`video.instructionaldesign.md`](./video.instructionaldesign.md) |
+| 41 | `video.sme` | [`video.sme.md`](./video.sme.md) |
+| 42 | `video.factchecker` | [`video.factchecker.md`](./video.factchecker.md) |
+| 43 | `video.medicalillustrator` | [`video.medicalillustrator.md`](./video.medicalillustrator.md) |
+| 44 | `video.journalist` | [`video.journalist.md`](./video.journalist.md) |
+| 45 | `video.compliance` | [`video.compliance.md`](./video.compliance.md) |
+| 46 | `video.finance` | [`video.finance.md`](./video.finance.md) |
+| 47 | `video.foodstylist` | [`video.foodstylist.md`](./video.foodstylist.md) |
+| 48 | `video.travelcine` | [`video.travelcine.md`](./video.travelcine.md) |
+| 49 | `video.childrensauthor` | [`video.childrensauthor.md`](./video.childrensauthor.md) |
+| 50 | `video.audiobooknarrator` | [`video.audiobooknarrator.md`](./video.audiobooknarrator.md) |
+| 51 | `video.signlanguageinterpreter` | [`video.signlanguageinterpreter.md`](./video.signlanguageinterpreter.md) |
+| 52 | `video.localizationqa` | [`video.localizationqa.md`](./video.localizationqa.md) |
+| 53 | `video.realestatephoto` | [`video.realestatephoto.md`](./video.realestatephoto.md) |
+| 54 | `video.promptengineer` | [`video.promptengineer.md`](./video.promptengineer.md) |
+| 55 | `video.avatardesign` | [`video.avatardesign.md`](./video.avatardesign.md) |
+| 56 | `video.voiceclone` | [`video.voiceclone.md`](./video.voiceclone.md) |
+| 57 | `video.personalizationengineer` | [`video.personalizationengineer.md`](./video.personalizationengineer.md) |
+| 58 | `video.trailereditor` | [`video.trailereditor.md`](./video.trailereditor.md) |
+| 59 | `video.sportsanalyst` | [`video.sportsanalyst.md`](./video.sportsanalyst.md) |
+| 60 | `video.ideation` | [`video.ideation.md`](./video.ideation.md) |
+| 61 | `video.narrativearc` | [`video.narrativearc.md`](./video.narrativearc.md) |
+| 62 | `video.styletransfer` | [`video.styletransfer.md`](./video.styletransfer.md) |
+| 63 | `video.worldbuilding` | [`video.worldbuilding.md`](./video.worldbuilding.md) |
+| 64 | `video.moodboard` | [`video.moodboard.md`](./video.moodboard.md) |
+| 65 | `video.novelty` | [`video.novelty.md`](./video.novelty.md) |
+| 66 | `video.emotionalarc` | [`video.emotionalarc.md`](./video.emotionalarc.md) |
+| 67 | `video.archiveresearch` | [`video.archiveresearch.md`](./video.archiveresearch.md) |
+| 68 | `video.trendintelligence` | [`video.trendintelligence.md`](./video.trendintelligence.md) |
+| 69 | `video.competitorintelligence` | [`video.competitorintelligence.md`](./video.competitorintelligence.md) |
+| 70 | `video.citation` | [`video.citation.md`](./video.citation.md) |
+| 71 | `video.interviewsynthesis` | [`video.interviewsynthesis.md`](./video.interviewsynthesis.md) |
+| 72 | `video.benchmarkresearch` | [`video.benchmarkresearch.md`](./video.benchmarkresearch.md) |
+| 73 | `video.promptoptimizer` | [`video.promptoptimizer.md`](./video.promptoptimizer.md) |
+| 74 | `video.costoptimizer` | [`video.costoptimizer.md`](./video.costoptimizer.md) |
+| 75 | `video.latencyoptimizer` | [`video.latencyoptimizer.md`](./video.latencyoptimizer.md) |
+| 76 | `video.retentionoptimizer` | [`video.retentionoptimizer.md`](./video.retentionoptimizer.md) |
+| 77 | `video.roasoptimizer` | [`video.roasoptimizer.md`](./video.roasoptimizer.md) |
+| 78 | `video.accessibilityoptimizer` | [`video.accessibilityoptimizer.md`](./video.accessibilityoptimizer.md) |
+| 79 | `video.evaluationharness` | [`video.evaluationharness.md`](./video.evaluationharness.md) |
+| 80 | `video.safetyredteam` | [`video.safetyredteam.md`](./video.safetyredteam.md) |
+| 81 | `video.analyst` | [`video.analyst.md`](./video.analyst.md) |
+| 82 | `video.audiencesim` | [`video.audiencesim.md`](./video.audiencesim.md) |
+| 83 | `video.accessibility` | [`video.accessibility.md`](./video.accessibility.md) |
+| 84 | `video.brand` | [`video.brand.md`](./video.brand.md) |
+| 85 | `video.brandstrategist` | [`video.brandstrategist.md`](./video.brandstrategist.md) |
+| 86 | `video.marketing` | [`video.marketing.md`](./video.marketing.md) |
+| 87 | `video.seo` | [`video.seo.md`](./video.seo.md) |
+| 88 | `video.community` | [`video.community.md`](./video.community.md) |
+| 89 | `video.templatedesign` | [`video.templatedesign.md`](./video.templatedesign.md) |
+| 90 | `video.ux` | [`video.ux.md`](./video.ux.md) |
+| 91 | `video.trustsafety` | [`video.trustsafety.md`](./video.trustsafety.md) |
+| 92 | `video.crm` | [`video.crm.md`](./video.crm.md) |
+| 93 | `video.legal` | [`video.legal.md`](./video.legal.md) |
+| 94 | `video.festivalstrategist` | [`video.festivalstrategist.md`](./video.festivalstrategist.md) |
+| 95 | `video.critic` | [`video.critic.md`](./video.critic.md) |
+| 96 | `video.lms` | [`video.lms.md`](./video.lms.md) |
+| 97 | `video.learnersim` | [`video.learnersim.md`](./video.learnersim.md) |
+| 98 | `video.continuity` | [`video.continuity.md`](./video.continuity.md) |
+| 99 | `video.lipsync` | [`video.lipsync.md`](./video.lipsync.md) |
+| 100 | `video.musicsupervisor` | [`video.musicsupervisor.md`](./video.musicsupervisor.md) |
+| 101 | `video.labela_r` | [`video.labela_r.md`](./video.labela_r.md) |
+| 102 | `video.labeldigital` | [`video.labeldigital.md`](./video.labeldigital.md) |
+| 103 | `video.deepfakedetection` | [`video.deepfakedetection.md`](./video.deepfakedetection.md) |
+| 104 | `video.comms` | [`video.comms.md`](./video.comms.md) |
+| 105 | `video.archiveproducer` | [`video.archiveproducer.md`](./video.archiveproducer.md) |
+| 106 | `video.standardseditor` | [`video.standardseditor.md`](./video.standardseditor.md) |
+| 107 | `video.ethics` | [`video.ethics.md`](./video.ethics.md) |
+| 108 | `video.channelmanager` | [`video.channelmanager.md`](./video.channelmanager.md) |
+| 109 | `video.corrections` | [`video.corrections.md`](./video.corrections.md) |
+| 110 | `video.mpa` | [`video.mpa.md`](./video.mpa.md) |
+| 111 | `video.sales` | [`video.sales.md`](./video.sales.md) |
+| 112 | `video.distributor` | [`video.distributor.md`](./video.distributor.md) |
+| 113 | `video.awardsstrategist` | [`video.awardsstrategist.md`](./video.awardsstrategist.md) |
+| 114 | `video.archivemaster` | [`video.archivemaster.md`](./video.archivemaster.md) |
+
+**Total prompts:** 114

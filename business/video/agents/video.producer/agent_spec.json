@@ -1,0 +1,42 @@
+{
+  "id": "video.producer",
+  "va_id": 2,
+  "name": "ProducerAgent / EP",
+  "domain_id": "video",
+  "role": "ProducerAgent / EP",
+  "category": "1-ATL",
+  "status": "registered",
+  "requires_alc": true,
+  "allowed_memory_scopes": [
+    "agent",
+    "organization"
+  ],
+  "alc_version": "1.0",
+  "hooks": {
+    "reflect": true
+  },
+  "tools": [
+    "audit_log_writer",
+    "video_package_stub"
+  ],
+  "risk_tier": "tier_2_draft",
+  "critique_rubric_ref": null,
+  "provenance": {
+    "source_refs": [
+      "business/video/agents/video.producer/SPEC.md",
+      "business/video/agents/video.producer/sources/",
+      "business/video/corpus/study/agents.md"
+    ],
+    "captured_by": "wave-0-catalog",
+    "framework": "domain_pack_l0",
+    "wave5_prepared": "2026-07-12",
+    "spec_depth": "self_contained_folder_v3",
+    "upstream_name": "va-agent-swarm"
+  },
+  "allowed_tools": [
+    "audit_log_writer",
+    "video_package_stub"
+  ],
+  "n3_maturity": "L2_runtime",
+  "activation_category": "1-ATL"
+}

@@ -11,6 +11,8 @@ import { OrganizationSettingsForm } from "@/components/domain/organization-setti
 import { RunWorkflowButton } from "@/components/domain/run-workflow-button";
 import { UserAdminPanel } from "@/components/domain/user-admin-panel";
 import { WorkflowRunConsole } from "@/components/domain/workflow-run-console";
+import { DomainPackPanel } from "@/components/domain/domain-pack-panel";
+import { VideoN3RosterPanel } from "@/components/domain/video-n3-roster-panel";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
@@ -338,55 +340,69 @@ export default async function AppCatchAllPage({
 
   const [section, child, grandchild] = slug;
 
+  if (section === "domains") {
+    return (
+      <div className="space-y-6">
+        <DomainPackPanel agents={agents as never[]} />
+        <Card className="p-6">
+          <VideoN3RosterPanel />
+        </Card>
+      </div>
+    );
+  }
+
   if (section === "agents") {
     if (!child) {
       return (
-        <ListRoutePage
-          eyebrow="Agents"
-          title="Organization agent catalog"
-          description="Inspect AI workers, capability coverage, knowledge access, and operational ownership before you expose them to live business workflows."
-          rows={agents}
-          columns={[
-            {
-              key: "name",
-              label: "Agent",
-              render: (row) => (
-                <div>
-                  <p className="font-medium text-white">{row.name}</p>
-                  <p className="mt-1 text-xs text-muted">{row.description}</p>
-                </div>
-              ),
-            },
-            { key: "owner", label: "Owner" },
-            { key: "toolCount", label: "Tools" },
-            { key: "knowledgeAccess", label: "Knowledge" },
-            {
-              key: "status",
-              label: "Status",
-              render: (row) => <StatusBadge status={row.status} />,
-            },
-            {
-              key: "updatedAt",
-              label: "Updated",
-              render: (row) => formatDateTime(row.updatedAt),
-            },
-          ]}
-          metrics={[
-            { label: "Total agents", value: String(agents.length), delta: "Scoped to the current organization" },
-            { label: "Active", value: String(agents.filter((item) => item.status === "active").length), delta: "Ready for governed workflows" },
-            { label: "Draft", value: String(agents.filter((item) => item.status === "draft").length), delta: "Still waiting for release review" },
-            { label: "Knowledge-linked", value: String(agents.filter((item) => item.knowledgeAccess !== "None").length), delta: "Attached to curated sources" },
-          ]}
-          actions={
-            <Button asChild href="/app/agents/new">
-              <Plus className="size-4" />
-              Create agent
-            </Button>
-          }
-          searchPlaceholder="Search agents by owner, status, tool scope, or knowledge access"
-          emptyTitle="No agents yet"
-          emptyDescription="Create your first agent to begin governed business automation."
-        />
+        <div className="space-y-6">
+          <DomainPackPanel agents={agents as never[]} />
+          <ListRoutePage
+            eyebrow="Agents"
+            title="Organization agent catalog"
+            description="Inspect AI workers, capability coverage, knowledge access, and operational ownership before you expose them to live business workflows."
+            rows={agents}
+            columns={[
+              {
+                key: "name",
+                label: "Agent",
+                render: (row) => (
+                  <div>
+                    <p className="font-medium text-white">{row.name}</p>
+                    <p className="mt-1 text-xs text-muted">{row.description}</p>
+                  </div>
+                ),
+              },
+              { key: "owner", label: "Owner" },
+              { key: "toolCount", label: "Tools" },
+              { key: "knowledgeAccess", label: "Knowledge" },
+              {
+                key: "status",
+                label: "Status",
+                render: (row) => <StatusBadge status={row.status} />,
+              },
+              {
+                key: "updatedAt",
+                label: "Updated",
+                render: (row) => formatDateTime(row.updatedAt),
+              },
+            ]}
+            metrics={[
+              { label: "Total agents", value: String(agents.length), delta: "Scoped to the current organization" },
+              { label: "Active", value: String(agents.filter((item) => item.status === "active").length), delta: "Ready for governed workflows" },
+              { label: "Draft", value: String(agents.filter((item) => item.status === "draft").length), delta: "Still waiting for release review" },
+              { label: "Knowledge-linked", value: String(agents.filter((item) => item.knowledgeAccess !== "None").length), delta: "Attached to curated sources" },
+            ]}
+            actions={
+              <Button asChild href="/app/agents/new">
+                <Plus className="size-4" />
+                Create agent
+              </Button>
+            }
+            searchPlaceholder="Search agents by owner, status, tool scope, or knowledge access"
+            emptyTitle="No agents yet"
+            emptyDescription="Create your first agent to begin governed business automation."
+          />
+        </div>
       );
     }
 
@@ -725,10 +741,13 @@ export default async function AppCatchAllPage({
       <Section
         eyebrow="Evolution"
         title="Population archive"
-        description="DGM-lite archive of sandbox variants ranked by fitness. Evaluate and canary without silent production mutation."
+        description="DGM-lite archive of sandbox variants ranked by fitness. Evaluate and canary without silent production mutation. Lesson utility feeds coevolution ALC fitness."
       >
         <Card className="p-6">
           <EvolutionArchivePanel />
+        </Card>
+        <Card className="mt-4 p-6">
+          <LessonUtilityPanel />
         </Card>
       </Section>
     );

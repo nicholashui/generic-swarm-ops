@@ -1,0 +1,14 @@
+{
+  "id": "golden_example_education_brief_v1",
+  "workflow_id": "wf_example_education_v1",
+  "domain": "example_education",
+  "description": "Wave 4 N2 third-pack golden — plan then review",
+  "input": { "topic": "intro to multi-agent packs" },
+  "expected": {
+    "status_in": ["completed", "waiting_for_approval", "failed"],
+    "min_steps": 2
+  },
+  "provenance": {
+    "source_refs": ["improvements.md#wave-4"]
+  }
+}

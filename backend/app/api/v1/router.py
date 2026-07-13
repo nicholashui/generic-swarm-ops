@@ -5,6 +5,7 @@ from app.api.v1.routes import (
     agents,
     audit_logs,
     auth,
+    domains,
     evaluations,
     evolution,
     governance,
@@ -28,6 +29,7 @@ api_router.include_router(auth.router, prefix="/auth", tags=["auth"])
 api_router.include_router(users.router, prefix="/users", tags=["users"])
 api_router.include_router(organizations.router, prefix="/organizations", tags=["organizations"])
 api_router.include_router(agents.router, prefix="/agents", tags=["agents"])
+api_router.include_router(domains.router, prefix="/domains", tags=["domains"])
 api_router.include_router(tools.router, prefix="/tools", tags=["tools"])
 api_router.include_router(workflows.router, prefix="/workflows", tags=["workflows"])
 api_router.include_router(workflow_runs.router, prefix="/workflow-runs", tags=["workflow-runs"])

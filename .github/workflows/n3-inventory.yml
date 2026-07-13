@@ -1,0 +1,19 @@
+name: N3 Video Inventory
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  inventory:
+    name: Video pack inventory (114 + N3 gates)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run inventory_check
+        run: python scripts/business/inventory_check.py

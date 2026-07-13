@@ -33,6 +33,41 @@
       "scope": "templated_onboarding_messages",
       "expires_after_minutes": 10,
       "requires_human_gate_for": []
+    },
+    {
+      "tool": "audit_log_writer",
+      "allowed_actions": ["write_audit"],
+      "scope": "platform_audit",
+      "expires_after_minutes": 60,
+      "requires_human_gate_for": []
+    },
+    {
+      "tool": "video_media_gen_stub",
+      "allowed_actions": ["generate_media_stub"],
+      "scope": "video_pack_ci_stub",
+      "expires_after_minutes": 30,
+      "requires_human_gate_for": []
+    },
+    {
+      "tool": "video_script_format",
+      "allowed_actions": ["format_script"],
+      "scope": "video_pack_ci_stub",
+      "expires_after_minutes": 30,
+      "requires_human_gate_for": []
+    },
+    {
+      "tool": "video_qc_stub",
+      "allowed_actions": ["qc_pass"],
+      "scope": "video_pack_ci_stub",
+      "expires_after_minutes": 30,
+      "requires_human_gate_for": []
+    },
+    {
+      "tool": "video_package_stub",
+      "allowed_actions": ["package_deliverable"],
+      "scope": "video_pack_publish_stub",
+      "expires_after_minutes": 15,
+      "requires_human_gate_for": ["package_deliverable"]
     }
   ]
 }

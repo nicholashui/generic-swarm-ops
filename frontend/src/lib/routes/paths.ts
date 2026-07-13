@@ -1,6 +1,7 @@
 export const appPaths = {
   dashboard: "/app",
   agents: "/app/agents",
+  domains: "/app/domains",
   tools: "/app/tools",
   workflows: "/app/workflows",
   approvals: "/app/approvals",

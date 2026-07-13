@@ -1,0 +1,800 @@
+[
+  {
+    "id": 1,
+    "name": "DirectorAgent",
+    "category": "1-ATL",
+    "pack_id": "video.director",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 2,
+    "name": "ProducerAgent / EP",
+    "category": "1-ATL",
+    "pack_id": "video.producer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 3,
+    "name": "ScreenwriterAgent",
+    "category": "1-ATL",
+    "pack_id": "video.screenwriter",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 4,
+    "name": "ShowrunnerAgent",
+    "category": "1-ATL",
+    "pack_id": "video.showrunner",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 5,
+    "name": "CastingAgent",
+    "category": "1-ATL",
+    "pack_id": "video.casting",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 6,
+    "name": "CinematographerAgent (DoP)",
+    "category": "2-Cam",
+    "pack_id": "video.cinematographer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 7,
+    "name": "CameraOperatorAgent",
+    "category": "2-Cam",
+    "pack_id": "video.cameraoperator",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 8,
+    "name": "DronePilotAgent",
+    "category": "2-Cam",
+    "pack_id": "video.dronepilot",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 9,
+    "name": "EditorAgent",
+    "category": "3-Edit",
+    "pack_id": "video.editor",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 10,
+    "name": "ColoristAgent",
+    "category": "3-Edit",
+    "pack_id": "video.colorist",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 11,
+    "name": "VFXSupervisorAgent",
+    "category": "3-Edit",
+    "pack_id": "video.vfxsupervisor",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 12,
+    "name": "AnimatorAgent (2D/3D)",
+    "category": "3-Edit",
+    "pack_id": "video.animator_2d",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 13,
+    "name": "MotionGraphicsAgent",
+    "category": "3-Edit",
+    "pack_id": "video.motiongraphics",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 14,
+    "name": "StoryboardAgent",
+    "category": "3-Edit",
+    "pack_id": "video.storyboard",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 15,
+    "name": "ConceptArtistAgent",
+    "category": "3-Edit",
+    "pack_id": "video.conceptartist",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 16,
+    "name": "ProductionDesignAgent",
+    "category": "3-Edit",
+    "pack_id": "video.productiondesign",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 17,
+    "name": "CostumeDesignAgent",
+    "category": "3-Edit",
+    "pack_id": "video.costumedesign",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 18,
+    "name": "MUAAgent (Makeup/Hair/SFX)",
+    "category": "3-Edit",
+    "pack_id": "video.mua_makeup",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 19,
+    "name": "SoundDesignAgent",
+    "category": "4-Snd",
+    "pack_id": "video.sounddesign",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 20,
+    "name": "ComposerAgent",
+    "category": "4-Snd",
+    "pack_id": "video.composer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 21,
+    "name": "VoiceOverAgent",
+    "category": "4-Snd",
+    "pack_id": "video.voiceover",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 22,
+    "name": "SoundMixerAgent (Re-recording)",
+    "category": "4-Snd",
+    "pack_id": "video.soundmixer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 23,
+    "name": "ChoreographyAgent",
+    "category": "5-Perf",
+    "pack_id": "video.choreography",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 24,
+    "name": "MusicVideoDirectorAgent",
+    "category": "5-Perf",
+    "pack_id": "video.musicvideodirector",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 25,
+    "name": "ComedyWriterAgent",
+    "category": "5-Perf",
+    "pack_id": "video.comedywriter",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 26,
+    "name": "TalentAgent (On-camera)",
+    "category": "5-Perf",
+    "pack_id": "video.talent",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 27,
+    "name": "UGCCreatorAgent",
+    "category": "5-Perf",
+    "pack_id": "video.ugccreator",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 28,
+    "name": "SocialMediaStrategistAgent",
+    "category": "6-Dist",
+    "pack_id": "video.socialmediastrategist",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 29,
+    "name": "CopywriterAgent",
+    "category": "6-Dist",
+    "pack_id": "video.copywriter",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 30,
+    "name": "CreativeDirectorAgent",
+    "category": "6-Dist",
+    "pack_id": "video.creativedirector",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 31,
+    "name": "PerformanceMarketerAgent",
+    "category": "6-Dist",
+    "pack_id": "video.performancemarketer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 32,
+    "name": "InstructionalDesignAgent",
+    "category": "7-Edu",
+    "pack_id": "video.instructionaldesign",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 33,
+    "name": "SMEAgent (Subject-Matter Expert)",
+    "category": "7-Edu",
+    "pack_id": "video.sme",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 34,
+    "name": "FactCheckerAgent",
+    "category": "7-Edu",
+    "pack_id": "video.factchecker",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 35,
+    "name": "MedicalIllustratorAgent",
+    "category": "7-Edu",
+    "pack_id": "video.medicalillustrator",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 36,
+    "name": "JournalistAgent",
+    "category": "7-Edu",
+    "pack_id": "video.journalist",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 37,
+    "name": "ComplianceAgent (Legal)",
+    "category": "7-Edu",
+    "pack_id": "video.compliance",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 38,
+    "name": "FinanceAgent",
+    "category": "7-Edu",
+    "pack_id": "video.finance",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 39,
+    "name": "FoodStylistAgent",
+    "category": "7-Edu",
+    "pack_id": "video.foodstylist",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 40,
+    "name": "TravelCineAgent",
+    "category": "7-Edu",
+    "pack_id": "video.travelcine",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 41,
+    "name": "ChildrensAuthorAgent",
+    "category": "7-Edu",
+    "pack_id": "video.childrensauthor",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 42,
+    "name": "AudiobookNarratorAgent",
+    "category": "7-Edu",
+    "pack_id": "video.audiobooknarrator",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 43,
+    "name": "SignLanguageInterpreterAgent",
+    "category": "7-Edu",
+    "pack_id": "video.signlanguageinterpreter",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 44,
+    "name": "LocalizationQAAgent (Linguist)",
+    "category": "7-Edu",
+    "pack_id": "video.localizationqa",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 45,
+    "name": "RealEstatePhotoAgent / 3D Scan",
+    "category": "7-Edu",
+    "pack_id": "video.realestatephoto",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 46,
+    "name": "PromptEngineerAgent / GeneratorOperator",
+    "category": "8-AI",
+    "pack_id": "video.promptengineer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 47,
+    "name": "AvatarDesignAgent",
+    "category": "8-AI",
+    "pack_id": "video.avatardesign",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 48,
+    "name": "VoiceCloneAgent / LipSyncSpecialist",
+    "category": "8-AI",
+    "pack_id": "video.voiceclone",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 49,
+    "name": "AIQAConsistencyAgent",
+    "category": "8-AI",
+    "pack_id": "video.aiqaconsistency",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 50,
+    "name": "PersonalizationEngineerAgent",
+    "category": "8-AI",
+    "pack_id": "video.personalizationengineer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 51,
+    "name": "TrailerEditorAgent",
+    "category": "8-AI",
+    "pack_id": "video.trailereditor",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 52,
+    "name": "SportsAnalystAgent / TelestratorOp",
+    "category": "8-AI",
+    "pack_id": "video.sportsanalyst",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 53,
+    "name": "OrchestratorAgent",
+    "category": "9-Meta",
+    "pack_id": "video.orchestrator",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 54,
+    "name": "PlannerAgent",
+    "category": "9-Meta",
+    "pack_id": "video.planner",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 55,
+    "name": "RouterAgent",
+    "category": "9-Meta",
+    "pack_id": "video.router",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 56,
+    "name": "JudgeAgent",
+    "category": "9-Meta",
+    "pack_id": "video.judge",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 57,
+    "name": "GateKeeperAgent",
+    "category": "9-Meta",
+    "pack_id": "video.gatekeeper",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 58,
+    "name": "MemoryAgent",
+    "category": "9-Meta",
+    "pack_id": "video.memory",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 59,
+    "name": "IdeationAgent",
+    "category": "9-Meta",
+    "pack_id": "video.ideation",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 60,
+    "name": "NarrativeArcAgent",
+    "category": "9-Meta",
+    "pack_id": "video.narrativearc",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 61,
+    "name": "StyleTransferAgent",
+    "category": "9-Meta",
+    "pack_id": "video.styletransfer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 62,
+    "name": "WorldBuildingAgent",
+    "category": "9-Meta",
+    "pack_id": "video.worldbuilding",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 63,
+    "name": "MoodBoardAgent",
+    "category": "9-Meta",
+    "pack_id": "video.moodboard",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 64,
+    "name": "NoveltyAgent / Anti-Clich\u00e9 Critic",
+    "category": "9-Meta",
+    "pack_id": "video.novelty",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 65,
+    "name": "EmotionalArcAgent",
+    "category": "9-Meta",
+    "pack_id": "video.emotionalarc",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 66,
+    "name": "WebResearchAgent",
+    "category": "9-Meta",
+    "pack_id": "video.webresearch",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 67,
+    "name": "ArchiveResearchAgent",
+    "category": "9-Meta",
+    "pack_id": "video.archiveresearch",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 68,
+    "name": "TrendIntelligenceAgent",
+    "category": "9-Meta",
+    "pack_id": "video.trendintelligence",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 69,
+    "name": "CompetitorIntelligenceAgent",
+    "category": "9-Meta",
+    "pack_id": "video.competitorintelligence",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 70,
+    "name": "CitationAgent",
+    "category": "9-Meta",
+    "pack_id": "video.citation",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 71,
+    "name": "InterviewSynthesisAgent",
+    "category": "9-Meta",
+    "pack_id": "video.interviewsynthesis",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 72,
+    "name": "BenchmarkResearchAgent",
+    "category": "9-Meta",
+    "pack_id": "video.benchmarkresearch",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 73,
+    "name": "PromptOptimizerAgent",
+    "category": "9-Meta",
+    "pack_id": "video.promptoptimizer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 74,
+    "name": "CostOptimizerAgent",
+    "category": "9-Meta",
+    "pack_id": "video.costoptimizer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 75,
+    "name": "LatencyOptimizerAgent",
+    "category": "9-Meta",
+    "pack_id": "video.latencyoptimizer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 76,
+    "name": "RetentionOptimizerAgent",
+    "category": "9-Meta",
+    "pack_id": "video.retentionoptimizer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 77,
+    "name": "ROASOptimizerAgent",
+    "category": "9-Meta",
+    "pack_id": "video.roasoptimizer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 78,
+    "name": "AccessibilityOptimizerAgent",
+    "category": "9-Meta",
+    "pack_id": "video.accessibilityoptimizer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 79,
+    "name": "EvaluationHarnessAgent",
+    "category": "9-Meta",
+    "pack_id": "video.evaluationharness",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 80,
+    "name": "SafetyRedTeamAgent",
+    "category": "9-Meta",
+    "pack_id": "video.safetyredteam",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 81,
+    "name": "AnalystAgent",
+    "category": "10-Sup",
+    "pack_id": "video.analyst",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 82,
+    "name": "AudienceSimAgent",
+    "category": "10-Sup",
+    "pack_id": "video.audiencesim",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 83,
+    "name": "AccessibilityAgent",
+    "category": "10-Sup",
+    "pack_id": "video.accessibility",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 84,
+    "name": "BrandAgent",
+    "category": "10-Sup",
+    "pack_id": "video.brand",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 85,
+    "name": "BrandStrategistAgent",
+    "category": "10-Sup",
+    "pack_id": "video.brandstrategist",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 86,
+    "name": "MarketingAgent",
+    "category": "10-Sup",
+    "pack_id": "video.marketing",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 87,
+    "name": "SEOAgent",
+    "category": "10-Sup",
+    "pack_id": "video.seo",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 88,
+    "name": "CommunityAgent",
+    "category": "10-Sup",
+    "pack_id": "video.community",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 89,
+    "name": "TemplateDesignAgent",
+    "category": "10-Sup",
+    "pack_id": "video.templatedesign",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 90,
+    "name": "UXAgent",
+    "category": "10-Sup",
+    "pack_id": "video.ux",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 91,
+    "name": "TrustSafetyAgent",
+    "category": "10-Sup",
+    "pack_id": "video.trustsafety",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 92,
+    "name": "CRMAgent",
+    "category": "10-Sup",
+    "pack_id": "video.crm",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 93,
+    "name": "LegalAgent",
+    "category": "10-Sup",
+    "pack_id": "video.legal",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 94,
+    "name": "FestivalStrategistAgent",
+    "category": "10-Sup",
+    "pack_id": "video.festivalstrategist",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 95,
+    "name": "CriticAgent",
+    "category": "10-Sup",
+    "pack_id": "video.critic",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 96,
+    "name": "LMSAgent",
+    "category": "10-Sup",
+    "pack_id": "video.lms",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 97,
+    "name": "LearnerSimAgent",
+    "category": "10-Sup",
+    "pack_id": "video.learnersim",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 98,
+    "name": "ContinuityAgent",
+    "category": "10-Sup",
+    "pack_id": "video.continuity",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 99,
+    "name": "LipSyncAgent",
+    "category": "10-Sup",
+    "pack_id": "video.lipsync",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 100,
+    "name": "MusicSupervisorAgent",
+    "category": "10-Sup",
+    "pack_id": "video.musicsupervisor",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 101,
+    "name": "LabelA&RAgent",
+    "category": "10-Sup",
+    "pack_id": "video.labela_r",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 102,
+    "name": "LabelDigitalAgent",
+    "category": "10-Sup",
+    "pack_id": "video.labeldigital",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 103,
+    "name": "DeepfakeDetectionAgent",
+    "category": "10-Sup",
+    "pack_id": "video.deepfakedetection",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 104,
+    "name": "CommsAgent",
+    "category": "10-Sup",
+    "pack_id": "video.comms",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 105,
+    "name": "ArchiveProducerAgent",
+    "category": "10-Sup",
+    "pack_id": "video.archiveproducer",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 106,
+    "name": "StandardsEditorAgent",
+    "category": "10-Sup",
+    "pack_id": "video.standardseditor",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 107,
+    "name": "EthicsAgent",
+    "category": "10-Sup",
+    "pack_id": "video.ethics",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 108,
+    "name": "ChannelManagerAgent",
+    "category": "10-Sup",
+    "pack_id": "video.channelmanager",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 109,
+    "name": "CorrectionsAgent",
+    "category": "10-Sup",
+    "pack_id": "video.corrections",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 110,
+    "name": "MPAAgent",
+    "category": "10-Sup",
+    "pack_id": "video.mpa",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 111,
+    "name": "SalesAgent",
+    "category": "10-Sup",
+    "pack_id": "video.sales",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 112,
+    "name": "DistributorAgent",
+    "category": "10-Sup",
+    "pack_id": "video.distributor",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 113,
+    "name": "AwardsStrategistAgent",
+    "category": "10-Sup",
+    "pack_id": "video.awardsstrategist",
+    "va_source": "va-agent-swarm/study/agents.md"
+  },
+  {
+    "id": 114,
+    "name": "ArchiveMasterAgent",
+    "category": "10-Sup",
+    "pack_id": "video.archivemaster",
+    "va_source": "va-agent-swarm/study/agents.md"
+  }
+]

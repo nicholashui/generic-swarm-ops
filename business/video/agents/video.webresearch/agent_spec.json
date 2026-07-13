@@ -1,0 +1,40 @@
+{
+  "id": "video.webresearch",
+  "va_id": 66,
+  "name": "WebResearchAgent",
+  "domain_id": "video",
+  "role": "WebResearchAgent",
+  "category": "9-Meta",
+  "status": "registered",
+  "requires_alc": true,
+  "allowed_memory_scopes": [
+    "agent",
+    "organization"
+  ],
+  "alc_version": "1.0",
+  "hooks": {
+    "reflect": true
+  },
+  "tools": [
+    "audit_log_writer"
+  ],
+  "risk_tier": "tier_2_draft",
+  "critique_rubric_ref": null,
+  "provenance": {
+    "source_refs": [
+      "business/video/agents/video.webresearch/SPEC.md",
+      "business/video/agents/video.webresearch/sources/",
+      "business/video/corpus/study/agents.md"
+    ],
+    "captured_by": "wave-0-catalog",
+    "framework": "domain_pack_l0",
+    "wave5_prepared": "2026-07-12",
+    "spec_depth": "self_contained_folder_v3",
+    "upstream_name": "va-agent-swarm"
+  },
+  "allowed_tools": [
+    "audit_log_writer"
+  ],
+  "n3_maturity": "L2_runtime",
+  "activation_category": "9-Meta"
+}

@@ -1,0 +1,13 @@
+{
+  "domain_id": "example_research",
+  "version": "0.1.0",
+  "display_name": "Example Research Pack",
+  "default_risk_tier": "tier_1_recommend",
+  "requires_alc": true,
+  "agents": ["example.researcher", "example.reviewer"],
+  "workflows": ["wf_example_research_v1"],
+  "api_hooks": {
+    "tool_namespace": "example.*",
+    "on_register": "noop"
+  }
+}

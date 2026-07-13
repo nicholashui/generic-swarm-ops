@@ -2,8 +2,8 @@
 
 **Version:** 1.0  
 **Date:** 2026-07-11  
-**Status:** Ready for coding agent execution (spec-driven, phased, production-first)  
-**Purpose:** Transform generic-swarm-ops into the definitive **universal governed Multi-Agent (MMA) host/platform** while cleanly enabling the va-agent-swarm video Domain Pack (and future packs). This plan directly addresses the analysis in `repo_compare.md` and executes/enhances the adoption strategy in `adoption.md` v2.3.  
+**Status:** **Waves 0–5 executed** (2026-07-12/13) — N3 host exit green; see `planning/improvement/` + `adoption.md` v2.4  
+**Purpose:** Transform generic-swarm-ops into the definitive **universal governed Multi-Agent (MMA) host/platform** while cleanly enabling the va-agent-swarm video Domain Pack (and future packs). This plan directly addresses the analysis in `repo_compare.md` and executes/enhances the adoption strategy in `adoption.md` (**v2.4 status**: N3 implementation complete via Waves 0–5; strategy from v2.3).  
 
 **Audience:** Coding agents (Claude Code, Kiro, Cursor, OpenClaw, Hermes, self-refining N1ch01as Architect harnesses), human reviewers, and future contributors.  
 **Output Format for Agents:** Feed sections as task.md-style specs. Each Wave/Phase has clear non-negotiables, file paths, acceptance criteria, tests, and traceability. Use critic loops, sandbox discipline, and E1 regression protection.

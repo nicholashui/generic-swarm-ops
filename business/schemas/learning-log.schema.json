@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://generic-swarm-ops.local/schemas/learning-log.schema.json",
+  "title": "LearningLog",
+  "type": "object",
+  "required": ["agent_id", "lesson_text", "provenance"],
+  "properties": {
+    "agent_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string" },
+    "step_id": { "type": "string" },
+    "lesson_text": { "type": "string", "minLength": 1 },
+    "text": { "type": "string" },
+    "utility_score": { "type": "number" },
+    "reuse_count": { "type": "integer", "minimum": 0 },
+    "source_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "captured_by": { "type": "string" },
+    "recorded_at": { "type": "string" },
+    "provenance": {
+      "type": "object",
+      "required": ["source_refs"],
+      "properties": {
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "captured_by": { "type": "string" },
+        "recorded_at": { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": true
+}

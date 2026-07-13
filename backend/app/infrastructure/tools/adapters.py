@@ -93,6 +93,53 @@ def policy_retriever(payload: dict[str, Any]) -> dict[str, Any]:
     return _effect("policy_retriever", "retrieve_policy", payload, policy)
 
 
+def video_media_gen_stub(payload: dict[str, Any]) -> dict[str, Any]:
+    """CI-safe media generation stub (no external Sora/Veo/Kling calls)."""
+    asset = {
+        "asset_id": f"vid_{uuid.uuid4().hex[:10]}",
+        "provider": "stub",
+        "prompt": payload.get("prompt") or payload.get("hook_concept") or payload.get("message") or "video stub",
+        "duration_sec": payload.get("duration_sec") or 8,
+        "uri": f"stub://media/{uuid.uuid4().hex[:8]}.mp4",
+        "budget_tokens": 0,
+        "generated_at": _now(),
+    }
+    return _effect("video_media_gen_stub", "generate_media_stub", payload, asset)
+
+
+def video_script_format(payload: dict[str, Any]) -> dict[str, Any]:
+    script = {
+        "script_id": f"scr_{uuid.uuid4().hex[:10]}",
+        "format": "fountain_lite",
+        "title": payload.get("title") or "Hook Draft",
+        "body": payload.get("body") or payload.get("message") or "HOOK: attention beat\nCTA: watch more",
+        "formatted_at": _now(),
+    }
+    return _effect("video_script_format", "format_script", payload, script)
+
+
+def video_qc_stub(payload: dict[str, Any]) -> dict[str, Any]:
+    qc = {
+        "qc_id": f"qc_{uuid.uuid4().hex[:10]}",
+        "pass": True,
+        "consistency_score": float(payload.get("consistency_score") or 0.92),
+        "checks": ["character_consistency_stub", "audio_sync_stub", "brand_safe_stub"],
+        "checked_at": _now(),
+    }
+    return _effect("video_qc_stub", "qc_pass", payload, qc)
+
+
+def video_package_stub(payload: dict[str, Any]) -> dict[str, Any]:
+    package = {
+        "package_id": f"pkg_{uuid.uuid4().hex[:10]}",
+        "status": "packaged_pending_approval",
+        "platform": payload.get("platform") or "generic",
+        "artifacts": payload.get("artifacts") or ["script", "media_stub", "qc_report"],
+        "packaged_at": _now(),
+    }
+    return _effect("video_package_stub", "package_deliverable", payload, package)
+
+
 TOOL_ADAPTERS: dict[str, Callable[[dict[str, Any]], dict[str, Any]]] = {
     "audit_log_writer": audit_log_writer,
     "crm": crm,
@@ -100,6 +147,10 @@ TOOL_ADAPTERS: dict[str, Callable[[dict[str, Any]], dict[str, Any]]] = {
     "email": email,
     "contract_parser": contract_parser,
     "policy_retriever": policy_retriever,
+    "video_media_gen_stub": video_media_gen_stub,
+    "video_script_format": video_script_format,
+    "video_qc_stub": video_qc_stub,
+    "video_package_stub": video_package_stub,
 }
 
 

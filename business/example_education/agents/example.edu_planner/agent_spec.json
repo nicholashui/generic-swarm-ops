@@ -1,0 +1,16 @@
+{
+  "id": "example.edu_planner",
+  "domain_id": "example_education",
+  "name": "Example Education Planner",
+  "status": "draft",
+  "requires_alc": true,
+  "allowed_memory_scopes": ["agent", "organization"],
+  "alc_version": "1.0",
+  "hooks": { "reflect": true },
+  "tools": ["audit_log_writer"],
+  "allowed_tools": ["audit_log_writer"],
+  "risk_tier": "tier_1_recommend",
+  "provenance": {
+    "source_refs": ["improvements.md#wave-4", "planning/improvement/wave-4/"]
+  }
+}
