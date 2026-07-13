@@ -2782,3 +2782,40 @@ USER clicks [▶ LAUNCH]
 
 
 <!-- self_contained_spec · video.judge · va_id=56 -->
+
+## Migration capability research (v1 honest · 2026-07-13)
+
+Role-specific capability research for **JudgeAgent** (`video.judge`, va_id=56, category `9-Meta`).
+
+### Responsibility focus
+Adjudicates disputes via multi-agent debate; scores against rubric
+
+### Prompt research topics (source of truth for S3)
+- arXiv topics: 1. Retrieve and integrate state-of-the-art research findings from arXiv papers relevant to: LLM-as-judge, multi-agent debate, critique aggregation, preference learning for media QA
+- X topics: 2. Analyze and incorporate expert insights from x.ai (Twitter/X) from recognized industry and academic leaders specializing in: AI judges for content quality, multi-agent critique, video QA with LLMs
+- YouTube topics: 3. Extract detailed, actionable technical guidance from high-quality YouTube content created by domain experts focused on: LLM-as-a-judge for video, multi-agent critique workflows, AI quality arbitration
+
+### arXiv / academic integration (role-applied)
+- Du et al. multi-agent debate for factuality
+- Zheng et al. LLM-as-Judge / MT-Bench rubrics; inter-rater κ targets
+
+**How this agent uses it:** encode the above as self-quality checks, critique inputs, and design-time tool notes — not as host allow-list expansions.
+
+### X / industry practice (role-applied)
+- Arena-style pairwise judging for creative disputes
+
+### YouTube / practitioner guidance (role-applied)
+- Rubric adjudication workflows for creative reviews
+
+### Implementation notes for v1
+1. Emit artifacts matching role responsibility; self-score against Self-quality criteria.
+2. Accept critique only from listed critics; escalate disputes to Judge/Gate as DNA dictates.
+3. Design-time tools remain documented only; runtime tools stay in `agent_spec.json`.
+4. N1: no second control plane; video logic under `business/video/**` only.
+
+### Research depth note (honest)
+This v1 section maps **role-family** literature and the agent’s migration prompt topics into SPEC.
+It is **not** a full unsummarized download of every paper/video transcript.
+Live primary-source expansion remains a residual for score 100 on S3 where depth is still thin.
+
+<!-- migration_capability_research · video.judge · v1 · 2026-07-13 -->

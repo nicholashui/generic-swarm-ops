@@ -1,6 +1,7 @@
 # Video pack corpus (standalone)
 
 **Imported from:** va-agent-swarm (see `SOURCE_COMMIT.txt`, `SOURCE_URL.txt`)  
+**Migration status:** **COMPLETE** for knowledge-standalone DoD — see repo root `MIGRATION_COMPLETE.md`  
 **Policy:** This tree is the **in-pack source of truth** for video domain design knowledge.  
 `va-agent-swarm` is optional upstream only.
 

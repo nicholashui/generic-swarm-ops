@@ -1,11 +1,11 @@
 # Migration Plan: va-agent-swarm → generic-swarm-ops (standalone corpus)
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Date:** 2026-07-13  
-**Status:** Plan only (not yet executed)  
+**Status:** **COMPLETE** (knowledge-standalone + N3 pack DoD) — see **`MIGRATION_COMPLETE.md`**  
 **Repos:** `C:\Project\va-agent-swarm` → `C:\Project\generic-swarm-ops`  
-**Deep plan (preferred SoT):** **`migration_plan.md` v2.0** — full 325-file inventory, copy feasibility, phases P0–P7, gates. Use that file for execution.  
-**Problem statement:** Every `business/video/agents/*/SPEC.md` is an L0 stub that only **refers** to `va-agent-swarm/study/agents.md`. Coding agents with limited context windows **cannot reliably follow external refs**. Goal: after migration, **generic-swarm-ops can operate and be developed without `va-agent-swarm` present on disk.**
+**Deep plan (preferred SoT):** **`migration_plan.md` v2.0** — full 325-file inventory, copy feasibility, phases P0–P7, gates; §16 execution record.  
+**Problem statement:** Every `business/video/agents/*/SPEC.md` was an L0 stub that only **referred** to `va-agent-swarm/study/agents.md`. Goal: after migration, **generic-swarm-ops can operate and be developed without `va-agent-swarm` present on disk** for design content.
 
 ---
 

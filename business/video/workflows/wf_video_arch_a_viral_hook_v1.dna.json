@@ -89,10 +89,15 @@
   "provenance": {
     "source_refs": [
       "va-agent-swarm/study/workflows/A-viral-hook.svg",
+      "business/video/corpus/study/workflows/A-viral-hook.svg",
       "adoption.md#5.1",
-      "improvements.md#wave-2"
+      "improvements.md#wave-2",
+      "EXECUTABLE_PRODUCT.md"
     ],
     "captured_by": "wave-2",
-    "recorded_at": "2026-07-12T00:00:00Z"
+    "recorded_at": "2026-07-12T00:00:00Z",
+    "host_executable_demo": true,
+    "depth": "runnable_spine",
+    "proven_by": "backend/app/tests/unit/test_video_spine_e2e.py::test_viral_hook_spine_run_with_gate_and_alc"
   }
 }

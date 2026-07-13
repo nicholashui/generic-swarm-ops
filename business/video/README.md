@@ -5,6 +5,16 @@
 **Upstream research (optional):** [va-agent-swarm](https://github.com/nicholashui/va-agent-swarm)  
 **In-pack corpus (required SoT):** `business/video/corpus/` — full copy of va study/plan/root (see `corpus/README.md`, `migration_plan.md`)
 
+## Migration status
+
+**Knowledge-standalone migration from va-agent-swarm: COMPLETE** — see repo root [`MIGRATION_COMPLETE.md`](../../MIGRATION_COMPLETE.md).  
+Residuals (live media, deep DNA production_ready, Discover FE) are productization, not missing corpus.
+
+## Executable product
+
+Host control plane + **viral-hook** DNA run path proven — see repo root [`EXECUTABLE_PRODUCT.md`](../../EXECUTABLE_PRODUCT.md).  
+Check: `python scripts/business/check_executable_product.py`
+
 ## Standalone rule
 
 Coding agents and humans must be able to work **without** `C:\Project\va-agent-swarm` on disk:
@@ -44,7 +54,18 @@ Coding agents and humans must be able to work **without** `C:\Project\va-agent-s
 | `agents/*` | agent_spec + **expanded SPEC.md** (from corpus agents.md) |
 | `corpus/` | Full va knowledge mirror (325 files) |
 | `workflows/` | DNA files (Wave 2+) |
+| `archetype_registry.json` | A–J production types + S1–S7 scale + DNA mapping |
 | `knowledge/seeds/` | Optional retrieval seeds |
+
+## Workflow selection (brief → DNA)
+
+```bash
+python scripts/business/recommend_video_workflow.py "15s TikTok viral hook"
+# API: GET  /api/v1/domains/video/archetypes
+# API: POST /api/v1/domains/video/recommend-workflow  { "brief": "..." }
+```
+
+HiTL confirm is required by default before launch. See `PROCESSES.md` §8.
 
 ## Related
 

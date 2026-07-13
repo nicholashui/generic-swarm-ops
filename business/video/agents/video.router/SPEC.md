@@ -4314,3 +4314,40 @@ Once launched, it flows through the same:
 
 
 <!-- self_contained_spec · video.router · va_id=55 -->
+
+## Migration capability research (v1 honest · 2026-07-13)
+
+Role-specific capability research for **RouterAgent** (`video.router`, va_id=55, category `9-Meta`).
+
+### Responsibility focus
+Picks right specialist agent (and model) for each subtask
+
+### Prompt research topics (source of truth for S3)
+- arXiv topics: 1. Retrieve and integrate state-of-the-art research findings from arXiv papers relevant to: agent routing, model selection, mixture-of-experts routing, cost/quality tradeoff routing
+- X topics: 2. Analyze and incorporate expert insights from x.ai (Twitter/X) from recognized industry and academic leaders specializing in: LLM router agents, specialist agent selection, inference routing for media
+- YouTube topics: 3. Extract detailed, actionable technical guidance from high-quality YouTube content created by domain experts focused on: routing tasks to specialist AI agents, model routers for video tools
+
+### arXiv / academic integration (role-applied)
+- Classifier + embedding match task→agent capability registries
+- FrugalGPT / model cascade routing for cost/latency frontiers
+
+**How this agent uses it:** encode the above as self-quality checks, critique inputs, and design-time tool notes — not as host allow-list expansions.
+
+### X / industry practice (role-applied)
+- Router as capability registry + benchmark cache pattern
+
+### YouTube / practitioner guidance (role-applied)
+- Agent selection demos: specialize don't monolith
+
+### Implementation notes for v1
+1. Emit artifacts matching role responsibility; self-score against Self-quality criteria.
+2. Accept critique only from listed critics; escalate disputes to Judge/Gate as DNA dictates.
+3. Design-time tools remain documented only; runtime tools stay in `agent_spec.json`.
+4. N1: no second control plane; video logic under `business/video/**` only.
+
+### Research depth note (honest)
+This v1 section maps **role-family** literature and the agent’s migration prompt topics into SPEC.
+It is **not** a full unsummarized download of every paper/video transcript.
+Live primary-source expansion remains a residual for score 100 on S3 where depth is still thin.
+
+<!-- migration_capability_research · video.router · v1 · 2026-07-13 -->

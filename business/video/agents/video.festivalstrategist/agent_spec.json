@@ -30,7 +30,34 @@
     "framework": "domain_pack_l0",
     "wave5_prepared": "2026-07-12",
     "spec_depth": "self_contained_folder_v3",
-    "upstream_name": "va-agent-swarm"
+    "upstream_name": "va-agent-swarm",
+    "migration_score": 88,
+    "migration_reviewed": "2026-07-13",
+    "migration_score_previous_claim": 100,
+    "migration_grade": "structural_strong",
+    "migration_status": "structural_pass",
+    "migration_impl": "v1_honest",
+    "migration_dims": {
+      "S1": 22,
+      "S2": 16,
+      "S3": 11,
+      "S4": 15,
+      "S5": 10,
+      "S6": 14,
+      "total": 88
+    },
+    "migration_score_soft_v1": 88,
+    "migration_score_harsh": 64,
+    "migration_grade_harsh": "partial_materials",
+    "migration_dims_harsh": {
+      "S1": 14,
+      "S2": 12,
+      "S3": 7,
+      "S4": 15,
+      "S5": 10,
+      "S6": 6,
+      "total": 64
+    }
   },
   "allowed_tools": [
     "audit_log_writer"

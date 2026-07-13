@@ -4031,3 +4031,44 @@ This is the cycle of growth.
 
 
 <!-- self_contained_spec · video.showrunner · va_id=4 -->
+
+## Migration capability research (v1 honest · 2026-07-13)
+
+Role-specific capability research for **ShowrunnerAgent** (`video.showrunner`, va_id=4, category `1-ATL`).
+
+### Responsibility focus
+Cross-episode arc, writers'-room orchestration
+
+### Prompt research topics (source of truth for S3)
+- arXiv topics: 1. Retrieve and integrate state-of-the-art research findings from arXiv papers relevant to: long-form narrative consistency, series bible agents, multi-episode arc modeling
+- X topics: 2. Analyze and incorporate expert insights from x.ai (Twitter/X) from recognized industry and academic leaders specializing in: AI showrunners, series continuity AI, writers room orchestration
+- YouTube topics: 3. Extract detailed, actionable technical guidance from high-quality YouTube content created by domain experts focused on: AI showrunning, series bible automation, cross-episode consistency
+
+### arXiv / academic integration (role-applied)
+- AgentOrchestra / TEA protocol — lifecycle-managed agents/tools/envs; hierarchical planner + specialists
+- MASFT multi-agent failure taxonomy — deadlock, retry storms, coordination failures → timeouts, cycle detection, HiTL stall
+- LangGraph-style state graphs / Plan-Execute — deterministic DAG for production spine
+- Reflexion (Shinn) — verbal feedback into episodic memory after failed nodes
+
+**How this agent uses it:** encode the above as self-quality checks, critique inputs, and design-time tool notes — not as host allow-list expansions.
+
+### X / industry practice (role-applied)
+- LangChain multi-agent tutorials: StateGraph shared state + specialized agents
+- Supervisor vs pure fan-out/fan-in — use parallel when tasks independent; supervisor when routing dynamic
+
+### YouTube / practitioner guidance (role-applied)
+- AI film-crew orchestration: role nodes + handoff contracts + gate approvals
+- Durable workflow / checkpoint resume for long media pipelines
+
+### Implementation notes for v1
+1. Emit artifacts matching role responsibility; self-score against Self-quality criteria.
+2. Accept critique only from listed critics; escalate disputes to Judge/Gate as DNA dictates.
+3. Design-time tools remain documented only; runtime tools stay in `agent_spec.json`.
+4. N1: no second control plane; video logic under `business/video/**` only.
+
+### Research depth note (honest)
+This v1 section maps **role-family** literature and the agent’s migration prompt topics into SPEC.
+It is **not** a full unsummarized download of every paper/video transcript.
+Live primary-source expansion remains a residual for score 100 on S3 where depth is still thin.
+
+<!-- migration_capability_research · video.showrunner · v1 · 2026-07-13 -->

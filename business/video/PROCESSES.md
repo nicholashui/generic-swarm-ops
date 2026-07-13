@@ -53,4 +53,33 @@ Pack-linked under `business/video/docs/process-maps.md` and `deep-spec-modules.m
 
 See `process_coverage.json`, `router_table.json`, `standby_pool.json` (114 agents).
 
-*End PROCESSES.md (Wave 5 N3)*
+## 8. Workflow selection (A–J + scale)
+
+**Registry:** `business/video/archetype_registry.json`  
+**Selector:** `backend/app/domain/workflows/archetype_selector.py`  
+**CLI:** `python scripts/business/recommend_video_workflow.py "<brief>"`  
+**API:**
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/api/v1/domains/video/archetypes` | List A–J + scale profiles |
+| POST | `/api/v1/domains/video/recommend-workflow` | Brief → ranked DNA + scale |
+
+### Selection flow
+
+1. Score brief keywords + duration → top archetypes A–J.
+2. Infer scale profile S1–S7 (delivery branch depth).
+3. Recommend `dna_id` (e.g. `wf_video_arch_b_ugc_ad_v1`).
+4. **HiTL confirm** before launch (policy default).
+5. `video.planner` may refine DAG; `video.orchestrator` executes DNA; `video.router` fills specialists via standby/router_table.
+
+### Depth notes
+
+| DNA | Depth |
+|-----|-------|
+| A viral-hook | runnable spine (demo path) |
+| B UGC ad, E short film | **phased_v1** (va §3 crew-aligned steps) |
+| C,D,F–J | thin N3 stubs (indexed; deepen next) |
+| spine / e2e / lqr / delivery | shared families |
+
+*End PROCESSES.md (Wave 5 N3 + selection v1)*

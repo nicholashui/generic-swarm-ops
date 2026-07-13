@@ -478,6 +478,20 @@ Scripts added:
 **Knowledge-standalone:** yes (va disk not required for SPECs + corpus).  
 **Runtime media:** still stubs (by design).
 
+### 16.1 Goal re-confirmation (2026-07-13)
+
+| Gate | Result |
+|------|--------|
+| MANIFEST 325 present + sha256 match | **PASS** (0 missing, 0 mismatch) |
+| `STANDALONE PASS` | **PASS** |
+| `INVENTORY PASS count=114 n3=complete` | **PASS** |
+| process `va_only_count` | **0** (27 dna + 6 pack_doc) |
+| SPEC refer-only stubs | **0** (all self-contained framing; none &lt; 8KB) |
+| `test_video_corpus_standalone` | **4 passed** |
+| Completion record | **`MIGRATION_COMPLETE.md`** |
+
+**Migration DoD closed.** Residuals: live media, deep DNA production_ready, Discover FE, agent scorecard true-100 fleet — see Non-goals / MIGRATION_COMPLETE.md.
+
 ---
 
 ## 15. Plan review (2026-07-13) — pre-execution

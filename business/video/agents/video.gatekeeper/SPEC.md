@@ -3781,3 +3781,40 @@ Step 7: DELIVERY PH
 
 
 <!-- self_contained_spec · video.gatekeeper · va_id=57 -->
+
+## Migration capability research (v1 honest · 2026-07-13)
+
+Role-specific capability research for **GateKeeperAgent** (`video.gatekeeper`, va_id=57, category `9-Meta`).
+
+### Responsibility focus
+Phase transitions; verifies L1/L2/L3 criteria; signs C2PA
+
+### Prompt research topics (source of truth for S3)
+- arXiv topics: 1. Retrieve and integrate state-of-the-art research findings from arXiv papers relevant to: stage-gate quality systems, C2PA provenance, release criteria automation, policy-as-code gates
+- X topics: 2. Analyze and incorporate expert insights from x.ai (Twitter/X) from recognized industry and academic leaders specializing in: AI content gates, provenance signing C2PA, automated release QA
+- YouTube topics: 3. Extract detailed, actionable technical guidance from high-quality YouTube content created by domain experts focused on: phase gates in production pipelines, C2PA and content authenticity, automated QC gates
+
+### arXiv / academic integration (role-applied)
+- Constitutional AI constitutions as phase-gate criteria
+- C2PA / provenance signing for artifact handoff integrity
+
+**How this agent uses it:** encode the above as self-quality checks, critique inputs, and design-time tool notes — not as host allow-list expansions.
+
+### X / industry practice (role-applied)
+- Stage-gate methodology in AI production pipelines
+
+### YouTube / practitioner guidance (role-applied)
+- QC sign-off flows; never silent phase advance
+
+### Implementation notes for v1
+1. Emit artifacts matching role responsibility; self-score against Self-quality criteria.
+2. Accept critique only from listed critics; escalate disputes to Judge/Gate as DNA dictates.
+3. Design-time tools remain documented only; runtime tools stay in `agent_spec.json`.
+4. N1: no second control plane; video logic under `business/video/**` only.
+
+### Research depth note (honest)
+This v1 section maps **role-family** literature and the agent’s migration prompt topics into SPEC.
+It is **not** a full unsummarized download of every paper/video transcript.
+Live primary-source expansion remains a residual for score 100 on S3 where depth is still thin.
+
+<!-- migration_capability_research · video.gatekeeper · v1 · 2026-07-13 -->

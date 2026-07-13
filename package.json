@@ -25,6 +25,7 @@
     "business:governance": "node scripts/business/governance-check.mjs",
     "business:evolution:check": "node scripts/business/evolution-sandbox-check.mjs",
     "business:security": "node scripts/business/security-controls.mjs",
+    "product:check": "python scripts/business/check_executable_product.py",
     "test": "node --test tests/*.test.mjs",
     "format": "node scripts/project-starter.mjs format"
   },

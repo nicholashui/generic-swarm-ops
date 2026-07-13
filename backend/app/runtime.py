@@ -3884,6 +3884,68 @@ class RuntimeServices:
             ]
         )
 
+    def list_video_archetypes(self, current_user: AuthenticatedUser) -> dict[str, Any]:
+        """Return archetype A–J registry for UI / planner selection."""
+        self.assert_permission(current_user, "agents:read")
+        from app.domain.workflows.archetype_selector import load_registry
+
+        reg = load_registry(repo_root=self.repo_root)
+        return {
+            "domain_id": reg.get("domain_id") or "video",
+            "entry_agents": reg.get("entry_agents") or [],
+            "selection_policy": reg.get("selection_policy") or {},
+            "scale_profiles": reg.get("scale_profiles") or {},
+            "archetypes": [
+                {
+                    "code": a.get("code"),
+                    "name": a.get("name"),
+                    "process_id": a.get("process_id"),
+                    "dna_id": a.get("dna_id"),
+                    "default_scale": a.get("default_scale"),
+                    "allowed_scales": a.get("allowed_scales"),
+                    "duration_sec_hint": a.get("duration_sec_hint"),
+                    "depth": a.get("depth"),
+                    "keywords": a.get("keywords"),
+                }
+                for a in (reg.get("archetypes") or [])
+                if isinstance(a, dict)
+            ],
+            "registry_path": "business/video/archetype_registry.json",
+        }
+
+    def recommend_video_workflow(
+        self,
+        current_user: AuthenticatedUser,
+        *,
+        brief: str,
+        duration_sec: int | None = None,
+        top_k: int = 3,
+        budget_hint: str | None = None,
+        channel_hint: str | None = None,
+    ) -> dict[str, Any]:
+        """Score brief against archetype registry; recommend DNA id + scale."""
+        self.assert_permission(current_user, "workflows:read")
+        from app.domain.workflows.archetype_selector import recommend_workflow
+
+        try:
+            dur = int(duration_sec) if duration_sec is not None and str(duration_sec) != "" else None
+        except (TypeError, ValueError) as exc:
+            raise ValidationError("duration_sec must be an integer") from exc
+        try:
+            result = recommend_workflow(
+                brief,
+                duration_sec=dur,
+                top_k=top_k,
+                repo_root=self.repo_root,
+                budget_hint=str(budget_hint) if budget_hint else None,
+                channel_hint=str(channel_hint) if channel_hint else None,
+            )
+        except ValueError as exc:
+            raise ValidationError(str(exc)) from exc
+        except FileNotFoundError as exc:
+            raise ValidationError(str(exc)) from exc
+        return result
+
     def video_n3_roster_status(self, current_user: AuthenticatedUser) -> dict[str, Any]:
         """N3 completeness snapshot for the video pack (Wave 5). Reads pack disk artifacts."""
         self.assert_permission(current_user, "agents:read")
@@ -3892,6 +3954,7 @@ class RuntimeServices:
         standby_path = video / "standby_pool.json"
         coverage_path = video / "process_coverage.json"
         wf_dir = video / "workflows"
+        registry_path = video / "archetype_registry.json"
 
         roster = json.loads(roster_path.read_text(encoding="utf-8")) if roster_path.is_file() else []
         pack_ids = [r.get("pack_id") for r in roster if isinstance(r, dict) and r.get("pack_id")]
@@ -3963,6 +4026,8 @@ class RuntimeServices:
             "process_coverage": coverage,
             "entry": (standby.get("entry") if isinstance(standby, dict) else None) or "video.orchestrator",
             "retention_policy": "business/video/policies/roster-retention.md",
+            "archetype_registry": registry_path.is_file(),
+            "archetype_registry_path": "business/video/archetype_registry.json",
             "n3_complete": n3_complete,
         }
 

@@ -786,3 +786,41 @@ Documentation changes for this system are reviewed as a repeated challenge cycle
 
 
 <!-- self_contained_spec · video.sme · va_id=33 -->
+
+## Migration capability research (v1 honest · 2026-07-13)
+
+Role-specific capability research for **SMEAgent (Subject-Matter Expert)** (`video.sme`, va_id=33, category `7-Edu`).
+
+### Responsibility focus
+Domain accuracy in target field
+
+### Prompt research topics (source of truth for S3)
+- arXiv topics: 1. Retrieve and integrate state-of-the-art research findings from arXiv papers relevant to: educational video AI, fact verification agents, multimodal accessibility (WCAG), domain-expert RAG, localization QA
+- X topics: 2. Analyze and incorporate expert insights from x.ai (Twitter/X) from recognized industry and academic leaders specializing in: AI edtech video, fact-checking AI, accessible media AI
+- YouTube topics: 3. Extract detailed, actionable technical guidance from high-quality YouTube content created by domain experts focused on: AI for educational video, accessibility in media, domain expert AI agents
+
+### arXiv / academic integration (role-applied)
+- Computational cinematography / camera path control in generative video
+- Aesthetic composition models (rule-of-thirds, leading lines, CLIP aesthetic scores)
+- Motion control / virtual camera rig papers; trajectory smoothness metrics
+
+**How this agent uses it:** encode the above as self-quality checks, critique inputs, and design-time tool notes — not as host allow-list expansions.
+
+### X / industry practice (role-applied)
+- AI cinematography / virtual production camera leaders; ControlNet camera guides
+
+### YouTube / practitioner guidance (role-applied)
+- AI cinematography tutorials; generative camera moves; virtual production cameras
+
+### Implementation notes for v1
+1. Emit artifacts matching role responsibility; self-score against Self-quality criteria.
+2. Accept critique only from listed critics; escalate disputes to Judge/Gate as DNA dictates.
+3. Design-time tools remain documented only; runtime tools stay in `agent_spec.json`.
+4. N1: no second control plane; video logic under `business/video/**` only.
+
+### Research depth note (honest)
+This v1 section maps **role-family** literature and the agent’s migration prompt topics into SPEC.
+It is **not** a full unsummarized download of every paper/video transcript.
+Live primary-source expansion remains a residual for score 100 on S3 where depth is still thin.
+
+<!-- migration_capability_research · video.sme · v1 · 2026-07-13 -->

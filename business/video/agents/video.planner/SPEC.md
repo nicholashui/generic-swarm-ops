@@ -8685,3 +8685,41 @@ Once launched, it flows through the same:
 
 
 <!-- self_contained_spec · video.planner · va_id=54 -->
+
+## Migration capability research (v1 honest · 2026-07-13)
+
+Role-specific capability research for **PlannerAgent** (`video.planner`, va_id=54, category `9-Meta`).
+
+### Responsibility focus
+Decomposes brief into phased DAG with assignments + critic gates
+
+### Prompt research topics (source of truth for S3)
+- arXiv topics: 1. Retrieve and integrate state-of-the-art research findings from arXiv papers relevant to: hierarchical task planning, LLM planning agents, PMBOK-informed AI planners, cost-aware plan generation for media
+- X topics: 2. Analyze and incorporate expert insights from x.ai (Twitter/X) from recognized industry and academic leaders specializing in: AI production planning, agent task decomposition, creative project planning with LLMs
+- YouTube topics: 3. Extract detailed, actionable technical guidance from high-quality YouTube content created by domain experts focused on: AI planning for video production, breaking briefs into agent tasks, production scheduling with AI
+
+### arXiv / academic integration (role-applied)
+- Plan-and-Execute / ReAct decomposition — phased DAG with critic gates
+- MAAD-style Analyst→Modeler→Designer→Evaluator for architecture-heavy briefs
+- Cost/quality estimation under uncertainty; budget variance targets
+
+**How this agent uses it:** encode the above as self-quality checks, critique inputs, and design-time tool notes — not as host allow-list expansions.
+
+### X / industry practice (role-applied)
+- CrewAI/LangGraph task graphs; producer-style planning from media ops leads
+
+### YouTube / practitioner guidance (role-applied)
+- Production breakdowns: beat sheet → schedule → resource assignment
+
+### Implementation notes for v1
+1. Emit artifacts matching role responsibility; self-score against Self-quality criteria.
+2. Accept critique only from listed critics; escalate disputes to Judge/Gate as DNA dictates.
+3. Design-time tools remain documented only; runtime tools stay in `agent_spec.json`.
+4. N1: no second control plane; video logic under `business/video/**` only.
+
+### Research depth note (honest)
+This v1 section maps **role-family** literature and the agent’s migration prompt topics into SPEC.
+It is **not** a full unsummarized download of every paper/video transcript.
+Live primary-source expansion remains a residual for score 100 on S3 where depth is still thin.
+
+<!-- migration_capability_research · video.planner · v1 · 2026-07-13 -->
