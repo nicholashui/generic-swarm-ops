@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 680" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="680" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">Support Resources Map</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#64748b">Documentation structure and community resource paths</text>
+
+  <!-- Central node -->
+  <rect x="350" y="80" width="260" height="50" rx="8" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/>
+  <text x="480" y="104" text-anchor="middle" font-size="14" font-weight="700" fill="#1e1b4b">Generic Swarm Ops</text>
+  <text x="480" y="120" text-anchor="middle" font-size="11" fill="#3730a3">Documentation Ecosystem</text>
+
+  <!-- docs/ branch -->
+  <rect x="30" y="170" width="200" height="210" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="130" y="195" text-anchor="middle" font-size="13" font-weight="700" fill="#166534">docs/</text>
+  <text x="50" y="218" font-size="10" fill="#334155">architecture.md</text>
+  <text x="50" y="236" font-size="10" fill="#334155">installation.md</text>
+  <text x="50" y="254" font-size="10" fill="#334155">usage.md</text>
+  <text x="50" y="272" font-size="10" fill="#334155">troubleshooting.md</text>
+  <text x="50" y="290" font-size="10" fill="#334155">self-improvement-and-</text>
+  <text x="50" y="304" font-size="10" fill="#334155">  orchestration.md</text>
+  <text x="50" y="322" font-size="10" fill="#334155">trae.md / grok.md</text>
+  <text x="50" y="340" font-size="10" fill="#334155">sync.md</text>
+  <text x="50" y="358" font-size="10" fill="#334155">source-audit.md</text>
+  <text x="50" y="376" font-size="10" fill="#475569">Operational references</text>
+
+  <!-- book/ branch -->
+  <rect x="260" y="170" width="200" height="210" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="360" y="195" text-anchor="middle" font-size="13" font-weight="700" fill="#1d4ed8">book/</text>
+  <text x="280" y="218" font-size="10" fill="#334155">user_guide/</text>
+  <text x="290" y="236" font-size="10" fill="#475569">user_guide.md</text>
+  <text x="290" y="254" font-size="10" fill="#475569">chapters/</text>
+  <text x="290" y="272" font-size="10" fill="#475569">assets/</text>
+  <text x="280" y="296" font-size="10" fill="#334155">design_phase/</text>
+  <text x="290" y="314" font-size="10" fill="#475569">Architecture depth</text>
+  <text x="290" y="332" font-size="10" fill="#475569">Design monographs</text>
+  <text x="290" y="350" font-size="10" fill="#475569">System patterns</text>
+  <text x="280" y="374" font-size="10" fill="#475569">In-depth learning</text>
+
+  <!-- memory/ branch -->
+  <rect x="490" y="170" width="200" height="210" rx="8" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="590" y="195" text-anchor="middle" font-size="13" font-weight="700" fill="#86198f">memory/</text>
+  <text x="510" y="218" font-size="10" fill="#334155">handoff.md</text>
+  <text x="520" y="236" font-size="10" fill="#475569">Session continuity</text>
+  <text x="510" y="258" font-size="10" fill="#334155">project.md</text>
+  <text x="520" y="276" font-size="10" fill="#475569">Project state</text>
+  <text x="510" y="310" font-size="10" fill="#475569">Read at session start</text>
+  <text x="510" y="328" font-size="10" fill="#475569">for both Trae and</text>
+  <text x="510" y="346" font-size="10" fill="#475569">Grok harnesses</text>
+  <text x="510" y="374" font-size="10" fill="#475569">Context persistence</text>
+
+  <!-- planning/ + business/ branch -->
+  <rect x="720" y="170" width="210" height="210" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="825" y="195" text-anchor="middle" font-size="13" font-weight="700" fill="#854d0e">business/ + planning/</text>
+  <text x="740" y="218" font-size="10" fill="#334155">process-intelligence/</text>
+  <text x="740" y="236" font-size="10" fill="#334155">evolution/</text>
+  <text x="740" y="254" font-size="10" fill="#334155">governance/</text>
+  <text x="740" y="272" font-size="10" fill="#334155">evals/golden-tasks/</text>
+  <text x="740" y="290" font-size="10" fill="#334155">knowledge-base/</text>
+  <text x="740" y="308" font-size="10" fill="#334155">distilled/skills/</text>
+  <text x="740" y="340" font-size="10" fill="#475569">Business OS artifacts</text>
+  <text x="740" y="358" font-size="10" fill="#475569">and project plans</text>
+  <text x="740" y="376" font-size="10" fill="#475569">Living system state</text>
+
+  <!-- Agent Harnesses -->
+  <rect x="100" y="420" width="350" height="100" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="275" y="445" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Agent Harnesses</text>
+  <rect x="120" y="460" width="140" height="44" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="190" y="480" text-anchor="middle" font-size="11" font-weight="600" fill="#1e1b4b">Trae IDE</text>
+  <text x="190" y="496" text-anchor="middle" font-size="9" fill="#475569">.trae/ + docs/trae.md</text>
+  <rect x="280" y="460" width="150" height="44" rx="8" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="355" y="480" text-anchor="middle" font-size="11" font-weight="600" fill="#86198f">Grok Build</text>
+  <text x="355" y="496" text-anchor="middle" font-size="9" fill="#475569">.grok/ + docs/grok.md</text>
+
+  <!-- Community / Contribution -->
+  <rect x="510" y="420" width="380" height="100" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="700" y="445" text-anchor="middle" font-size="13" font-weight="700" fill="#991b1b">Community and Contribution</text>
+  <text x="530" y="468" font-size="10" fill="#334155">Issue reporting via repository tracker</text>
+  <text x="530" y="486" font-size="10" fill="#334155">Contribution workflow: fork + PR</text>
+  <text x="530" y="504" font-size="10" fill="#334155">Evolution sandbox for experimental changes</text>
+
+  <!-- Backend docs -->
+  <rect x="200" y="555" width="560" height="60" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="480" y="578" text-anchor="middle" font-size="13" font-weight="700" fill="#854d0e">Specialized Documentation</text>
+  <text x="220" y="600" font-size="10" fill="#334155">backend/docs/postgres-runbook.md | structure.md | plan_to_mark_100.md | reviews/e1_operator_checklist.md</text>
+
+  <!-- Arrows from central to branches -->
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <g stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arr)">
+    <line x1="380" y1="118" x2="220" y2="170"/>
+    <line x1="440" y1="130" x2="360" y2="170"/>
+    <line x1="520" y1="130" x2="590" y2="170"/>
+    <line x1="580" y1="118" x2="740" y2="170"/>
+  </g>
+
+  <!-- Legend -->
+  <rect x="200" y="640" width="560" height="30" rx="8" fill="#f8fafc" stroke="#e2e8f0"/>
+  <rect x="220" y="649" width="14" height="14" rx="3" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="240" y="660" font-size="9" fill="#334155">Ops Docs</text>
+  <rect x="310" y="649" width="14" height="14" rx="3" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="330" y="660" font-size="9" fill="#334155">Learning</text>
+  <rect x="400" y="649" width="14" height="14" rx="3" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="420" y="660" font-size="9" fill="#334155">Memory</text>
+  <rect x="490" y="649" width="14" height="14" rx="3" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="510" y="660" font-size="9" fill="#334155">Business</text>
+  <rect x="580" y="649" width="14" height="14" rx="3" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="600" y="660" font-size="9" fill="#334155">Community</text>
+</svg>

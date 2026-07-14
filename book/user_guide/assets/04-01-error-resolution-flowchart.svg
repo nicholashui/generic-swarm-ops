@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 820" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="820" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">Error Resolution Flowchart</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#64748b">Systematic diagnosis path: identify symptom category then resolve</text>
+
+  <!-- Start node -->
+  <rect x="380" y="80" width="200" height="44" rx="22" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  <text x="480" y="107" text-anchor="middle" font-size="13" font-weight="600" fill="#0f172a">Error Encountered</text>
+
+  <!-- Decision: Category -->
+  <polygon points="480,150 590,195 480,240 370,195" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+  <text x="480" y="192" text-anchor="middle" font-size="12" font-weight="600" fill="#854d0e">Which category?</text>
+
+  <!-- Branch 1: Bootstrap -->
+  <rect x="40" y="270" width="180" height="50" rx="8" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/>
+  <text x="130" y="292" text-anchor="middle" font-size="12" font-weight="600" fill="#1e1b4b">Bootstrap /</text>
+  <text x="130" y="308" text-anchor="middle" font-size="12" font-weight="600" fill="#1e1b4b">Starter Layer</text>
+
+  <!-- Branch 2: Backend -->
+  <rect x="260" y="270" width="180" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="350" y="292" text-anchor="middle" font-size="12" font-weight="600" fill="#166534">Backend /</text>
+  <text x="350" y="308" text-anchor="middle" font-size="12" font-weight="600" fill="#166534">Postgres</text>
+
+  <!-- Branch 3: Frontend -->
+  <rect x="520" y="270" width="180" height="50" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="610" y="292" text-anchor="middle" font-size="12" font-weight="600" fill="#1d4ed8">Frontend /</text>
+  <text x="610" y="308" text-anchor="middle" font-size="12" font-weight="600" fill="#1d4ed8">UI Issues</text>
+
+  <!-- Branch 4: Evolution -->
+  <rect x="740" y="270" width="180" height="50" rx="8" fill="#fae8ff" stroke="#a21caf" stroke-width="2"/>
+  <text x="830" y="292" text-anchor="middle" font-size="12" font-weight="600" fill="#86198f">Evolution /</text>
+  <text x="830" y="308" text-anchor="middle" font-size="12" font-weight="600" fill="#86198f">Self-Improve</text>
+
+  <!-- Bootstrap sub-steps -->
+  <rect x="20" y="350" width="220" height="130" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="130" y="372" text-anchor="middle" font-size="11" font-weight="600" fill="#0f172a">Diagnosis Steps</text>
+  <text x="40" y="394" font-size="10" fill="#334155">1. Run npm run doctor</text>
+  <text x="40" y="412" font-size="10" fill="#334155">2. Check source-lock.json</text>
+  <text x="40" y="430" font-size="10" fill="#334155">3. Check source-audit.md</text>
+  <text x="40" y="448" font-size="10" fill="#334155">4. Run npm run business:init</text>
+  <text x="40" y="466" font-size="10" fill="#334155">5. Run npm run business:validate</text>
+
+  <!-- Backend sub-steps -->
+  <rect x="240" y="350" width="220" height="130" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="350" y="372" text-anchor="middle" font-size="11" font-weight="600" fill="#0f172a">Diagnosis Steps</text>
+  <text x="260" y="394" font-size="10" fill="#334155">1. Verify DATABASE_URL in .env</text>
+  <text x="260" y="412" font-size="10" fill="#334155">2. Check Postgres is running</text>
+  <text x="260" y="430" font-size="10" fill="#334155">3. GET /api/v1/health/ready</text>
+  <text x="260" y="448" font-size="10" fill="#334155">4. Set PYTHONPATH=.</text>
+  <text x="260" y="466" font-size="10" fill="#334155">5. Inspect tool_effects logs</text>
+
+  <!-- Frontend sub-steps -->
+  <rect x="500" y="350" width="220" height="130" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="610" y="372" text-anchor="middle" font-size="11" font-weight="600" fill="#0f172a">Diagnosis Steps</text>
+  <text x="520" y="394" font-size="10" fill="#334155">1. Set DEMO_MODE=false</text>
+  <text x="520" y="412" font-size="10" fill="#334155">2. Set API_BASE_URL correctly</text>
+  <text x="520" y="430" font-size="10" fill="#334155">3. Check network tab errors</text>
+  <text x="520" y="448" font-size="10" fill="#334155">4. Run pnpm api:generate</text>
+  <text x="520" y="466" font-size="10" fill="#334155">5. Start backend for E2E</text>
+
+  <!-- Evolution sub-steps -->
+  <rect x="720" y="350" width="220" height="130" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="830" y="372" text-anchor="middle" font-size="11" font-weight="600" fill="#0f172a">Diagnosis Steps</text>
+  <text x="740" y="394" font-size="10" fill="#334155">1. Check sandbox status</text>
+  <text x="740" y="412" font-size="10" fill="#334155">2. Verify evaluate ran</text>
+  <text x="740" y="430" font-size="10" fill="#334155">3. Check canary results</text>
+  <text x="740" y="448" font-size="10" fill="#334155">4. Confirm auto_promote off</text>
+  <text x="740" y="466" font-size="10" fill="#334155">5. Run evolution:check</text>
+
+  <!-- Resolution boxes -->
+  <rect x="20" y="510" width="220" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="130" y="536" text-anchor="middle" font-size="11" font-weight="600" fill="#166534">Resolution</text>
+  <text x="130" y="556" text-anchor="middle" font-size="10" fill="#334155">Fix prerequisites or re-run</text>
+  <text x="130" y="572" text-anchor="middle" font-size="10" fill="#334155">npm run bootstrap</text>
+
+  <rect x="240" y="510" width="220" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="350" y="536" text-anchor="middle" font-size="11" font-weight="600" fill="#166534">Resolution</text>
+  <text x="350" y="556" text-anchor="middle" font-size="10" fill="#334155">Fix .env / restart Postgres</text>
+  <text x="350" y="572" text-anchor="middle" font-size="10" fill="#334155">or correct memory scopes</text>
+
+  <rect x="500" y="510" width="220" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="610" y="536" text-anchor="middle" font-size="11" font-weight="600" fill="#166534">Resolution</text>
+  <text x="610" y="556" text-anchor="middle" font-size="10" fill="#334155">Update env vars, regenerate</text>
+  <text x="610" y="572" text-anchor="middle" font-size="10" fill="#334155">API types, restart services</text>
+
+  <rect x="720" y="510" width="220" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="830" y="536" text-anchor="middle" font-size="11" font-weight="600" fill="#166534">Resolution</text>
+  <text x="830" y="556" text-anchor="middle" font-size="10" fill="#334155">Complete evaluate + canary</text>
+  <text x="830" y="572" text-anchor="middle" font-size="10" fill="#334155">before promotion attempt</text>
+
+  <!-- Verification box -->
+  <rect x="280" y="620" width="400" height="50" rx="8" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/>
+  <text x="480" y="642" text-anchor="middle" font-size="13" font-weight="600" fill="#1e1b4b">Verify Resolution</text>
+  <text x="480" y="660" text-anchor="middle" font-size="11" fill="#3730a3">Re-run diagnostic command to confirm fix</text>
+
+  <!-- Final success -->
+  <rect x="360" y="700" width="240" height="44" rx="22" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="480" y="727" text-anchor="middle" font-size="13" font-weight="600" fill="#166534">Issue Resolved</text>
+
+  <!-- Escalation path -->
+  <rect x="660" y="700" width="240" height="44" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="780" y="722" text-anchor="middle" font-size="12" font-weight="600" fill="#991b1b">Escalate: check docs or</text>
+  <text x="780" y="738" text-anchor="middle" font-size="12" fill="#991b1b">report issue</text>
+
+  <!-- Arrows -->
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <g stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arr)">
+    <line x1="480" y1="124" x2="480" y2="150"/>
+    <!-- Decision to branches -->
+    <line x1="410" y1="195" x2="130" y2="270"/>
+    <line x1="440" y1="220" x2="350" y2="270"/>
+    <line x1="520" y1="220" x2="610" y2="270"/>
+    <line x1="550" y1="195" x2="830" y2="270"/>
+    <!-- Branches to sub-steps -->
+    <line x1="130" y1="320" x2="130" y2="350"/>
+    <line x1="350" y1="320" x2="350" y2="350"/>
+    <line x1="610" y1="320" x2="610" y2="350"/>
+    <line x1="830" y1="320" x2="830" y2="350"/>
+    <!-- Sub-steps to resolutions -->
+    <line x1="130" y1="480" x2="130" y2="510"/>
+    <line x1="350" y1="480" x2="350" y2="510"/>
+    <line x1="610" y1="480" x2="610" y2="510"/>
+    <line x1="830" y1="480" x2="830" y2="510"/>
+    <!-- Resolutions to verify -->
+    <line x1="200" y1="580" x2="330" y2="620"/>
+    <line x1="350" y1="580" x2="420" y2="620"/>
+    <line x1="610" y1="580" x2="540" y2="620"/>
+    <line x1="760" y1="580" x2="640" y2="620"/>
+    <!-- Verify to success -->
+    <line x1="480" y1="670" x2="480" y2="700"/>
+    <!-- Verify to escalate -->
+    <line x1="600" y1="660" x2="660" y2="700"/>
+  </g>
+
+  <!-- Legend -->
+  <rect x="30" y="760" width="900" height="40" rx="8" fill="#f8fafc" stroke="#e2e8f0"/>
+  <circle cx="60" cy="780" r="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="80" y="784" font-size="10" fill="#334155">Decision</text>
+  <rect x="140" y="772" width="16" height="16" rx="4" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="166" y="784" font-size="10" fill="#334155">Category</text>
+  <rect x="240" y="772" width="16" height="16" rx="4" fill="#f1f5f9" stroke="#475569"/>
+  <text x="266" y="784" font-size="10" fill="#334155">Steps</text>
+  <rect x="320" y="772" width="16" height="16" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="346" y="784" font-size="10" fill="#334155">Resolution</text>
+  <rect x="420" y="772" width="16" height="16" rx="4" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="446" y="784" font-size="10" fill="#334155">Escalation</text>
+</svg>

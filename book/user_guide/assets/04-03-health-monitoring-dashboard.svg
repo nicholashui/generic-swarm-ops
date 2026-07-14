@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="700" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">System Health Monitoring Dashboard</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#64748b">Service components, health endpoints, and status indicators</text>
+
+  <!-- Health Endpoint -->
+  <rect x="300" y="80" width="360" height="60" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="480" y="105" text-anchor="middle" font-size="14" font-weight="700" fill="#166534">GET /api/v1/health/ready</text>
+  <text x="480" y="125" text-anchor="middle" font-size="11" fill="#166534">Primary health check endpoint</text>
+
+  <!-- Status indicators row -->
+  <rect x="50" y="170" width="260" height="100" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="180" y="195" text-anchor="middle" font-size="13" font-weight="600" fill="#1e1b4b">Database Status</text>
+  <circle cx="80" cy="225" r="8" fill="#16a34a"/>
+  <text x="100" y="229" font-size="11" fill="#334155">database: postgres</text>
+  <circle cx="80" cy="250" r="8" fill="#dc2626"/>
+  <text x="100" y="254" font-size="11" fill="#334155">database: unavailable</text>
+
+  <rect x="350" y="170" width="260" height="100" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="480" y="195" text-anchor="middle" font-size="13" font-weight="600" fill="#1d4ed8">API Service</text>
+  <circle cx="380" cy="225" r="8" fill="#16a34a"/>
+  <text x="400" y="229" font-size="11" fill="#334155">FastAPI: responding</text>
+  <circle cx="380" cy="250" r="8" fill="#dc2626"/>
+  <text x="400" y="254" font-size="11" fill="#334155">FastAPI: timeout/error</text>
+
+  <rect x="650" y="170" width="260" height="100" rx="8" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="780" y="195" text-anchor="middle" font-size="13" font-weight="600" fill="#86198f">Frontend App</text>
+  <circle cx="680" cy="225" r="8" fill="#16a34a"/>
+  <text x="700" y="229" font-size="11" fill="#334155">Next.js: serving</text>
+  <circle cx="680" cy="250" r="8" fill="#dc2626"/>
+  <text x="700" y="254" font-size="11" fill="#334155">Next.js: build error</text>
+
+  <!-- Monitoring areas -->
+  <rect x="50" y="300" width="420" height="170" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="260" y="325" text-anchor="middle" font-size="14" font-weight="700" fill="#0f172a">Runtime State Monitoring</text>
+  <text x="70" y="350" font-size="11" fill="#334155">Audit Logs</text>
+  <rect x="70" y="358" width="180" height="6" rx="3" fill="#dcfce7"/>
+  <text x="70" y="382" font-size="10" fill="#475569">Track all agent actions and tool executions</text>
+  <text x="70" y="405" font-size="11" fill="#334155">Process Intelligence Artifacts</text>
+  <rect x="70" y="413" width="150" height="6" rx="3" fill="#dbeafe"/>
+  <text x="70" y="437" font-size="10" fill="#475569">Event ingestion, conformance, bottlenecks</text>
+  <text x="70" y="456" font-size="11" fill="#334155">Memory / Knowledge State</text>
+  <rect x="70" y="462" width="200" height="6" rx="3" fill="#e0e7ff"/>
+
+  <rect x="490" y="300" width="420" height="170" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="700" y="325" text-anchor="middle" font-size="14" font-weight="700" fill="#0f172a">Evolution Sandbox Status</text>
+  <text x="510" y="350" font-size="11" fill="#334155">Sandbox Variants</text>
+  <rect x="510" y="358" width="130" height="6" rx="3" fill="#fae8ff"/>
+  <text x="510" y="382" font-size="10" fill="#475569">Proposals awaiting evaluation</text>
+  <text x="510" y="405" font-size="11" fill="#334155">Canary Status</text>
+  <rect x="510" y="413" width="100" height="6" rx="3" fill="#fef9c3"/>
+  <text x="510" y="437" font-size="10" fill="#475569">Active canary deployments</text>
+  <text x="510" y="456" font-size="11" fill="#334155">Promotion Queue</text>
+  <rect x="510" y="462" width="80" height="6" rx="3" fill="#dcfce7"/>
+
+  <!-- Tool Adapters -->
+  <rect x="50" y="500" width="860" height="100" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+  <text x="480" y="525" text-anchor="middle" font-size="14" font-weight="700" fill="#854d0e">Tool Adapter Health (Fail-Closed Behavior)</text>
+
+  <rect x="70" y="540" width="120" height="44" rx="8" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="130" y="562" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">CRM</text>
+  <text x="130" y="576" text-anchor="middle" font-size="9" fill="#475569">tool_effects</text>
+
+  <rect x="210" y="540" width="120" height="44" rx="8" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="270" y="562" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">Billing</text>
+  <text x="270" y="576" text-anchor="middle" font-size="9" fill="#475569">tool_effects</text>
+
+  <rect x="350" y="540" width="120" height="44" rx="8" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="410" y="562" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">Email</text>
+  <text x="410" y="576" text-anchor="middle" font-size="9" fill="#475569">tool_effects</text>
+
+  <rect x="490" y="540" width="120" height="44" rx="8" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="550" y="562" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">Audit</text>
+  <text x="550" y="576" text-anchor="middle" font-size="9" fill="#475569">tool_effects</text>
+
+  <rect x="630" y="540" width="130" height="44" rx="8" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="695" y="562" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">Contract Parser</text>
+  <text x="695" y="576" text-anchor="middle" font-size="9" fill="#475569">tool_effects</text>
+
+  <rect x="780" y="540" width="120" height="44" rx="8" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="840" y="562" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">Policy Retriever</text>
+  <text x="840" y="576" text-anchor="middle" font-size="9" fill="#475569">tool_effects</text>
+
+  <!-- Status summary -->
+  <rect x="200" y="630" width="560" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="480" y="652" text-anchor="middle" font-size="13" font-weight="700" fill="#166534">System Health: All Components Operational</text>
+  <text x="480" y="670" text-anchor="middle" font-size="11" fill="#166534">Continuous monitoring ensures early detection of issues</text>
+
+  <!-- Arrows -->
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <g stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arr)">
+    <line x1="480" y1="140" x2="180" y2="170"/>
+    <line x1="480" y1="140" x2="480" y2="170"/>
+    <line x1="480" y1="140" x2="780" y2="170"/>
+  </g>
+</svg>
