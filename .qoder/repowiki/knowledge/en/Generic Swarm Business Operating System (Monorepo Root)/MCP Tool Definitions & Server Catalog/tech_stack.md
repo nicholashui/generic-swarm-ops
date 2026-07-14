@@ -1,0 +1,1 @@
+Model Context Protocol (MCP) v1 tool schemas using JSON Schema draft-07 for parameter validation; server transport is stdio launched through `npx -y @modelcontextprotocol/server-*` packages.

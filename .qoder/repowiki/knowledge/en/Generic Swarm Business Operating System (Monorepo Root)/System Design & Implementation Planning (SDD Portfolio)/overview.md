@@ -1,0 +1,1 @@
+Structured SDD planning portfolio that decomposes the system into backend, frontend, structure, improvement waves, special skills, and migration plans, each with EARS requirements, design docs, and task backlogs.

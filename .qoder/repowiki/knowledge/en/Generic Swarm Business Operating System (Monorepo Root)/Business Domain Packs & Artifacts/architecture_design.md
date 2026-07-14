@@ -1,0 +1,13 @@
+The `business/` tree is a pure data layer — no executable code — organized as a collection of self-contained *domain packs* plus shared cross-cutting artifacts:
+
+- **Domain packs** (`video/`, `example_education/`, `example_research/`) each ship a `manifest.json` declared against `schemas/domain-manifest.schema.json`, listing their `agents`, `workflows`, optional `knowledge_seed_globs`, `api_hooks`, and provenance. The `video/` pack is the canonical large example (153-line manifest, 114 agents in `ROSTER.json`, 15 workflows).
+- **Shared schemas** under `schemas/` define JSON Schema draft-2020-12 contracts for every artifact type: `agent-spec.schema.json`, `decision-requirement-card.schema.json`, `evaluation-card.schema.json`, `event-log.schema.json`, `learning-log.schema.json`, `workflow-dna.schema.json`, plus the top-level `domain-manifest.schema.json`.
+- **Evaluation system** (`evals/`) stores golden tasks, adversarial tests, regression gates, retrieval benchmarks, human-review sets, and historical replay payloads; its README enforces that evaluations never auto-promote workflows.
+- **Evolution sandbox** (`evolution/`) holds failed experiments, successful variants, mutation history, lessons-learned run logs, and workflow DNA snapshots; the README codifies the rule that the Evolution Manager may only propose variants and canary-deploy — never mutate production directly.
+- **Governance** (`governance/`) centralizes AI inventory, assurance cases, audit logs, model cards, risk assessments, use-case tiering, and the role-realization map linking STRUCT-15 roles to runtime agents/services.
+- **Knowledge base** (`knowledge-base/`) and **memory** (`memory/`) provide semantic/procedural/episodic decision memory and rules/best-practices/tacit-knowledge consumed by agents at runtime.
+- **Process intelligence** (`process-intelligence/`) stores discovered processes, conformance reports, bottlenecks, causal hypotheses, and event logs produced by PI services.
+- **Security** (`security/`) keeps threat models, incident reports, red-team results, prompt-injection tests, and tool-permission allow-lists.
+- **Adapters** (`adapters/`) is a reserved placeholder for future CRM/ERP/email/approval connectors so bootstrap scripts stay uncluttered.
+
+Dependency direction is one-way: runtime code reads these files via the schema-defined contracts; nothing in `business/` imports or calls back into the engine.

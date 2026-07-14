@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: documentation
+title: Project Documentation & User Guide
+scope:
+    - docs/
+    - book/
+source_files: []
+depends_on: []
+related_to: []

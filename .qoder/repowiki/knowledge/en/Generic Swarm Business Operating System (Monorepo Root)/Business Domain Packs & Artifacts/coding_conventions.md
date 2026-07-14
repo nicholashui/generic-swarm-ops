@@ -1,0 +1,6 @@
+- Each domain pack ships a `manifest.json` whose shape is validated against `schemas/domain-manifest.schema.json`, declaring `domain_id`, `version`, `display_name`, `default_risk_tier`, `requires_alc`, `agents`, and `workflows`.
+- Risk tiers follow the fixed enum `tier_0_observe` … `tier_5_restricted` from the manifest schema rather than ad-hoc labels.
+- Agent identifiers are scoped with a dot-prefixed namespace matching the pack id (e.g. `video.director`, `example.edu_planner`) and listed both in the manifest's `agents` array and in the pack's `ROSTER.json`.
+- Evaluation artifacts are kept read-only and never promote workflows automatically, as documented in each subdirectory's `README.md`.
+- Evolution outputs are named with stable hashes (`run_<sha>.json`, `test-skill-<sha>.md`) to make mutations traceable across failed-experiments, successful-variants, and mutation-history.
+- Cross-cutting artifacts (DRCs, evaluation cards, event logs, learning logs, workflow DNA) each have a dedicated JSON Schema file under `schemas/` that defines the contract consumers must validate against.

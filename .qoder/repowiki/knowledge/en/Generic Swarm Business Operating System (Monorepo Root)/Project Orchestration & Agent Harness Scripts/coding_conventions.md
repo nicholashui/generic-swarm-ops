@@ -1,0 +1,6 @@
+- Each skill/hook is paired with a JSON manifest (`skills/manifest.json`, `hooks/manifest.json`) declaring a `schema_version` and an array of entries, so discovery stays declarative rather than filesystem-scanned.
+- Adapters share a single canonical model in `adapters/shared.mjs` (`BUSINESS_AGENTS`, `HARNESS_COMMANDS`, `PROJECT_SKILLS`) and derive per-harness output files instead of duplicating definitions.
+- Every skill `SKILL.md` starts with YAML frontmatter (`--- name / description ---`) injected or validated through `ensureSkillFrontmatter` before being served to harnesses.
+- Filesystem helpers in `lib/fs-safe.mjs` wrap `fs/promises` with safe variants (`ensureDir`, `pathExists`, `writeJson`, `assertInsideRoot`) and are the only place raw fs calls appear.
+- Scripts follow a uniform shape: a default-exported async `main()` invoked at the bottom with `.catch(e => { console.error(e.message); process.exitCode = 1; })`.
+- Business-domain constants (agents, commands, skills) are defined as plain exported arrays/objects in shared modules and rendered into Markdown via template functions like `buildAgentContent` rather than hand-edited docs.

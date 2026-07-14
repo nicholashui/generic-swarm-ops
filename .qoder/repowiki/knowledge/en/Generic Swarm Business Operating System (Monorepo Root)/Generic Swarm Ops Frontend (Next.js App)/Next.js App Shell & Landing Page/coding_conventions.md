@@ -1,0 +1,3 @@
+- Global color and surface tokens are exposed as CSS custom properties in `:root` (e.g. `--background`, `--accent`, `--line-strong`) and consumed everywhere via `var(--...)` rather than hard-coded hex values.
+- Fonts are loaded through `next/font/google` and injected as CSS variables (`--font-body`, `--font-mono`) applied on the `<html>` element, then referenced in Tailwind classes like `font-[var(--font-body)]`.
+- Reusable chrome pieces (cards, buttons, badges) are imported from the local `@/components/ui/*` barrel instead of being authored inline in route pages.

@@ -1,0 +1,1 @@
+Node ≥20 + `node:test` for orchestration and tests; Python with FastAPI for the backend; Next.js 16 + React 19 for the frontend; Postgres JSONB as the shared persistence layer between backend and frontend.

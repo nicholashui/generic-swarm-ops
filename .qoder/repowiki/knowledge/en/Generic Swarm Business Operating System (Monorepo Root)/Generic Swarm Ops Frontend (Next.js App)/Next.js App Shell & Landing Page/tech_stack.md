@@ -1,0 +1,1 @@
+Next.js App Router with Tailwind CSS v4 (`@import "tailwindcss"`), next/font for on-demand Google Fonts (IBM Plex Sans/Mono), and lucide-react icons.

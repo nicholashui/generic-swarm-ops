@@ -1,0 +1,10 @@
+schema_version: 1
+module_path: governance_rules
+title: Project Governance Rules, Suggestions & Cross-Session Memory
+scope:
+    - rules/
+    - suggestions/
+    - memory/
+source_files: []
+depends_on: []
+related_to: []

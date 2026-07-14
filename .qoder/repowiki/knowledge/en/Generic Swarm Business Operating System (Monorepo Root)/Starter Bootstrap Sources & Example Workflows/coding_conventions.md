@@ -1,0 +1,3 @@
+- Every manifest entry declares an immutable `id` string as the canonical key, paired with a `target` path under `external/` where the bootstrap materializes the content.
+- Sources are classified by `tier` (core, official, standard, behavior-rules, memory, skills, best-practices, discovery, agents, cursor, security, historical) and gated by `quarantine` / `import_policy` (`reference-only`, `curated-only`, `never-import`) rather than being blindly imported.
+- Bootstrap inputs are pinned via `source-lock.json` instead of relying on branch names, making the whole `external/` tree reproducible across runs.

@@ -1,0 +1,10 @@
+schema_version: 1
+module_path: frontend_app/app_shell_and_root
+title: Next.js App Shell & Landing Page
+scope:
+    - frontend/src/app/layout.tsx
+    - frontend/src/app/page.tsx
+    - frontend/src/app/globals.css
+source_files: []
+depends_on: []
+related_to: []

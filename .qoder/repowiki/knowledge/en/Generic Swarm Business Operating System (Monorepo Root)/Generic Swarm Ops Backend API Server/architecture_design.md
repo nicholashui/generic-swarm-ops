@@ -1,0 +1,10 @@
+Layered FastAPI application under `app/` with four vertical slices:
+- `api/` — HTTP layer: `main.py` mounts CORS, request-id/metrics/security middleware, error handlers and the versioned router; `v1/router.py` wires each domain's route module (`routes/*.py`) under `/api/v1/<domain>`.
+- `core/` — cross-cutting concerns (config via `Settings` dataclass reading `GENERIC_SWARM_*` env vars + `.env`, auth helpers, rate limiting, pagination, metrics).
+- `services/` — one service per domain (`*_service.py`) orchestrating business logic and calling infrastructure.
+- `infrastructure/` — pluggable backends grouped by concern: `database/` (SQLAlchemy engine/session), `repositories/` (per-domain repo classes), `vector_store/` (pgvector/qdrant base+impls), `object_storage/` (local/s3), `llm/` (openai/mock providers), `queue/`, `integrations/`, `governance/`, `knowledge_orchestration/`, `self_improvement/`, `loop_engineering/`, `evolution/`, `security/domain_isolation/`.
+- `domain/` — pure domain models/policies/runtime split by sub-package (`agents`, `workflows`, `knowledge`, `memory`, `evaluations`, `governance`, `approvals`, `audit`).
+- `schemas/` — Pydantic v2 request/response schemas mirroring domains.
+- `runtime.py` is the process singleton: `RuntimeStore` persists collections as Postgres JSONB when `DATABASE_URL` is set (via `sync_database_url` mapping async URLs to psycopg sync driver) and always keeps a `backend/data/runtime.json` snapshot; `BusinessSourceLoader` seeds organizations, users, agents, tools, workflows and knowledge docs from `business/examples`; `RuntimeServices` centralizes auth (`authenticate`, `issue_token`, `refresh_access_token`, `logout`), RBAC (`ROLE_PERMISSIONS` map), permission checks, memory-scope enforcement, token/API-key management and seed bootstrap.
+- `workers/` runs background Celery-like tasks (`evaluation_worker`, `knowledge_worker`, `memory_worker`, `workflow_worker`) consuming from `infrastructure/queue/broker.py`.
+Dependency direction: api → services → domain + infrastructure; core and runtime are shared leaf dependencies.

@@ -1,0 +1,165 @@
+# 知识卡导出索引文件
+schema_version: 1
+locale: en-US
+branch: main
+nodes_managed: true
+exported_at: "2026-07-14T15:18:39Z"
+modules:
+    "":
+        dir_name: Generic Swarm Business Operating System (Monorepo Root)
+        title: Generic Swarm Business Operating System (Monorepo Root)
+        scope:
+            - README.md
+            - package.json
+            - .gitignore
+            - .editorconfig
+            - AGENTS.md
+            - EXECUTABLE_PRODUCT.md
+            - MIGRATION_COMPLETE.md
+            - backend.md
+            - frontend.md
+            - structure.md
+            - tasks.md
+            - status.md
+            - adoption.md
+            - improvements.md
+            - adoption_hk.md
+            - adoption_hk.mp3
+            - adoption_hk.script.txt
+            - adoption_plan.md
+            - adoption_plan_hk.md
+            - adoption_plan_hk.mp3
+            - adoption_plan_hk.script.txt
+            - agent_implement_order_list.md
+            - backend.pdf
+            - backend_hk.md
+            - backend_hk.pdf
+            - book_creator.md
+            - create_sub_func_spec_plan.md
+            - create_user_guide.md
+            - create_youtube_script.txt
+        source_files: []
+        children:
+            - backend_service
+            - business_artifacts
+            - documentation
+            - examples_and_samples
+            - frontend_app
+            - governance_rules
+            - mcp_tools
+            - orchestration_scripts
+            - planning_docs
+            - tests_and_reviews
+        depends_on: []
+        related_to: []
+    backend_service:
+        dir_name: Generic Swarm Ops Backend API Server
+        title: Generic Swarm Ops Backend API Server
+        scope:
+            - backend/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    business_artifacts:
+        dir_name: Business Domain Packs & Artifacts
+        title: Business Domain Packs & Artifacts
+        scope:
+            - business/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    documentation:
+        dir_name: Project Documentation & User Guide
+        title: Project Documentation & User Guide
+        scope:
+            - docs/
+            - book/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    examples_and_samples:
+        dir_name: Starter Bootstrap Sources & Example Workflows
+        title: Starter Bootstrap Sources & Example Workflows
+        scope:
+            - examples/
+            - external/
+            - sources/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    frontend_app:
+        dir_name: Generic Swarm Ops Frontend (Next.js App)
+        title: Generic Swarm Ops Frontend (Next.js App)
+        scope:
+            - frontend/
+        source_files: []
+        children:
+            - frontend_app/app_shell_and_root
+        depends_on: []
+        related_to: []
+    frontend_app/app_shell_and_root:
+        dir_name: Next.js App Shell & Landing Page
+        title: Next.js App Shell & Landing Page
+        scope:
+            - frontend/src/app/layout.tsx
+            - frontend/src/app/page.tsx
+            - frontend/src/app/globals.css
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    governance_rules:
+        dir_name: Project Governance Rules, Suggestions & Cross-Session Memory
+        title: Project Governance Rules, Suggestions & Cross-Session Memory
+        scope:
+            - rules/
+            - suggestions/
+            - memory/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    mcp_tools:
+        dir_name: MCP Tool Definitions & Server Catalog
+        title: MCP Tool Definitions & Server Catalog
+        scope:
+            - mcps/
+            - mcp-configs/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    orchestration_scripts:
+        dir_name: Project Orchestration & Agent Harness Scripts
+        title: Project Orchestration & Agent Harness Scripts
+        scope:
+            - scripts/
+            - hooks/
+            - skills/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    planning_docs:
+        dir_name: System Design & Implementation Planning (SDD Portfolio)
+        title: System Design & Implementation Planning (SDD Portfolio)
+        scope:
+            - planning/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    tests_and_reviews:
+        dir_name: Node.js Test Suite & Operator Review Records
+        title: Node.js Test Suite & Operator Review Records
+        scope:
+            - tests/
+            - reviews/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []

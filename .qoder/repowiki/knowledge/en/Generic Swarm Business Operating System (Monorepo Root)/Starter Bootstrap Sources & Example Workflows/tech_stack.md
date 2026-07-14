@@ -1,0 +1,1 @@
+Plain JSON manifests with an internal `schema_version: "1.0"` used by the starter bootstrap workflow; no runtime language or framework.

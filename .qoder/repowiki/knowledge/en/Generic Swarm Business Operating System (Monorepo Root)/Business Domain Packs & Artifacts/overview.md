@@ -1,0 +1,1 @@
+Data-only repository of business domain packs, agent manifests, evaluation suites, governance artifacts, and evolution records consumed by the runtime engine.

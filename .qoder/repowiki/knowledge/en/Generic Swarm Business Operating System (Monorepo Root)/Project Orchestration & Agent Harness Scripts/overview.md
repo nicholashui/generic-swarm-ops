@@ -1,0 +1,1 @@
+Node/Python orchestration scripts that bootstrap, validate, audit, and wire agent harnesses (Trae/Grok) around a business workflow system, plus the skills and hooks they consume.

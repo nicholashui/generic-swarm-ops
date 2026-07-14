@@ -1,0 +1,1 @@
+`pnpm api:generate` runs `../scripts/export-openapi.mjs` to pull the backend's OpenAPI spec into `openapi.json` then emits TypeScript types into `src/lib/api/generated/openapi.d.ts`; `pnpm test:e2e:ui` starts the dev server automatically via `E2E_START=1` before running Playwright.

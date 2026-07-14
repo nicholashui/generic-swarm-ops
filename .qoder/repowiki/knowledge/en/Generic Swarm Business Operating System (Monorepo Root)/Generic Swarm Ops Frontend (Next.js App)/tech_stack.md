@@ -1,0 +1,1 @@
+Next.js 16 + React 19, Tailwind CSS v4, Zod v4 for runtime validation, react-hook-form + @hookform/resolvers for forms, Zustand for client state, Vitest + jsdom for unit tests, Playwright for e2e, openapi-typescript for codegen from the shared `openapi.json`.

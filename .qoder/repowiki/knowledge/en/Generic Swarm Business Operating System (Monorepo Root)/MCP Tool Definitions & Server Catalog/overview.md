@@ -1,0 +1,1 @@
+Declarative JSON schemas for Model Context Protocol tools (GitHub, memory, tasks, sequential-thinking, pencil) plus MCP server catalog manifests consumed by the Grok client.

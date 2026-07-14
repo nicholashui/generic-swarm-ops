@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: mcp_tools
+title: MCP Tool Definitions & Server Catalog
+scope:
+    - mcps/
+    - mcp-configs/
+source_files: []
+depends_on: []
+related_to: []

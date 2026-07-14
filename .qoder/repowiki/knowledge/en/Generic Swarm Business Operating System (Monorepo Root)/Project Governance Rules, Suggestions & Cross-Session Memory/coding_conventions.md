@@ -1,0 +1,3 @@
+- Rule files use a numeric prefix (00-, 10-, … 120-) to encode strict load order, with `manifest.json` mirroring that ordering as the canonical index.
+- Each rule document follows a uniform top-level `# Title` heading followed by bullet-point directives rather than prose paragraphs, keeping them machine-parseable by agents.
+- Memory files are kept intentionally small and scannable: `handoff.md` uses status bullets and tables, `project.md` lists facts as short bullet lines, and `README.md` declares discipline rules once.

@@ -1,0 +1,4 @@
+- All cross-cutting wiring is driven by npm scripts that delegate to Node/Python harnesses under `scripts/`, never by ad-hoc shell invocations.
+- Agent harness outputs (`*.trae/*`, `*.grok/*`) are always regenerated from shared inputs (`rules/`, `skills/`, `hooks/`, `mcp-configs/`, `scripts/adapters/shared.mjs`) via `npm run sync`, never hand-edited.
+- Business data lives under `business/` as declarative JSON/YAML manifests consumed by both backend runtime and frontend UI, not embedded in code.
+- Governance and evolution constraints are enforced by scripts under `scripts/business/` invoked through `npm run business:*`, not by runtime-only checks.

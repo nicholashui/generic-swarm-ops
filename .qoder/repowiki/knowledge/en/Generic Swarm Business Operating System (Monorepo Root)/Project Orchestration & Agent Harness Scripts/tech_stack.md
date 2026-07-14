@@ -1,0 +1,1 @@
+Node.js ESM (top-level `import` without `.mjs` extensions on imports, files named `*.mjs`) for all orchestration logic; Python used for batch/migration generators under `scripts/business/` and `_gen_*` roots. No package manager lockfile inside this scope — scripts assume `npm run <script>` wiring from the repo root.

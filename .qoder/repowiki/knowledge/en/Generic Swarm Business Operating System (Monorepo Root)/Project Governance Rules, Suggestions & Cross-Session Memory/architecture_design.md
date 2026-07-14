@@ -1,0 +1,5 @@
+Three sibling Markdown trees with no code, each serving a distinct agent-facing contract:
+- `rules/` — ordered policy documents consumed by the agent harness; `manifest.json` (schema v1.0) is the single source of truth listing every rule file in load order, so the harness can assemble a deterministic prompt from this index rather than globbing.
+- `suggestions/` — triage workspace for self-improvement proposals: `audit-log.md` records decisions; `approved/`, `pending/`, `rejected/` are intended subdirectories for staged suggestions (currently empty placeholders).
+- `memory/` — durable continuity surface (`handoff.md`, `project.md`, `reflections/`) explicitly documented as *not* the same as Grok's experimental memory or product business memory; read at session start and updated at milestones to bridge Trae ↔ Grok sessions.
+Dependency direction is one-way: code reads these files; nothing here imports code. The module has no build step — it is pure documentation consumed by external harnesses via the manifest and README conventions.

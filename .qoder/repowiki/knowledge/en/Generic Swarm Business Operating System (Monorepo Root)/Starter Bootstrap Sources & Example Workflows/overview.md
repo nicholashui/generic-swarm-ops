@@ -1,0 +1,1 @@
+Declarative manifests and placeholder READMEs that drive the starter bootstrap workflow to clone upstream agent ecosystems and pull reference docs into external/.

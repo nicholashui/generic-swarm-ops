@@ -1,0 +1,1 @@
+Markdown documentation and a structured, multi-section user guide for the Generic Swarm Business Operating System, covering installation, workflows, domain packs, governance, troubleshooting, and optimization.

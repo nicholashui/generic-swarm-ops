@@ -1,0 +1,4 @@
+- Each MCP tool lives in its own `<tool_name>.json` file under `mcps/<domain>/tools/`, with top-level keys `name`, `description`, and `inputSchema` following the MCP tool-schema contract.
+- Tool descriptions are written in second-person imperative prose addressed to the LLM (e.g. "Use this when…") rather than technical API documentation, guiding prompt-time selection.
+- Server catalogs use a flat key-per-server shape with `transport`, `command`, `args`, optional `env`, `requires_secrets`, and `default_enabled` fields; servers needing secrets must list their env var names explicitly.
+- Optional or experimental server bundles live under `mcp-configs/optional/` and are excluded from the root `manifest.json`, requiring explicit copy into `.grok/config.toml` before activation.

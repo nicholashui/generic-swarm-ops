@@ -1,0 +1,36 @@
+schema_version: 1
+module_path: ""
+title: Generic Swarm Business Operating System (Monorepo Root)
+scope:
+    - README.md
+    - package.json
+    - .gitignore
+    - .editorconfig
+    - AGENTS.md
+    - EXECUTABLE_PRODUCT.md
+    - MIGRATION_COMPLETE.md
+    - backend.md
+    - frontend.md
+    - structure.md
+    - tasks.md
+    - status.md
+    - adoption.md
+    - improvements.md
+    - adoption_hk.md
+    - adoption_hk.mp3
+    - adoption_hk.script.txt
+    - adoption_plan.md
+    - adoption_plan_hk.md
+    - adoption_plan_hk.mp3
+    - adoption_plan_hk.script.txt
+    - agent_implement_order_list.md
+    - backend.pdf
+    - backend_hk.md
+    - backend_hk.pdf
+    - book_creator.md
+    - create_sub_func_spec_plan.md
+    - create_user_guide.md
+    - create_youtube_script.txt
+source_files: []
+depends_on: []
+related_to: []

@@ -1,0 +1,4 @@
+- Each `.test.mjs` file declares exactly one top-level `test("...", ...)` block that asserts invariants about a single subsystem or artifact set.
+- Tests compute the repository root as `path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")` rather than relying on CWD, so they work when invoked from any directory.
+- File-existence assertions use `fs.stat(...).isFile()` against a list of expected relative paths instead of ad-hoc checks, keeping required-artifact contracts explicit.
+- Fixture data used across tests is placed under `tests/fixtures/` and loaded via absolute paths derived from the computed root.

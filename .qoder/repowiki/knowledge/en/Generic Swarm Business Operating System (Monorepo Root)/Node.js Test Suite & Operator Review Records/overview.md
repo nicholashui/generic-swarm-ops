@@ -1,0 +1,1 @@
+Node `node:test` suite validating scripts, business governance artifacts, and source manifests, plus operator review logs and the E1 checklist.

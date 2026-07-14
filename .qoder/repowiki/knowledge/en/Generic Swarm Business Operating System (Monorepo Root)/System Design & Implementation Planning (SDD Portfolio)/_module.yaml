@@ -1,0 +1,8 @@
+schema_version: 1
+module_path: planning_docs
+title: System Design & Implementation Planning (SDD Portfolio)
+scope:
+    - planning/
+source_files: []
+depends_on: []
+related_to: []

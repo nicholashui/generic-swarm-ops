@@ -1,0 +1,1 @@
+Python ≥3.11, FastAPI 0.115+, Pydantic v2, SQLAlchemy 2.x with psycopg[binary] 3.x and asyncpg drivers, uvicorn ASGI server, python-dotenv for config. Runtime persistence defaults to a single-row `runtime_state` JSONB table on Postgres (auto-created if missing) with a local `data/runtime.json` fallback and dual-write backup.

@@ -1,0 +1,1 @@
+Root layout, global CSS theme, and marketing landing page that bootstraps the Next.js App Router with dark-mode design tokens and IBM Plex fonts.

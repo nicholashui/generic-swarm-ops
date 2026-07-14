@@ -1,0 +1,1 @@
+Next.js 16 + React 19 SPA that renders the marketing landing page and an authenticated /app workspace, driven by a single OpenAPI contract generated from the backend.

@@ -1,0 +1,4 @@
+- All API surface is derived from the single `openapi.json` contract — no hand-written fetch signatures; generated types live under `src/lib/api/generated/`.
+- Server-side route guards use Next.js middleware for path-prefix checks (`/app`) and per-route `getSessionUser()` redirects as a second layer.
+- Domain-specific UI components go in `src/components/domain/`, reusable chrome in `src/components/layout/`, and primitive widgets in `src/components/ui/`.
+- Cross-cutting logic is split into `src/lib/<area>/` modules and exposed to components via thin React hooks in `src/hooks/` rather than direct imports.

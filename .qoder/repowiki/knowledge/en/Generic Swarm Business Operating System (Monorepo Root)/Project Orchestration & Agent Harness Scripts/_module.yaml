@@ -1,0 +1,10 @@
+schema_version: 1
+module_path: orchestration_scripts
+title: Project Orchestration & Agent Harness Scripts
+scope:
+    - scripts/
+    - hooks/
+    - skills/
+source_files: []
+depends_on: []
+related_to: []

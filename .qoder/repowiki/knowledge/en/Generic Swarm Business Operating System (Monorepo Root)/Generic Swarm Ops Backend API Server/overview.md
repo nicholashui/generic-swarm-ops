@@ -1,0 +1,1 @@
+FastAPI server that exposes a REST API over an in-process runtime store (Postgres JSONB or local JSON file) for agents, workflows, governance, knowledge and memory.

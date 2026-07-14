@@ -1,0 +1,6 @@
+Three cooperating sub-trees consumed by the starter bootstrap workflow:
+- `sources/manifest.json` — a schema-versioned registry of upstream Git repositories (id, url, target under `external/sources`, type, priority, tier, quarantine flag, import_policy) that the bootstrap script clones into `external/sources/<id>`.
+- `sources/docs-manifest.json` — a parallel registry of documentation URLs mapped to Markdown targets under `external/docs/`, enabling automated doc sync alongside code sources.
+- `sources/source-lock.json` — the deterministic lockfile pinning each source to a specific revision so bootstraps are reproducible.
+- `external/.gitignore` keeps both `external/sources/` and `external/docs/` out of version control; they are generated artifacts only.
+- `examples/<workflow>/README.md` — skeleton placeholders for concrete end-to-end workflows (SDD feature, self-review, skill suggestion, Trae sync) that consume the curated outputs produced from the above sources. No executable code lives here — it is purely declarative configuration plus documentation stubs.

@@ -1,0 +1,5 @@
+Three-file leaf of the Next.js App Router:
+- `layout.tsx` is the root layout (`RootLayout`) that injects Google Fonts (IBM_Plex_Sans, IBM_Plex_Mono) as CSS variables (`--font-body`, `--font-mono`), sets `<html lang="en">`, applies Tailwind's `antialiased` + body font to `<body>`, and exports site-wide `Metadata` (title/description).
+- `globals.css` is the single source of visual identity: imports Tailwind v4 via `@import "tailwindcss"`, declares semantic CSS custom properties for background/foreground/accent/surface tokens, defines a dark radial-gradient body, an `app-grid` dot grid, reusable `.surface-card*` components, and a `prefers-reduced-motion` accessibility reset.
+- `page.tsx` is the `/` route — a static marketing/home component composed from shared UI primitives (`@/components/ui/button`, `@/components/ui/card`) and lucide-react icons; it links into the app shell at `/app` and auth at `/login`.
+Dependency direction is one-way: layout → globals.css; page → ui primitives + icons. No runtime state or data fetching lives here.

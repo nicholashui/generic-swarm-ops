@@ -1,0 +1,1 @@
+Run via `uvicorn app.main:app --reload` after copying `backend/.env.example` to `backend/.env`. Set `DATABASE_URL=postgresql+asyncpg://...` to enable Postgres-backed runtime; set `GENERIC_SWARM_FORCE_JSON_STORE=true` to force JSON-file mode. Seed admin users and default tokens through `scripts/create_admin.py` / `scripts/seed.py`; database migrations live in `scripts/migrate.py`.

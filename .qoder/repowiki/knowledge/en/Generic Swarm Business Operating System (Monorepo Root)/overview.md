@@ -1,0 +1,1 @@
+Top-level monorepo that wires a FastAPI backend, Next.js frontend, MCP tool catalog, business artifacts, governance rules, and orchestration scripts into a governed multi-agent business OS.

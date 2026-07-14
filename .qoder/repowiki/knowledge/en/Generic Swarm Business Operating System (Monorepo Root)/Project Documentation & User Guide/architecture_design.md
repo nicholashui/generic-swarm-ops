@@ -1,0 +1,5 @@
+Two parallel documentation trees with distinct audiences:
+- `docs/` — flat, topic-scoped Markdown files (usage, installation, architecture, security, governance, evaluation, workflow-dna, etc.) consumed directly by readers or CI; no build tooling.
+- `book/user_guide/` — a staged, five-section curriculum (`chapters/01-*` through `05-*`) with paired English/HK variants (`*_hk.md`), each chapter owning an `assets/` subfolder of numbered SVG diagrams referenced from its MD file; `README.md` is the table-of-contents entry point.
+- `book/design_phase/` — design-phase artifacts: narrative books (`book.backend_hk.md`, `book.frontend_hk.md`, `book.structure_hk.md`, `book.md`), their Mandarin audio transcripts (`*.script.txt`) and generated MP3s, plus large system-overview SVGs and scaffolding scripts (`create_book.txt`, `create_backend_book.txt`, …) used to regenerate them.
+Dependency direction is one-way: chapters reference their sibling assets via relative paths; there is no cross-linking engine — navigation is manual via README tables and in-file links.

@@ -1,0 +1,4 @@
+- Each user-guide chapter has a matching HK-traditional variant named `<base>_hk.md` placed beside it, keeping both languages in the same directory.
+- Diagrams are stored as numbered SVGs under a chapter's `assets/` folder (e.g. `01-01-system-overview.svg`, `02-04-process-intelligence-pipeline.svg`) and linked from the chapter using relative paths rather than absolute URLs.
+- Design-phase books pair a `.md` source with a `*.script.txt` transcript and a generated `*.mp3` audio file, all sharing the same base filename.
+- Chapter filenames follow a strict `<section>-<number>-<slug>.md` scheme (e.g. `01-01-system-overview.md`, `03-04-rbac-governance-configuration.md`) so the TOC can sort chronologically.

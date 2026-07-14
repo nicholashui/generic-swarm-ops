@@ -1,0 +1,1 @@
+Human-readable governance rules, suggestion workflow artifacts, and git-backed cross-session memory that steer coding agents across Trae IDE and Grok Build.

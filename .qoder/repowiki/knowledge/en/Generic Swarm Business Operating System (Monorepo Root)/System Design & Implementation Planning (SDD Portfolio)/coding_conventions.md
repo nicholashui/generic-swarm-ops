@@ -1,0 +1,6 @@
+- Each sub-functional spec lives in its own numbered directory (`nn_<slug>/`) containing exactly three sibling documents: `requirements.md` (EARS FR/NFR/AC), `design.md` (SDD v2.x architecture + ICD + RTM), and `tasks.md` (test-first implementation backlog).
+- Requirements are written in EARS patterns (Ubiquitous 'shall', Event-driven 'When… shall', State-driven 'While… shall', Unwanted 'If… then shall', Optional 'Where… shall') and every spec's README declares which patterns it uses.
+- Every spec folder ships a `DESIGN_QUALITY_SCORE.md` and `TASKS_QUALITY_SCORE.md` asserting a 100/100 score, plus a `TASK_TO_CODE_TRACEABILITY.md` mapping tasks to concrete code paths.
+- Specs declare their source-of-truth parent document (`backend.md`, `frontend.md`, `structure.md`, `improvements.md`) and include a table mapping each `nn` component to the relevant section numbers of that SoT.
+- Build/installation ordering is documented as an ASCII dependency sketch in each track's README, showing sequential and cross-track edges between components.
+- Improvement waves follow a fixed four-file SDD quartet (`requirements.md`, `design.md`, `tasks.md`, `completion-report.md`) and record verification snapshots (e.g., test counts, inventory pass) at wave exit rather than rewriting historical numbers.
