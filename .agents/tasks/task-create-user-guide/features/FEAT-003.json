@@ -1,0 +1,36 @@
+{
+  "id": "FEAT-003",
+  "type": "docs",
+  "description": "Create Section 3 - Advanced Customization (chapters 03-01 through 03-05) with matching SVG illustrations. This section covers expert-level content: custom domain pack development, API integration and extension, advanced workflow automation (evolution sandbox), RBAC configuration and governance, and white-labeling/multi-domain options.",
+  "status": "completed",
+  "steps": [
+    "Create book/user_guide/chapters/03-01-custom-domain-pack-development.md - Cover Domain Pack architecture (business/<domain_id>/ structure), manifest.json schema, agent-spec.json with ALC (Autonomous Learning Capability) fields, workflow DNA for domains, evaluation corpus overlays, registration via CLI (register_domain.py) and API (POST /api/v1/domains/register). Walk through creating a new domain pack from the example_research skeleton. Include Wave progression (0-4).",
+    "Create book/user_guide/chapters/03-02-api-integration-extension.md - Cover the full FastAPI API surface: auth endpoints, workflow CRUD, run execution, approval queue, knowledge search/graph, memory operations, process intelligence, evolution archive, improvement/loops, settings, health. Include authentication flows (password + bearer), request/response patterns, error envelopes with request_id, rate limiting. Provide curl examples for key operations.",
+    "Create book/user_guide/chapters/03-03-advanced-workflow-automation.md - Cover the Evolution Sandbox: proposing variants (POST /api/v1/evolution/variants), sandbox evaluation against corpus (golden/regression/adversarial/historical tasks), fitness metrics, canary deployment, versioned promotion, rollback. Self-improvement loop: auto-reflect, lesson library, auto-propose, Loop Engineering runner (POST /api/v1/loops/run). Include the full pipeline: reflect -> propose -> evaluate -> canary.",
+    "Create book/user_guide/chapters/03-04-rbac-governance-configuration.md - Cover risk tiers (0-5: observe, recommend, draft, execute-reversible, execute+gate, restricted), human approval policy configuration, audit logging requirements, tool permission controls, AI inventory management, model cards, assurance cases. Walk through configuring governance for a new workflow. Reference NIST AI RMF, ISO 42001, EU AI Act considerations.",
+    "Create book/user_guide/chapters/03-05-multi-domain-white-labeling.md - Cover multi-domain deployment (multiple packs under business/), domain isolation rules (tool namespaces, memory scope isolation, no cross-pack bleed), coevolution experiments (POST /api/v1/evolution/coevolution/run), lesson utility dashboard, pack eval overlays, N3 inventory enforcement. Include the video pack (114 agents) as a reference implementation.",
+    "Create book/user_guide/assets/03-01-domain-pack-architecture.svg - Diagram showing domain pack structure: manifest -> agents -> workflows -> tools -> evals -> knowledge, with connections to host runtime.",
+    "Create book/user_guide/assets/03-02-api-architecture.svg - API layer diagram showing authentication flow, route groups (auth, workflows, runs, approvals, knowledge, memory, processes, evolution, improvement, loops), middleware (request-id, CORS, security headers), and backend services.",
+    "Create book/user_guide/assets/03-03-evolution-pipeline.svg - Full evolution pipeline flowchart: propose (sandbox) -> evaluate (corpus) -> fitness scoring -> canary/promote decision -> rollback path. Include the self-improvement loop (reflect -> lessons -> auto-propose).",
+    "Create book/user_guide/assets/03-04-governance-risk-tiers.svg - Visual representation of the 6 risk tiers (0-5) with their autonomy levels, allowed behaviors, and gate requirements. Show how risk tier maps to approval policy.",
+    "Create book/user_guide/assets/03-05-multi-domain-isolation.svg - Diagram showing multiple domain packs with isolation boundaries: tool namespaces, memory scopes, eval overlays, with the host runtime as shared infrastructure.",
+    "Embed SVG references in each chapter with proper relative paths and descriptive alt text."
+  ],
+  "acceptance_criteria": [
+    "All 5 chapter files exist in book/user_guide/chapters/ with naming 03-0N-*.md",
+    "All 5 SVG files exist in book/user_guide/assets/ with naming 03-0N-*.svg",
+    "Each chapter has title, learning objectives, prerequisites, numbered instructions, technical explanations, 2-3 use cases, best practices, summary, quiz",
+    "Domain Pack content accurately reflects docs/domain-packs.md schemas and registration process",
+    "Evolution content matches docs/evolution-sandbox.md and docs/self-improvement-and-orchestration.md",
+    "Governance content matches structure.md section 6 risk tiers and docs/governance.md",
+    "All SVGs use consistent style and WCAG 2.1 AA compliance",
+    "All markdown links resolve correctly"
+  ],
+  "verification": [
+    "Confirm all files exist: ls book/user_guide/chapters/03-*.md book/user_guide/assets/03-*.svg",
+    "Verify SVG validity",
+    "Verify link resolution"
+  ],
+  "blocked_reason": null,
+  "findings": "All 10 files created successfully (5 chapters, 5 SVGs). Line counts: 03-01: 978, 03-02: 872, 03-03: 886, 03-04: 873, 03-05: 861 (all above 800 minimum). SVGs use consistent 960px width, Segoe UI font, WCAG AA color palette matching 01-01 reference. Content accurately references domain-packs.md (ALC fields, registration, waves, isolation, N3), evolution-sandbox.md (pipeline, corpus eval, canary/promote/rollback), self-improvement-and-orchestration.md (reflect/lessons/auto-propose, loop engineering, K1-lite), governance.md (risk tiers, artifacts, enforcement), and security.md (controls, OWASP mapping)."
+}
