@@ -1,0 +1,36 @@
+{
+  "id": "FEAT-002",
+  "type": "docs",
+  "description": "Create Section 2 - Intermediate Workflows (chapters 02-01 through 02-05) with matching SVG illustrations. This section covers skill-building content: core workflow DNA implementation, standard business process walkthroughs (customer onboarding flagship), basic integration setup (tool adapters), process intelligence usage, and collaborative knowledge/memory tools.",
+  "status": "completed",
+  "steps": [
+    "Create book/user_guide/chapters/02-01-workflow-dna-implementation.md - Cover Workflow DNA concepts (bounded state graph, steps with agents/tools, memory reads/writes, guardrails, verification checks, rollback plans, fitness metrics). Walk through creating a workflow from scratch using the customer onboarding example (wf_customer_onboarding_v12). Include the full YAML schema explanation, validation with npm run business:validate.",
+    "Create book/user_guide/chapters/02-02-business-process-walkthroughs.md - Cover end-to-end execution of the flagship customer onboarding workflow: Run Now with payload (case_id), step execution (verify_contract, create_customer_record, configure_billing, send_welcome_packet), human gate approval for billing, tool_effects tracking, auto-reflect on completion. Include the E1 operator path as a real example.",
+    "Create book/user_guide/chapters/02-03-tool-adapter-integration.md - Cover all shipped tool adapters (crm, billing, email, audit, contract_parser, policy_retriever), their configurations, permission scoping, effect tracking (tool_effects), fail-closed behavior, and how to set up basic integrations. Include API examples for tool execution.",
+    "Create book/user_guide/chapters/02-04-process-intelligence-usage.md - Cover event log ingestion (POST /api/v1/processes/event-logs), event schema (id, timestamp, actor_type, process_id, case_id, activity, etc.), discovered processes, conformance reports, bottleneck analysis. Walk through PI artifact generation under business/process-intelligence/. Include the PI agents (Process Miner, Conformance, Bottleneck Analyzer).",
+    "Create book/user_guide/chapters/02-05-knowledge-memory-collaboration.md - Cover the knowledge layer (tiered retrieval: Tier 0 keyword/embedding, Tier 1 LightRAG graph, Tier 2 RAPTOR summaries), memory types (Event, Episodic, Semantic, Procedural, Decision, Exception, Evaluation, Provenance), knowledge search APIs, memory scope enforcement, document indexing, and K1-lite graph operations.",
+    "Create book/user_guide/assets/02-01-workflow-dna-structure.svg - Diagram showing Workflow DNA schema components: steps, agents, tools, memory, guardrails, verification, rollback, fitness metrics. Use the style from book/design_phase/assets/05-workflow-dna.svg as reference.",
+    "Create book/user_guide/assets/02-02-onboarding-process-flow.svg - End-to-end flowchart of the customer onboarding workflow: intake -> verify_contract -> create_record -> configure_billing (human gate) -> send_welcome -> audit_log -> auto_reflect.",
+    "Create book/user_guide/assets/02-03-tool-adapter-architecture.svg - Data flow diagram showing how tool adapters work: request -> permission check -> adapter execution -> tool_effects capture -> audit log -> response.",
+    "Create book/user_guide/assets/02-04-process-intelligence-pipeline.svg - Pipeline diagram: event ingestion -> storage -> process discovery -> conformance check -> bottleneck analysis -> artifact output to business/process-intelligence/.",
+    "Create book/user_guide/assets/02-05-knowledge-memory-tiers.svg - Layered diagram showing the three retrieval tiers (Tier 0 vector, Tier 1 graph, Tier 2 RAPTOR), memory types, and provenance layer wrapping everything.",
+    "Embed SVG references in each chapter with proper relative paths and descriptive alt text."
+  ],
+  "acceptance_criteria": [
+    "All 5 chapter files exist in book/user_guide/chapters/ with naming 02-0N-*.md",
+    "All 5 SVG files exist in book/user_guide/assets/ with naming 02-0N-*.svg",
+    "Each chapter contains: title, learning objectives, prerequisites, numbered step-by-step instructions, technical explanations, 2-3 real-world use cases, best practices, summary, knowledge check quiz",
+    "Workflow DNA content accurately reflects the schema from structure.md section 4.1",
+    "Process Intelligence content matches docs/process-intelligence.md APIs and artifact paths",
+    "Knowledge/Memory content accurately describes the tiered retrieval from structure.md section 3.4",
+    "All SVGs follow the established style (960px viewBox, Segoe UI, colored boxes, WCAG colors)",
+    "All markdown SVG references use valid relative paths"
+  ],
+  "verification": [
+    "Confirm all files exist: ls book/user_guide/chapters/02-*.md book/user_guide/assets/02-*.svg",
+    "Verify SVG files are valid XML",
+    "Verify all internal links resolve correctly"
+  ],
+  "blocked_reason": null,
+  "findings": "All 10 files created successfully (5 chapters + 5 SVGs). SVGs validated as proper XML with correct viewBox (960px width), Segoe UI font-family, white backgrounds, rx=8 rounded corners, and arrow markers. All markdown SVG references use correct relative paths (../assets/02-0N-*.svg). Each chapter includes all required sections: learning objectives, prerequisites, numbered step-by-step instructions, real-world use cases (3+ per chapter), best practices, chapter summary, and knowledge check quiz (6-7 questions each). Line counts: 669-835 per chapter (3734 total). Content accurately reflects source docs: workflow DNA schema from structure.md section 4.1, PI APIs and artifact paths from docs/process-intelligence.md, tiered retrieval from structure.md section 3.4, E1 operator path from docs/usage.md."
+}
