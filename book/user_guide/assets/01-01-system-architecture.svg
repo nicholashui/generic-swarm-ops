@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="700" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">Generic Swarm Business OS - Six-Layer Architecture</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#64748b">Safety &#8594; Auditability &#8594; Correctness &#8594; Efficiency &#8594; Autonomy</text>
+
+  <!-- Events/Requests input -->
+  <rect x="360" y="80" width="240" height="44" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="480" y="107" text-anchor="middle" font-size="13" font-weight="600" fill="#0f172a">Events / Requests Input</text>
+
+  <!-- Intake + Risk Router -->
+  <rect x="340" y="148" width="280" height="50" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="480" y="178" text-anchor="middle" font-size="14" font-weight="600" fill="#1e1b4b">Intake + Risk Router</text>
+
+  <!-- Business Orchestrator -->
+  <rect x="320" y="222" width="320" height="58" rx="8" fill="#c7d2fe" stroke="#4f46e5"/>
+  <text x="480" y="248" text-anchor="middle" font-size="14" font-weight="700" fill="#1e1b4b">Business Orchestrator</text>
+  <text x="480" y="268" text-anchor="middle" font-size="11" fill="#3730a3">state-graph controller &#183; Postgres control plane</text>
+
+  <!-- Six layers -->
+  <g font-size="11" font-weight="600">
+    <!-- Layer 1: Process Intelligence -->
+    <rect x="20" y="310" width="145" height="82" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="92" y="338" text-anchor="middle" font-size="12" fill="#0f172a">Process</text>
+    <text x="92" y="356" text-anchor="middle" font-size="12" fill="#0f172a">Intelligence</text>
+    <text x="92" y="376" text-anchor="middle" font-size="10" font-weight="400" fill="#166534">event logs, mining</text>
+
+    <!-- Layer 2: Knowledge -->
+    <rect x="178" y="310" width="145" height="82" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="250" y="338" text-anchor="middle" font-size="12" fill="#0f172a">Knowledge</text>
+    <text x="250" y="356" text-anchor="middle" font-size="12" fill="#0f172a">+ Memory</text>
+    <text x="250" y="376" text-anchor="middle" font-size="10" font-weight="400" fill="#1d4ed8">RAG, graph, tiers</text>
+
+    <!-- Layer 3: Execution -->
+    <rect x="336" y="310" width="145" height="82" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+    <text x="408" y="338" text-anchor="middle" font-size="12" fill="#0f172a">Execution</text>
+    <text x="408" y="356" text-anchor="middle" font-size="12" fill="#0f172a">Workflows</text>
+    <text x="408" y="376" text-anchor="middle" font-size="10" font-weight="400" fill="#854d0e">bounded agents</text>
+
+    <!-- Layer 4: Evolution -->
+    <rect x="494" y="310" width="145" height="82" rx="8" fill="#ede9fe" stroke="#7c3aed"/>
+    <text x="566" y="338" text-anchor="middle" font-size="12" fill="#0f172a">Evolution</text>
+    <text x="566" y="356" text-anchor="middle" font-size="12" fill="#0f172a">Sandbox</text>
+    <text x="566" y="376" text-anchor="middle" font-size="10" font-weight="400" fill="#5b21b6">propose, test, canary</text>
+
+    <!-- Layer 5: Governance -->
+    <rect x="652" y="310" width="145" height="82" rx="8" fill="#fae8ff" stroke="#a21caf"/>
+    <text x="724" y="338" text-anchor="middle" font-size="12" fill="#0f172a">Governance</text>
+    <text x="724" y="356" text-anchor="middle" font-size="12" fill="#0f172a">Officer</text>
+    <text x="724" y="376" text-anchor="middle" font-size="10" font-weight="400" fill="#86198f">risk tiers, policy</text>
+
+    <!-- Layer 6: Security -->
+    <rect x="810" y="310" width="130" height="82" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+    <text x="875" y="338" text-anchor="middle" font-size="12" fill="#0f172a">Security</text>
+    <text x="875" y="356" text-anchor="middle" font-size="12" fill="#0f172a">Red-Team</text>
+    <text x="875" y="376" text-anchor="middle" font-size="10" font-weight="400" fill="#991b1b">adversarial tests</text>
+  </g>
+
+  <!-- Audit + Memory -->
+  <rect x="260" y="420" width="440" height="46" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="480" y="448" text-anchor="middle" font-size="13" font-weight="600" fill="#0f172a">Audit Log + Memory Write + tool_effects</text>
+
+  <!-- Evaluation -->
+  <rect x="260" y="488" width="440" height="46" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="480" y="516" text-anchor="middle" font-size="13" font-weight="600" fill="#0f172a">Evaluation + Human Review</text>
+
+  <!-- Evolution Sandbox -->
+  <rect x="220" y="556" width="520" height="56" rx="8" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="480" y="580" text-anchor="middle" font-size="13" font-weight="700" fill="#4c1d95">Evolution + Self-Improvement Pipeline</text>
+  <text x="480" y="600" text-anchor="middle" font-size="11" fill="#5b21b6">reflect &#8594; propose &#8594; evaluate &#8594; canary (sandbox only)</text>
+
+  <!-- Infrastructure bar -->
+  <rect x="220" y="634" width="520" height="42" rx="8" fill="#ecfdf5" stroke="#059669"/>
+  <text x="480" y="660" text-anchor="middle" font-size="12" font-weight="600" fill="#065f46">Postgres runtime_state &#183; FastAPI backend &#183; Next.js ops console</text>
+
+  <!-- Arrows -->
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <line x1="480" y1="124" x2="480" y2="146"/>
+    <line x1="480" y1="198" x2="480" y2="220"/>
+    <line x1="480" y1="280" x2="480" y2="308"/>
+    <line x1="480" y1="394" x2="480" y2="418"/>
+    <line x1="480" y1="466" x2="480" y2="486"/>
+    <line x1="480" y1="534" x2="480" y2="554"/>
+    <line x1="480" y1="612" x2="480" y2="632"/>
+  </g>
+
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>

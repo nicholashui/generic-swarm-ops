@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 580" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="580" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Installation Flow</text>
+  <text x="480" y="56" text-anchor="middle" font-size="12" fill="#64748b">Prerequisites &#8594; Bootstrap &#8594; Database &#8594; Backend &#8594; Frontend &#8594; Health Check</text>
+
+  <!-- Step 1: Prerequisites -->
+  <rect x="60" y="90" width="200" height="70" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="160" y="118" text-anchor="middle" font-size="13" font-weight="600" fill="#1e1b4b">1. Prerequisites</text>
+  <text x="160" y="140" text-anchor="middle" font-size="10" fill="#3730a3">Node.js 20+ &#183; Python 3.11+</text>
+  <text x="160" y="154" text-anchor="middle" font-size="10" fill="#3730a3">PostgreSQL 14+ &#183; pnpm &#183; Git</text>
+
+  <!-- Step 2: Bootstrap -->
+  <rect x="300" y="90" width="200" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="400" y="118" text-anchor="middle" font-size="13" font-weight="600" fill="#14532d">2. Bootstrap</text>
+  <text x="400" y="140" text-anchor="middle" font-size="10" fill="#166534">npm run bootstrap</text>
+  <text x="400" y="154" text-anchor="middle" font-size="10" fill="#166534">business layer init</text>
+
+  <!-- Step 3: Database -->
+  <rect x="540" y="90" width="200" height="70" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="640" y="118" text-anchor="middle" font-size="13" font-weight="600" fill="#1e3a8a">3. Database Setup</text>
+  <text x="640" y="140" text-anchor="middle" font-size="10" fill="#1d4ed8">PostgreSQL create DB</text>
+  <text x="640" y="154" text-anchor="middle" font-size="10" fill="#1d4ed8">Configure DATABASE_URL</text>
+
+  <!-- Step 4: Backend -->
+  <rect x="60" y="220" width="200" height="70" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="160" y="248" text-anchor="middle" font-size="13" font-weight="600" fill="#713f12">4. Backend Startup</text>
+  <text x="160" y="270" text-anchor="middle" font-size="10" fill="#854d0e">pip install -e . + uvicorn</text>
+  <text x="160" y="284" text-anchor="middle" font-size="10" fill="#854d0e">FastAPI on :8000</text>
+
+  <!-- Step 5: Frontend -->
+  <rect x="300" y="220" width="200" height="70" rx="8" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="400" y="248" text-anchor="middle" font-size="13" font-weight="600" fill="#701a75">5. Frontend Startup</text>
+  <text x="400" y="270" text-anchor="middle" font-size="10" fill="#86198f">pnpm install + pnpm dev</text>
+  <text x="400" y="284" text-anchor="middle" font-size="10" fill="#86198f">Next.js on :3000</text>
+
+  <!-- Step 6: Health Check -->
+  <rect x="540" y="220" width="200" height="70" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="640" y="248" text-anchor="middle" font-size="13" font-weight="600" fill="#14532d">6. Health Check</text>
+  <text x="640" y="270" text-anchor="middle" font-size="10" fill="#166534">GET /api/v1/health/ready</text>
+  <text x="640" y="284" text-anchor="middle" font-size="10" fill="#166534">database: postgres</text>
+
+  <!-- Arrows between steps -->
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <line x1="260" y1="125" x2="298" y2="125"/>
+    <line x1="500" y1="125" x2="538" y2="125"/>
+    <line x1="640" y1="160" x2="640" y2="185"/>
+    <line x1="640" y1="185" x2="160" y2="185"/>
+    <line x1="160" y1="185" x2="160" y2="218"/>
+    <line x1="260" y1="255" x2="298" y2="255"/>
+    <line x1="500" y1="255" x2="538" y2="255"/>
+  </g>
+
+  <!-- Environment Variables section -->
+  <rect x="60" y="340" width="400" height="190" rx="8" fill="#fafafa" stroke="#cbd5e1"/>
+  <text x="260" y="368" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Required Environment Variables</text>
+  <g font-size="11" fill="#334155">
+    <text x="80" y="396">DATABASE_URL=postgresql://user:pass@localhost:5432/generic_swarm_ops</text>
+    <text x="80" y="420">NEXT_PUBLIC_DEMO_MODE=false</text>
+    <text x="80" y="444">NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000/api/v1</text>
+    <text x="80" y="468">PYTHONPATH=.</text>
+    <text x="80" y="500" font-weight="600">Optional:</text>
+    <text x="80" y="520">GENERIC_SWARM_AUTO_REFLECT=true</text>
+  </g>
+
+  <!-- Optional dependencies -->
+  <rect x="500" y="340" width="400" height="190" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="700" y="368" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Optional Dependencies</text>
+  <g font-size="11" fill="#334155">
+    <text x="520" y="396">Neo4j - graph federation (NEO4J_URI)</text>
+    <text x="520" y="420">pgvector - embedding search</text>
+    <text x="520" y="444">LLM API key - critic evaluations</text>
+    <text x="520" y="476" font-weight="600">System Requirements:</text>
+    <text x="520" y="500">RAM: 8 GB minimum (16 GB recommended)</text>
+    <text x="520" y="520">Disk: 20 GB free space</text>
+  </g>
+
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>
