@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="620" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Workflow DNA Schema Structure</text>
+  <text x="480" y="56" text-anchor="middle" font-size="12" fill="#64748b">Bounded state graph with agents, tools, memory, guardrails, verification, and fitness metrics</text>
+
+  <!-- Central DNA block -->
+  <rect x="320" y="80" width="320" height="56" rx="8" fill="#c7d2fe" stroke="#4f46e5"/>
+  <text x="480" y="104" text-anchor="middle" font-size="15" font-weight="700" fill="#1e1b4b">workflow_dna</text>
+  <text x="480" y="124" text-anchor="middle" font-size="11" fill="#3730a3">id &#183; name &#183; domain &#183; version &#183; objective</text>
+
+  <!-- Steps -->
+  <rect x="40" y="170" width="200" height="120" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="140" y="196" text-anchor="middle" font-size="13" font-weight="700" fill="#312e81">Steps</text>
+  <g font-size="11" fill="#3730a3">
+    <text x="60" y="218">step.id</text>
+    <text x="60" y="236">step.agent</text>
+    <text x="60" y="254">step.tools[]</text>
+    <text x="60" y="272">step.preconditions</text>
+  </g>
+
+  <!-- Agents + Tools -->
+  <rect x="270" y="170" width="200" height="120" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="370" y="196" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">Agents + Tools</text>
+  <g font-size="11" fill="#166534">
+    <text x="290" y="218">governance_officer</text>
+    <text x="290" y="236">business_orchestrator</text>
+    <text x="290" y="254">tool_permission_broker</text>
+    <text x="290" y="272">contract_parser, crm, billing</text>
+  </g>
+
+  <!-- Memory -->
+  <rect x="500" y="170" width="200" height="120" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="600" y="196" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">Memory</text>
+  <g font-size="11" fill="#1d4ed8">
+    <text x="520" y="218">memory_reads[]</text>
+    <text x="520" y="236">memory_writes[]</text>
+    <text x="520" y="254">allowed_memory_scopes</text>
+    <text x="520" y="272">provenance tracking</text>
+  </g>
+
+  <!-- Guardrails -->
+  <rect x="730" y="170" width="200" height="120" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="830" y="196" text-anchor="middle" font-size="13" font-weight="700" fill="#7f1d1d">Guardrails</text>
+  <g font-size="11" fill="#991b1b">
+    <text x="750" y="218">human_approval_required_if:</text>
+    <text x="750" y="236">  risk_tier == high</text>
+    <text x="750" y="254">  exception_detected</text>
+    <text x="750" y="272">  action_is_irreversible</text>
+  </g>
+
+  <!-- Verification -->
+  <rect x="40" y="330" width="200" height="120" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="140" y="356" text-anchor="middle" font-size="13" font-weight="700" fill="#713f12">Verification</text>
+  <g font-size="11" fill="#854d0e">
+    <text x="60" y="378">required_checks[]</text>
+    <text x="60" y="396">crm_record_created</text>
+    <text x="60" y="414">billing_config_validated</text>
+    <text x="60" y="432">audit_log_complete</text>
+  </g>
+
+  <!-- Rollback -->
+  <rect x="270" y="330" width="200" height="120" rx="8" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="370" y="356" text-anchor="middle" font-size="13" font-weight="700" fill="#701a75">Rollback Plan</text>
+  <g font-size="11" fill="#86198f">
+    <text x="290" y="378">reversible: true/false</text>
+    <text x="290" y="396">rollback_steps[]</text>
+    <text x="290" y="414">disable_customer_record</text>
+    <text x="290" y="432">void_initial_invoice</text>
+  </g>
+
+  <!-- Fitness Metrics -->
+  <rect x="500" y="330" width="200" height="120" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="600" y="356" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">Fitness Metrics</text>
+  <g font-size="11" fill="#166534">
+    <text x="520" y="378">cycle_time</text>
+    <text x="520" y="396">error_rate</text>
+    <text x="520" y="414">customer_satisfaction</text>
+    <text x="520" y="432">compliance_pass_rate</text>
+  </g>
+
+  <!-- Audit -->
+  <rect x="730" y="330" width="200" height="120" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="830" y="356" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Audit Logging</text>
+  <g font-size="11" fill="#475569">
+    <text x="750" y="378">audit_log_write: required</text>
+    <text x="750" y="396">tool_effects captured</text>
+    <text x="750" y="414">decision provenance</text>
+    <text x="750" y="432">compliance evidence</text>
+  </g>
+
+  <!-- Validation bar -->
+  <rect x="140" y="490" width="680" height="50" rx="8" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="480" y="512" text-anchor="middle" font-size="13" font-weight="700" fill="#7f1d1d">Validation: npm run business:validate</text>
+  <text x="480" y="530" text-anchor="middle" font-size="11" fill="#991b1b">Rejects DNA if: no gate for high-risk &#183; no rollback for irreversible &#183; missing provenance &#183; no audit write</text>
+
+  <!-- Evolution output -->
+  <rect x="260" y="564" width="440" height="40" rx="8" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="480" y="590" text-anchor="middle" font-size="12" font-weight="600" fill="#4c1d95">Evolution Sandbox: propose &#8594; test &#8594; evaluate &#8594; canary (never mutates production)</text>
+
+  <!-- Arrows from center to components -->
+  <g stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arr)">
+    <line x1="380" y1="136" x2="160" y2="168"/>
+    <line x1="440" y1="136" x2="370" y2="168"/>
+    <line x1="520" y1="136" x2="600" y2="168"/>
+    <line x1="580" y1="136" x2="800" y2="168"/>
+    <line x1="140" y1="290" x2="140" y2="328"/>
+    <line x1="370" y1="290" x2="370" y2="328"/>
+    <line x1="600" y1="290" x2="600" y2="328"/>
+    <line x1="830" y1="290" x2="830" y2="328"/>
+    <line x1="480" y1="450" x2="480" y2="488"/>
+    <line x1="480" y1="540" x2="480" y2="562"/>
+  </g>
+
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>
