@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="560" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Governance Risk Tiers (0-5)</text>
+  <text x="480" y="56" text-anchor="middle" font-size="12" fill="#64748b">Autonomy ladder from observe-only to restricted, with gate requirements</text>
+
+  <!-- Tier 0 -->
+  <rect x="40" y="80" width="880" height="64" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="80" y="106" font-size="14" font-weight="700" fill="#166534">Tier 0: Observe</text>
+  <text x="80" y="126" font-size="11" fill="#166534">Log and summarize only. No actions taken. No approval required.</text>
+  <rect x="750" y="92" width="140" height="28" rx="4" fill="#16a34a"/>
+  <text x="820" y="111" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">No Gate</text>
+
+  <!-- Tier 1 -->
+  <rect x="40" y="156" width="880" height="64" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="80" y="182" font-size="14" font-weight="700" fill="#1d4ed8">Tier 1: Recommend</text>
+  <text x="80" y="202" font-size="11" fill="#1d4ed8">Suggest actions; human decides and acts. Advisory role only.</text>
+  <rect x="750" y="168" width="140" height="28" rx="4" fill="#2563eb"/>
+  <text x="820" y="187" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">No Gate</text>
+
+  <!-- Tier 2 -->
+  <rect x="40" y="232" width="880" height="64" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="80" y="258" font-size="14" font-weight="700" fill="#3730a3">Tier 2: Draft</text>
+  <text x="80" y="278" font-size="11" fill="#3730a3">Prepare artifacts (emails, documents, code); human approves before send/execute.</text>
+  <rect x="750" y="244" width="140" height="28" rx="4" fill="#6366f1"/>
+  <text x="820" y="263" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">Pre-Send Gate</text>
+
+  <!-- Tier 3 -->
+  <rect x="40" y="308" width="880" height="64" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="80" y="334" font-size="14" font-weight="700" fill="#854d0e">Tier 3: Execute (Reversible)</text>
+  <text x="80" y="354" font-size="11" fill="#854d0e">Act autonomously if rollback exists and risk is low. Audit logged.</text>
+  <rect x="750" y="320" width="140" height="28" rx="4" fill="#ca8a04"/>
+  <text x="820" y="339" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">Rollback Required</text>
+
+  <!-- Tier 4 -->
+  <rect x="40" y="384" width="880" height="64" rx="8" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="80" y="410" font-size="14" font-weight="700" fill="#86198f">Tier 4: Execute + Gate</text>
+  <text x="80" y="430" font-size="11" fill="#86198f">Act, but human approves the critical/irreversible step. SLA-bound approval queue.</text>
+  <rect x="750" y="396" width="140" height="28" rx="4" fill="#a21caf"/>
+  <text x="820" y="415" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">Human Gate</text>
+
+  <!-- Tier 5 -->
+  <rect x="40" y="460" width="880" height="64" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="80" y="486" font-size="14" font-weight="700" fill="#991b1b">Tier 5: Restricted</text>
+  <text x="80" y="506" font-size="11" fill="#991b1b">No autonomous action permitted until an assurance case is documented and approved.</text>
+  <rect x="750" y="472" width="140" height="28" rx="4" fill="#dc2626"/>
+  <text x="820" y="491" text-anchor="middle" font-size="10" font-weight="600" fill="#ffffff">Assurance Case</text>
+
+  <!-- Legend -->
+  <text x="480" y="546" text-anchor="middle" font-size="10" fill="#64748b">Tier assignment drives: approval policy | audit granularity | tool permissions | evolution promotion rules</text>
+</svg>

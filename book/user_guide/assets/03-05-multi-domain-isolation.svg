@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="600" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Multi-Domain Isolation Architecture</text>
+  <text x="480" y="56" text-anchor="middle" font-size="12" fill="#64748b">Domain packs with strict isolation boundaries and shared host infrastructure</text>
+
+  <!-- Domain Pack 1: Video -->
+  <rect x="30" y="80" width="280" height="300" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="170" y="106" text-anchor="middle" font-size="13" font-weight="700" fill="#1e1b4b">Video Pack (114 agents)</text>
+  <rect x="50" y="120" width="240" height="30" rx="4" fill="#ffffff" stroke="#6366f1"/>
+  <text x="170" y="140" text-anchor="middle" font-size="10" fill="#3730a3">Tool Namespace: video.*</text>
+  <rect x="50" y="160" width="240" height="30" rx="4" fill="#ffffff" stroke="#6366f1"/>
+  <text x="170" y="180" text-anchor="middle" font-size="10" fill="#3730a3">Memory Scope: agent | organization</text>
+  <rect x="50" y="200" width="240" height="30" rx="4" fill="#ffffff" stroke="#6366f1"/>
+  <text x="170" y="220" text-anchor="middle" font-size="10" fill="#3730a3">Eval Overlay: video LQR golden</text>
+  <rect x="50" y="240" width="240" height="30" rx="4" fill="#ffffff" stroke="#6366f1"/>
+  <text x="170" y="260" text-anchor="middle" font-size="10" fill="#3730a3">Orchestrator: video.orchestrator</text>
+  <rect x="50" y="280" width="240" height="30" rx="4" fill="#ffffff" stroke="#6366f1"/>
+  <text x="170" y="300" text-anchor="middle" font-size="10" fill="#3730a3">Lessons: agent-scoped only</text>
+  <rect x="50" y="320" width="240" height="30" rx="4" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="170" y="340" text-anchor="middle" font-size="10" fill="#166534">N3 Inventory CI Enforced</text>
+
+  <!-- Domain Pack 2: Research -->
+  <rect x="340" y="80" width="280" height="300" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="480" y="106" text-anchor="middle" font-size="13" font-weight="700" fill="#166534">Research Pack (example)</text>
+  <rect x="360" y="120" width="240" height="30" rx="4" fill="#ffffff" stroke="#16a34a"/>
+  <text x="480" y="140" text-anchor="middle" font-size="10" fill="#166534">Tool Namespace: research.*</text>
+  <rect x="360" y="160" width="240" height="30" rx="4" fill="#ffffff" stroke="#16a34a"/>
+  <text x="480" y="180" text-anchor="middle" font-size="10" fill="#166534">Memory Scope: agent | organization</text>
+  <rect x="360" y="200" width="240" height="30" rx="4" fill="#ffffff" stroke="#16a34a"/>
+  <text x="480" y="220" text-anchor="middle" font-size="10" fill="#166534">Eval Overlay: research corpus</text>
+  <rect x="360" y="240" width="240" height="30" rx="4" fill="#ffffff" stroke="#16a34a"/>
+  <text x="480" y="260" text-anchor="middle" font-size="10" fill="#166534">Orchestrator: research.orchestrator</text>
+  <rect x="360" y="280" width="240" height="30" rx="4" fill="#ffffff" stroke="#16a34a"/>
+  <text x="480" y="300" text-anchor="middle" font-size="10" fill="#166534">Lessons: agent-scoped only</text>
+  <rect x="360" y="320" width="240" height="30" rx="4" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="480" y="340" text-anchor="middle" font-size="10" fill="#1d4ed8">Wave 1 Second Pack</text>
+
+  <!-- Domain Pack 3: Education -->
+  <rect x="650" y="80" width="280" height="300" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="790" y="106" text-anchor="middle" font-size="13" font-weight="700" fill="#854d0e">Education Pack (lite)</text>
+  <rect x="670" y="120" width="240" height="30" rx="4" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="790" y="140" text-anchor="middle" font-size="10" fill="#854d0e">Tool Namespace: education.*</text>
+  <rect x="670" y="160" width="240" height="30" rx="4" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="790" y="180" text-anchor="middle" font-size="10" fill="#854d0e">Memory Scope: agent | organization</text>
+  <rect x="670" y="200" width="240" height="30" rx="4" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="790" y="220" text-anchor="middle" font-size="10" fill="#854d0e">Eval Overlay: education corpus</text>
+  <rect x="670" y="240" width="240" height="30" rx="4" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="790" y="260" text-anchor="middle" font-size="10" fill="#854d0e">Orchestrator: education.orchestrator</text>
+  <rect x="670" y="280" width="240" height="30" rx="4" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="790" y="300" text-anchor="middle" font-size="10" fill="#854d0e">Lessons: agent-scoped only</text>
+  <rect x="670" y="320" width="240" height="30" rx="4" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="790" y="340" text-anchor="middle" font-size="10" fill="#86198f">Wave 4 Third Pack</text>
+
+  <!-- Isolation barrier -->
+  <line x1="320" y1="80" x2="320" y2="380" stroke="#dc2626" stroke-width="3" stroke-dasharray="6,3"/>
+  <line x1="635" y1="80" x2="635" y2="380" stroke="#dc2626" stroke-width="3" stroke-dasharray="6,3"/>
+  <text x="328" y="395" font-size="9" font-weight="600" fill="#dc2626">NO CROSS-PACK BLEED</text>
+  <text x="643" y="395" font-size="9" font-weight="600" fill="#dc2626">NO CROSS-PACK BLEED</text>
+
+  <!-- Shared Host Runtime -->
+  <rect x="30" y="420" width="900" height="56" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="480" y="444" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Shared Host Runtime</text>
+  <text x="480" y="464" text-anchor="middle" font-size="10" fill="#475569">FastAPI | Governance Officer | Evolution Engine | Audit Log | Postgres</text>
+
+  <!-- Coevolution -->
+  <rect x="30" y="496" width="440" height="46" rx="8" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="250" y="518" text-anchor="middle" font-size="12" font-weight="600" fill="#4c1d95">Coevolution Experiments</text>
+  <text x="250" y="534" text-anchor="middle" font-size="9" fill="#5b21b6">POST /api/v1/evolution/coevolution/run (sandbox, never auto-promote)</text>
+
+  <!-- Lesson Utility -->
+  <rect x="490" y="496" width="440" height="46" rx="8" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="710" y="518" text-anchor="middle" font-size="12" font-weight="600" fill="#86198f">Lesson Utility Dashboard</text>
+  <text x="710" y="534" text-anchor="middle" font-size="9" fill="#86198f">GET /api/v1/improvement/lesson-utility?agent_id=&amp;limit=</text>
+
+  <!-- Legend -->
+  <text x="480" y="572" text-anchor="middle" font-size="10" fill="#64748b">Tool allow-list enforced outside the model | Red-team: no allow-list expansion from injection</text>
+
+  <!-- Arrows from packs to runtime -->
+  <g stroke="#475569" stroke-width="1.5" fill="none" marker-end="url(#arr05)">
+    <line x1="170" y1="380" x2="170" y2="418"/>
+    <line x1="480" y1="380" x2="480" y2="418"/>
+    <line x1="790" y1="380" x2="790" y2="418"/>
+  </g>
+
+  <defs>
+    <marker id="arr05" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#475569"/>
+    </marker>
+  </defs>
+</svg>

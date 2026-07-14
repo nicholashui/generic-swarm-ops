@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 580" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="580" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Evolution Pipeline + Self-Improvement Loop</text>
+  <text x="480" y="56" text-anchor="middle" font-size="12" fill="#64748b">Sandbox-only mutation with empirical validation and human gates</text>
+
+  <!-- Self-improvement loop (left side) -->
+  <rect x="30" y="90" width="280" height="220" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-dasharray="4,2"/>
+  <text x="170" y="114" text-anchor="middle" font-size="13" font-weight="700" fill="#4c1d95">Self-Improvement Loop</text>
+
+  <rect x="60" y="130" width="220" height="36" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="170" y="153" text-anchor="middle" font-size="11" font-weight="600" fill="#1e1b4b">Run Completes / Fails</text>
+
+  <rect x="60" y="180" width="220" height="36" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="170" y="203" text-anchor="middle" font-size="11" font-weight="600" fill="#0f172a">Reflect (extract lessons)</text>
+
+  <rect x="60" y="230" width="220" height="36" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="170" y="253" text-anchor="middle" font-size="11" font-weight="600" fill="#0f172a">Lesson Library (utility scoring)</text>
+
+  <rect x="60" y="280" width="220" height="20" rx="4" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="170" y="294" text-anchor="middle" font-size="9" fill="#86198f">POST /api/v1/improvement/auto-propose</text>
+
+  <!-- Main pipeline (right side) -->
+  <rect x="360" y="90" width="220" height="46" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="470" y="110" text-anchor="middle" font-size="12" font-weight="700" fill="#854d0e">1. Propose Variant</text>
+  <text x="470" y="126" text-anchor="middle" font-size="9" fill="#854d0e">POST /evolution/variants</text>
+
+  <rect x="360" y="160" width="220" height="46" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="470" y="180" text-anchor="middle" font-size="12" font-weight="700" fill="#166534">2. Sandbox Evaluate</text>
+  <text x="470" y="196" text-anchor="middle" font-size="9" fill="#166534">corpus: golden/regression/adversarial</text>
+
+  <rect x="360" y="230" width="220" height="46" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="470" y="250" text-anchor="middle" font-size="12" font-weight="700" fill="#1d4ed8">3. Fitness Metrics</text>
+  <text x="470" y="266" text-anchor="middle" font-size="9" fill="#1d4ed8">suite_pass + knowledge + lesson_reuse</text>
+
+  <rect x="360" y="300" width="220" height="46" rx="8" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="470" y="320" text-anchor="middle" font-size="12" font-weight="700" fill="#86198f">4. Human Review Gate</text>
+  <text x="470" y="336" text-anchor="middle" font-size="9" fill="#86198f">owner/admin approval required</text>
+
+  <!-- Decision diamond approximation -->
+  <rect x="390" y="372" width="160" height="40" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="470" y="397" text-anchor="middle" font-size="11" font-weight="600" fill="#991b1b">Approve?</text>
+
+  <!-- Canary path -->
+  <rect x="620" y="372" width="160" height="40" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="700" y="397" text-anchor="middle" font-size="11" font-weight="600" fill="#166534">5. Canary Deploy</text>
+
+  <!-- Promote -->
+  <rect x="620" y="436" width="160" height="40" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="700" y="461" text-anchor="middle" font-size="11" font-weight="600" fill="#1e1b4b">6. Versioned Promote</text>
+
+  <!-- Rollback -->
+  <rect x="620" y="500" width="160" height="40" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="700" y="525" text-anchor="middle" font-size="11" font-weight="600" fill="#991b1b">Rollback (if needed)</text>
+
+  <!-- Reject path -->
+  <rect x="180" y="372" width="140" height="40" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="250" y="397" text-anchor="middle" font-size="11" font-weight="600" fill="#475569">Reject / Archive</text>
+
+  <!-- Population Archive -->
+  <rect x="100" y="490" width="400" height="50" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="300" y="512" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">Population Archive (GET /api/v1/evolution/archive)</text>
+  <text x="300" y="530" text-anchor="middle" font-size="10" fill="#475569">All variants ranked by fitness - auto_promote always forbidden</text>
+
+  <!-- Arrows -->
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr03)">
+    <line x1="470" y1="136" x2="470" y2="158"/>
+    <line x1="470" y1="206" x2="470" y2="228"/>
+    <line x1="470" y1="276" x2="470" y2="298"/>
+    <line x1="470" y1="346" x2="470" y2="370"/>
+    <line x1="550" y1="392" x2="618" y2="392"/>
+    <line x1="700" y1="412" x2="700" y2="434"/>
+    <line x1="700" y1="476" x2="700" y2="498"/>
+    <line x1="390" y1="392" x2="322" y2="392"/>
+    <line x1="280" y1="280" x2="358" y2="110"/>
+  </g>
+
+  <!-- Loop arrows -->
+  <g stroke="#7c3aed" stroke-width="1.5" fill="none" marker-end="url(#arr03p)">
+    <line x1="170" y1="166" x2="170" y2="178"/>
+    <line x1="170" y1="216" x2="170" y2="228"/>
+    <line x1="170" y1="266" x2="170" y2="278"/>
+  </g>
+
+  <defs>
+    <marker id="arr03" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+    <marker id="arr03p" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+</svg>
