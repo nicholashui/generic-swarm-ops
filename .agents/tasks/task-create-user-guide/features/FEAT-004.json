@@ -1,0 +1,34 @@
+{
+  "id": "FEAT-004",
+  "type": "docs",
+  "description": "Create Section 4 - Troubleshooting & Support (chapters 04-01 through 04-04) with matching SVG illustrations. This section covers: common error resolution, diagnostic tools walkthrough, system health monitoring, and support/community resources.",
+  "status": "completed",
+  "steps": [
+    "Create book/user_guide/chapters/04-01-common-error-resolution.md - Cover all common errors from docs/troubleshooting.md: bootstrap failures (source-lock.json, source-audit.md), backend/Postgres issues (DATABASE_URL, empty DB, auth failures, tool step fails, memory scope errors, PYTHONPATH), frontend issues (demo mode stuck, mutation errors, Playwright skipped, OpenAPI drift). Provide exact resolution steps for each error with expected outcomes.",
+    "Create book/user_guide/chapters/04-02-diagnostic-tools-walkthrough.md - Cover all diagnostic commands: npm run doctor (prerequisites check), npm run business:validate (schema/provenance/risk-tier/gate validation), npm run business:security (secrets/permissions/prompt-injection), npm run business:evolution:check (promotion evidence), backend unit tests, frontend lint/typecheck/test. Walk through interpreting output from each tool.",
+    "Create book/user_guide/chapters/04-03-system-health-monitoring.md - Cover the health endpoint (GET /api/v1/health/ready), database connectivity checks, runtime state inspection, audit log monitoring, process intelligence artifact verification, evolution sandbox status, tool adapter health (fail-closed behavior, tool_effects inspection). Include monitoring setup for production deployments.",
+    "Create book/user_guide/chapters/04-04-support-community-resources.md - Cover documentation map (all docs/*.md files), design phase resources (book/design_phase/), memory/handoff.md for session continuity, project planning artifacts, contribution workflow, issue reporting, and community engagement. Include reference to agent harnesses (Trae + Grok).",
+    "Create book/user_guide/assets/04-01-error-resolution-flowchart.svg - Decision tree flowchart for diagnosing common errors: start -> identify symptom category (bootstrap/backend/frontend/evolution) -> specific diagnosis path -> resolution.",
+    "Create book/user_guide/assets/04-02-diagnostic-tools-overview.svg - Diagram showing all diagnostic tools, what they check, and their output artifacts. Organized by layer (starter, business, backend, frontend).",
+    "Create book/user_guide/assets/04-03-health-monitoring-dashboard.svg - System health monitoring layout showing: health endpoint, database status, service components, and their status indicators.",
+    "Create book/user_guide/assets/04-04-support-resources-map.svg - Resource map showing documentation structure: docs/, book/, planning/, memory/ with descriptions of what each contains.",
+    "Embed SVG references in each chapter with proper relative paths and descriptive alt text."
+  ],
+  "acceptance_criteria": [
+    "All 4 chapter files exist in book/user_guide/chapters/ with naming 04-0N-*.md",
+    "All 4 SVG files exist in book/user_guide/assets/ with naming 04-0N-*.svg",
+    "Each chapter has title, learning objectives, prerequisites, numbered instructions, technical explanations, 2-3 use cases, best practices, summary, quiz",
+    "Error resolution content covers all items from docs/troubleshooting.md",
+    "Diagnostic tools section covers all npm run business:* commands",
+    "Health monitoring references the actual API endpoint and expected responses",
+    "All SVGs use consistent style and WCAG compliance",
+    "All markdown links resolve correctly"
+  ],
+  "verification": [
+    "Confirm all files exist: ls book/user_guide/chapters/04-*.md book/user_guide/assets/04-*.svg",
+    "Verify SVG validity",
+    "Verify link resolution"
+  ],
+  "blocked_reason": null,
+  "findings": "All 4 chapters (928, 932, 901, 810 lines) and 4 SVGs created successfully. All SVGs pass XML validation and use consistent style (960px viewBox, Segoe UI font, proper color palette, rx=8 rounded corners, arrow markers). Each chapter includes: H1 title, learning objectives, prerequisites, numbered instructions, code blocks with syntax, 3+ use cases, best practices, summary, and 7 quiz questions with collapsible answers. Content covers all items from docs/troubleshooting.md, all npm run business:* commands, the health API endpoint, and full documentation/community resource map."
+}
