@@ -54,85 +54,86 @@ configuration, and basic navigation.
 
 ### Section 2: Intermediate Workflows
 
-Intermediate content covering workflow creation, agent configuration, human-in-the-loop
-patterns, knowledge management, and process intelligence.
+Intermediate content covering workflow implementation, business process walkthroughs,
+tool integration, process intelligence, and knowledge collaboration.
 
 | Chapter | Title | Description |
 |---------|-------|-------------|
-| [02-01](chapters/02-01-workflow-dna-authoring.md) | Workflow DNA Authoring | Creating bounded state-graph workflows from scratch |
-| [02-02](chapters/02-02-agent-configuration.md) | Agent Configuration & Roles | Agent roster, role assignment, tool permissions |
-| [02-03](chapters/02-03-human-gates-approvals.md) | Human Gates & Approvals | Risk tiers, approval policies, gate configuration |
-| [02-04](chapters/02-04-knowledge-memory-management.md) | Knowledge & Memory Management | Tiered retrieval, memory types, provenance |
-| [02-05](chapters/02-05-process-intelligence.md) | Process Intelligence | Event logs, process mining, conformance, bottlenecks |
+| [02-01](chapters/02-01-workflow-dna-implementation.md) | Workflow DNA Implementation | Creating bounded state-graph workflows from scratch |
+| [02-02](chapters/02-02-business-process-walkthroughs.md) | Business Process Walkthroughs | End-to-end workflow examples and patterns |
+| [02-03](chapters/02-03-tool-adapter-integration.md) | Tool Adapter Integration | Building and configuring tool adapters |
+| [02-04](chapters/02-04-process-intelligence-usage.md) | Process Intelligence Usage | Event logs, process mining, conformance, bottlenecks |
+| [02-05](chapters/02-05-knowledge-memory-collaboration.md) | Knowledge & Memory Collaboration | Tiered retrieval, memory types, provenance |
 
 **Learning objectives for Section 2:**
-- Author production-ready Workflow DNA definitions
-- Configure agents with appropriate roles and tool permissions
-- Implement human-in-the-loop approval gates
-- Manage the tiered knowledge retrieval system
+- Implement production-ready Workflow DNA definitions
+- Walk through complete business process examples
+- Integrate tool adapters with proper effect tracking
 - Use process intelligence to discover real operational workflows
+- Manage the tiered knowledge retrieval and collaboration system
 
 ---
 
 ### Section 3: Advanced Customization
 
-Advanced content covering the evolution sandbox, evaluation harness, domain packs,
-custom tool adapters, and self-improvement loops.
+Advanced content covering domain pack development, API integration, advanced workflow
+automation, RBAC governance, and multi-domain deployment.
 
 | Chapter | Title | Description |
 |---------|-------|-------------|
-| [03-01](chapters/03-01-evolution-sandbox.md) | Evolution Sandbox | Variant generation, fitness functions, canary deployment |
-| [03-02](chapters/03-02-evaluation-harness.md) | Evaluation Harness & Corpus | Golden tasks, regression, adversarial, replay testing |
-| [03-03](chapters/03-03-domain-packs.md) | Domain Packs | Multi-domain extension, manifest schemas, inventory gates |
-| [03-04](chapters/03-04-custom-tool-adapters.md) | Custom Tool Adapters | Building adapters, tool_effects, permission broker |
-| [03-05](chapters/03-05-self-improvement-loops.md) | Self-Improvement Loops | Reflect, propose, evaluate, canary pipeline |
+| [03-01](chapters/03-01-custom-domain-pack-development.md) | Custom Domain Pack Development | Multi-domain extension, manifest schemas, inventory gates |
+| [03-02](chapters/03-02-api-integration-extension.md) | API Integration & Extension | Building integrations with the REST API |
+| [03-03](chapters/03-03-advanced-workflow-automation.md) | Advanced Workflow Automation | Evolution sandbox, variant generation, canary deployment |
+| [03-04](chapters/03-04-rbac-governance-configuration.md) | RBAC & Governance Configuration | Risk tiers, approval policies, compliance frameworks |
+| [03-05](chapters/03-05-multi-domain-white-labeling.md) | Multi-Domain & White Labeling | Domain isolation, white-label deployment, federation |
 
 **Learning objectives for Section 3:**
-- Operate the evolution sandbox safely with production guardrails
-- Build and maintain comprehensive evaluation test suites
-- Create and register domain packs for new business areas
-- Develop custom tool adapters with proper effect tracking
-- Configure and monitor self-improvement feedback loops
+- Develop and register custom domain packs for new business areas
+- Integrate external systems through the REST API
+- Configure advanced workflow automation with evolution sandbox
+- Set up RBAC and governance policies for enterprise compliance
+- Deploy multi-domain configurations with proper isolation
 
 ---
 
 ### Section 4: Troubleshooting & Support
 
-Troubleshooting content covering common issues, diagnostic tools, incident response,
-and recovery procedures.
+Troubleshooting content covering common error resolution, diagnostic tools,
+system health monitoring, and support resources.
 
 | Chapter | Title | Description |
 |---------|-------|-------------|
-| [04-01](chapters/04-01-diagnostic-commands.md) | Diagnostic Commands | npm run doctor, health endpoints, log analysis |
-| [04-02](chapters/04-02-common-issues.md) | Common Issues & Solutions | Database connectivity, auth failures, sync errors |
-| [04-03](chapters/04-03-incident-response.md) | Incident Response | Runbooks, rollback procedures, postmortem templates |
-| [04-04](chapters/04-04-recovery-procedures.md) | Recovery Procedures | Data recovery, state reset, backup restoration |
+| [04-01](chapters/04-01-common-error-resolution.md) | Common Error Resolution | Bootstrap, backend, frontend, evolution error fixes |
+| [04-02](chapters/04-02-diagnostic-tools-walkthrough.md) | Diagnostic Tools Walkthrough | npm run doctor, health endpoints, log analysis |
+| [04-03](chapters/04-03-system-health-monitoring.md) | System Health Monitoring | Metrics, alerting, dashboards, uptime tracking |
+| [04-04](chapters/04-04-support-community-resources.md) | Support & Community Resources | Documentation, community, escalation paths |
 
 **Learning objectives for Section 4:**
-- Use diagnostic commands to identify system issues
-- Resolve common operational problems quickly
-- Follow incident response runbooks during failures
-- Execute recovery procedures to restore system state
+- Resolve common operational errors across all system layers
+- Use diagnostic tools to identify system issues quickly
+- Monitor system health with appropriate metrics and alerts
+- Access support resources and community channels
 
 ---
 
 ### Section 5: Optimization & Scaling
 
-Production optimization content covering performance tuning, monitoring, scaling
-strategies, and governance compliance.
+Production optimization content covering performance tuning, resource allocation,
+large-scale deployment, and security hardening with maintenance.
 
 | Chapter | Title | Description |
 |---------|-------|-------------|
-| [05-01](chapters/05-01-performance-tuning.md) | Performance Tuning | Database optimization, caching, retrieval efficiency |
-| [05-02](chapters/05-02-monitoring-observability.md) | Monitoring & Observability | Audit trails, metrics, alerting, dashboards |
-| [05-03](chapters/05-03-scaling-strategies.md) | Scaling Strategies | Horizontal scaling, multi-tenant, high availability |
-| [05-04](chapters/05-04-governance-compliance.md) | Governance & Compliance | NIST AI RMF, ISO 42001, EU AI Act, audit readiness |
+| [05-01](chapters/05-01-performance-tuning-strategies.md) | Performance Tuning Strategies | Database optimization, backend tuning, retrieval efficiency |
+| [05-02](chapters/05-02-resource-allocation-optimization.md) | Resource Allocation & Optimization | Eval corpus budgets, memory retention, Loop Engineering |
+| [05-03](chapters/05-03-large-scale-deployment.md) | Large-Scale Deployment | Horizontal scaling, domain isolation, CI/CD, Docker |
+| [05-04](chapters/05-04-security-hardening-maintenance.md) | Security Hardening & Maintenance | OWASP controls, agentic security, long-term maintenance |
 
 **Learning objectives for Section 5:**
 - Tune system performance for production workloads
-- Implement comprehensive monitoring and observability
-- Scale the system for enterprise deployments
-- Maintain governance compliance with regulatory frameworks
+- Manage resource allocation and budgets across all components
+- Deploy at enterprise scale with horizontal scaling and domain isolation
+- Implement comprehensive security hardening with OWASP LLM Top 10 controls
+- Maintain long-term system health through archival, versioning, and auditing
 
 ---
 

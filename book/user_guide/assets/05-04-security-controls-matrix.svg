@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 780" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="780" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">Security Controls Matrix (OWASP LLM Top 10)</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#64748b">Layered defense: Model &#183; Data &#183; Autonomy &#183; Infrastructure</text>
+
+  <!-- Model Layer -->
+  <rect x="40" y="80" width="420" height="150" rx="8" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="250" y="105" text-anchor="middle" font-size="14" font-weight="600" fill="#991b1b">Model Layer Controls</text>
+  <rect x="60" y="118" width="380" height="26" rx="4" fill="#ffffff" stroke="#dc2626"/>
+  <text x="250" y="136" text-anchor="middle" font-size="10" fill="#991b1b">LLM01 Prompt Injection: blast-radius limits, data/instruction separation</text>
+  <rect x="60" y="150" width="380" height="26" rx="4" fill="#ffffff" stroke="#dc2626"/>
+  <text x="250" y="168" text-anchor="middle" font-size="10" fill="#991b1b">LLM07 System Prompt Leakage: no secrets in prompts, external authz</text>
+  <rect x="60" y="182" width="380" height="26" rx="4" fill="#ffffff" stroke="#dc2626"/>
+  <text x="250" y="200" text-anchor="middle" font-size="10" fill="#991b1b">LLM09 Misinformation: grounding + citations, confidence display</text>
+
+  <!-- Data Layer -->
+  <rect x="500" y="80" width="420" height="150" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="710" y="105" text-anchor="middle" font-size="14" font-weight="600" fill="#1d4ed8">Data Layer Controls</text>
+  <rect x="520" y="118" width="380" height="26" rx="4" fill="#ffffff" stroke="#2563eb"/>
+  <text x="710" y="136" text-anchor="middle" font-size="10" fill="#1d4ed8">LLM02 Sensitive Info Disclosure: DLP on outputs, retention limits</text>
+  <rect x="520" y="150" width="380" height="26" rx="4" fill="#ffffff" stroke="#2563eb"/>
+  <text x="710" y="168" text-anchor="middle" font-size="10" fill="#1d4ed8">LLM04 Data/Model Poisoning: vet sources, write-filter memory</text>
+  <rect x="520" y="182" width="380" height="26" rx="4" fill="#ffffff" stroke="#2563eb"/>
+  <text x="710" y="200" text-anchor="middle" font-size="10" fill="#1d4ed8">LLM08 Vector Weaknesses: tenant isolation, poisoned-content detection</text>
+
+  <!-- Autonomy Layer -->
+  <rect x="40" y="260" width="420" height="150" rx="8" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="250" y="285" text-anchor="middle" font-size="14" font-weight="600" fill="#86198f">Autonomy Layer Controls</text>
+  <rect x="60" y="298" width="380" height="26" rx="4" fill="#ffffff" stroke="#a21caf"/>
+  <text x="250" y="316" text-anchor="middle" font-size="10" fill="#86198f">LLM06 Excessive Agency: risk tiers, least privilege, approval gates</text>
+  <rect x="60" y="330" width="380" height="26" rx="4" fill="#ffffff" stroke="#a21caf"/>
+  <text x="250" y="348" text-anchor="middle" font-size="10" fill="#86198f">LLM05 Improper Output: treat model output as untrusted, sanitize</text>
+  <rect x="60" y="362" width="380" height="26" rx="4" fill="#ffffff" stroke="#a21caf"/>
+  <text x="250" y="380" text-anchor="middle" font-size="10" fill="#86198f">LLM10 Unbounded Consumption: rate limits, budgets, timeouts</text>
+
+  <!-- Infrastructure Layer -->
+  <rect x="500" y="260" width="420" height="150" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="710" y="285" text-anchor="middle" font-size="14" font-weight="600" fill="#166534">Infrastructure Layer Controls</text>
+  <rect x="520" y="298" width="380" height="26" rx="4" fill="#ffffff" stroke="#16a34a"/>
+  <text x="710" y="316" text-anchor="middle" font-size="10" fill="#166534">LLM03 Supply Chain: model/adapter registry, SBOM, provenance</text>
+  <rect x="520" y="330" width="380" height="26" rx="4" fill="#ffffff" stroke="#16a34a"/>
+  <text x="710" y="348" text-anchor="middle" font-size="10" fill="#166534">Tool Permission Broker: scoped credentials, temporal limits</text>
+  <rect x="520" y="362" width="380" height="26" rx="4" fill="#ffffff" stroke="#16a34a"/>
+  <text x="710" y="380" text-anchor="middle" font-size="10" fill="#166534">Full Observability: audit trail across all agent interactions</text>
+
+  <!-- Agentic Controls -->
+  <rect x="80" y="440" width="800" height="130" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="480" y="465" text-anchor="middle" font-size="14" font-weight="600" fill="#854d0e">Additional Agentic Controls (OWASP Agentic Top 10 2026)</text>
+  <rect x="100" y="480" width="230" height="40" rx="6" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="215" y="497" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">Tool Permission Broker</text>
+  <text x="215" y="512" text-anchor="middle" font-size="9" fill="#854d0e">narrow, temporary, scoped</text>
+  <rect x="350" y="480" width="230" height="40" rx="6" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="465" y="497" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">Memory-Poisoning Defense</text>
+  <text x="465" y="512" text-anchor="middle" font-size="9" fill="#854d0e">provenance + human review</text>
+  <rect x="600" y="480" width="230" height="40" rx="6" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="715" y="497" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">Skill/Plugin Vetting</text>
+  <text x="715" y="512" text-anchor="middle" font-size="9" fill="#854d0e">scan + pin third-party</text>
+  <rect x="200" y="530" width="250" height="30" rx="6" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="325" y="550" text-anchor="middle" font-size="10" fill="#854d0e">AI Incident Response Runbook</text>
+  <rect x="470" y="530" width="250" height="30" rx="6" fill="#ffffff" stroke="#ca8a04"/>
+  <text x="595" y="550" text-anchor="middle" font-size="10" fill="#854d0e">Red-Team Testing (continuous)</text>
+
+  <!-- Runtime Controls -->
+  <rect x="80" y="600" width="800" height="80" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="480" y="625" text-anchor="middle" font-size="14" font-weight="600" fill="#0f172a">Runtime Security Controls</text>
+  <text x="480" y="648" text-anchor="middle" font-size="11" fill="#475569">PBKDF2 auth &#183; Request IDs &#183; Security headers &#183; CORS &#183; Fail-closed adapters</text>
+  <text x="480" y="668" text-anchor="middle" font-size="11" fill="#475569">Durable tool_effects &#183; Memory scope isolation &#183; Provenance on high-impact writes</text>
+
+  <!-- Maintenance cycle -->
+  <rect x="200" y="710" width="560" height="46" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="480" y="733" text-anchor="middle" font-size="13" font-weight="600" fill="#1e1b4b">Continuous: npm run business:security &#183; Red-team &#183; Assurance case updates</text>
+
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>
