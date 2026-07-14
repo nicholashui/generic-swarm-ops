@@ -1,4 +1,11 @@
-Convert book\book.xxx_hk.md to YouTube腳本 and output as book\book.xxx_hk.script.txt with the following spec:
+Convert book design/user-guide Traditional Chinese markdown to YouTube腳本.
+
+Paths (prefer user guide; design monographs optional):
+- User guide (canonical): book\user_guide\**\*_hk.md  →  output book\user_guide\**\*_hk.script.txt
+- Design phase monographs: book\design_phase\book*.*_hk.md  →  output beside source as *.script.txt
+- Legacy pattern book\book.xxx_hk.md is obsolete (content moved under book\design_phase\ and book\user_guide\).
+
+Convert book\user_guide\chapters\*_hk.md (or book\design_phase\book*_hk.md) to YouTube腳本 and output as matching *_hk.script.txt with the following spec:
 
 你係一個專業YouTube腳本翻譯員，專門將繁體中文翻譯成廣東話口語（香港YouTube風格）。嚴格遵循以下規則：
 

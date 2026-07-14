@@ -1,145 +1,100 @@
 # User Guide — Complete Table of Contents
 
 **Product:** generic-swarm-ops  
-**Guide target:** `book/user_guide/user_guide.md` (assembled)  
-**Scaffolds:** `planning/user_guide/chapters/`  
-**Illustrations:** `planning/user_guide/assets/`
+**Published:** `book/user_guide/`  
+**Naming:** `NN-MM-slug.md` + `assets/NN-MM-….svg`
 
 ---
 
-## Reading map
+## Reading path
 
-![Beginner to expert learning path](./assets/01-learning-path.svg)
-
-| Track | Recommended path |
-|-------|------------------|
-| Operator | Front → Part I → Part II → Part III (08–09) → skim 06, 18 troubleshooting |
-| Builder | Operator path + Part III (10) + Part IV + Part V (17) |
-| Platform / SRE | Part I + II + Part V (15–18) + Appendices B–C |
-| Expert | All chapters + design_phase books as advanced reference |
+| If you are… | Start at | Through |
+|-------------|----------|---------|
+| New operator | §1 | §2 |
+| Building packs / DNA | §1–2 | §3 |
+| Platform / SRE | §1 + §4–5 | all |
+| Expert mastery | Full guide | quizzes + labs |
 
 ---
 
-## Front matter
+## Section 1 — Core System Fundamentals (Beginner)
 
-| Ch | Title | File | Level | SVG | Est. |
-|----|-------|------|-------|-----|------|
-| 00 | How to use this guide | [chapters/00-how-to-use-this-guide.md](./chapters/00-how-to-use-this-guide.md) | Beginner | 01-learning-path | 15m |
+| ID | Chapter | File | Learning objectives |
+|----|---------|------|---------------------|
+| 1.1 | System overview | `01-01-system-overview.md` | Explain four planes; name core nouns; state N1 and honesty bar |
+| 1.2 | Prerequisites & environment | `01-02-prerequisites-and-environment.md` | Install toolchain; verify versions |
+| 1.3 | Install, bootstrap & first boot | `01-03-install-bootstrap-first-boot.md` | Bootstrap; run backend health; run frontend live |
+| 1.4 | Ops console navigation | `01-04-ops-console-navigation.md` | Use sidebar groups; open Domains; know route map |
+| 1.5 | Accounts, login & session | `01-05-accounts-login-and-session.md` | Login with seed user; understand session/token; demoMode effect |
 
----
-
-## Part I — Foundations (Beginner)
-
-*Goal: mental model + running system + knowing where to click.*
-
-| Ch | Title | File | SVG | Est. |
-|----|-------|------|-----|------|
-| 01 | What is generic-swarm-ops? | [chapters/01-what-is-this-system.md](./chapters/01-what-is-this-system.md) | 02-system-overview | 30m |
-| 02 | Mental model and layered architecture | [chapters/02-mental-model-and-layers.md](./chapters/02-mental-model-and-layers.md) | 02-system-overview | 40m |
-| 03 | Install and first boot | [chapters/03-install-and-first-boot.md](./chapters/03-install-and-first-boot.md) | 03-install-boot | 45–90m |
-| 04 | Ops console tour | [chapters/04-ops-console-tour.md](./chapters/04-ops-console-tour.md) | 04-console-map | 30m |
-
-**Part I exit criteria:** Backend ready, frontend live (demo off), logged in, Domains visible in sidebar.
+**Exit §1:** Logged into live ops console with backend ready.
 
 ---
 
-## Part II — Operator core (Beginner → Intermediate)
+## Section 2 — Intermediate Workflows (Skill-Building)
 
-*Goal: run real work with gates and audit.*
+| ID | Chapter | File | Learning objectives |
+|----|---------|------|---------------------|
+| 2.1 | Agents & tools | `02-01-agents-and-tools.md` | Create/inspect agents; explain allow-lists; list tools |
+| 2.2 | First workflow run (E1) | `02-02-first-workflow-run-e1.md` | Complete E1 path with case_id and approval |
+| 2.3 | Approvals, risk & audit | `02-03-approvals-risk-and-audit.md` | Decide gates; find audit evidence; map R3+ |
+| 2.4 | Domain packs: recommend & special skills | `02-04-domains-recommend-and-special-skills.md` | Recommend DNA from brief; list 17 skills from REGISTRY |
+| 2.5 | Knowledge, memory & process basics | `02-05-knowledge-memory-and-processes.md` | Use Knowledge/Memory/Processes surfaces; tiered retrieval idea |
 
-| Ch | Title | File | SVG | Est. |
-|----|-------|------|-----|------|
-| 05 | Your first workflow run (E1 path) | [chapters/05-first-workflow-run-e1.md](./chapters/05-first-workflow-run-e1.md) | 05-e1-operator-path | 60m |
-| 06 | Approvals, risk tiers, and audit | [chapters/06-approvals-risk-audit.md](./chapters/06-approvals-risk-audit.md) | 06-governance-gates | 45m |
-| 07 | Agents, tools, and RBAC | [chapters/07-agents-tools-rbac.md](./chapters/07-agents-tools-rbac.md) | 07-agents-tools | 45m |
-
-**Part II exit criteria:** Completed onboarding run with approval; can find audit entry; understand allow-lists.
-
----
-
-## Part III — Domains & video pack (Intermediate)
-
-*Goal: use domain packs without confusing selection helpers with live media studio.*
-
-| Ch | Title | File | SVG | Est. |
-|----|-------|------|-----|------|
-| 08 | Domain packs and recommend workflow | [chapters/08-domain-packs-and-recommend.md](./chapters/08-domain-packs-and-recommend.md) | 08-domain-recommend | 60m |
-| 09 | Special skills catalog | [chapters/09-special-skills-catalog.md](./chapters/09-special-skills-catalog.md) | 09-special-skills | 40m |
-| 10 | Workflow DNA deep dive | [chapters/10-workflow-dna-deep-dive.md](./chapters/10-workflow-dna-deep-dive.md) | 10-workflow-dna | 60m |
-
-**Part III exit criteria:** Recommend returns `wf_video_arch_a_viral_hook_v1` class result for viral brief; 17 skills listed from live data; can read a `.dna.json`.
+**Exit §2:** Can run ops day path: run → approve → recommend → inspect catalog.
 
 ---
 
-## Part IV — Intelligence & improvement (Advanced)
+## Section 3 — Advanced Customization (Expert)
 
-*Goal: knowledge, process mining, evals, evolution, closed-loop improve.*
+| ID | Chapter | File | Learning objectives |
+|----|---------|------|---------------------|
+| 3.1 | Workflow DNA deep dive | `03-01-workflow-dna-deep-dive.md` | Read/author DNA fields; place human gates |
+| 3.2 | Backend API integration | `03-02-backend-api-integration.md` | Auth + call core APIs with request_id awareness |
+| 3.3 | RBAC & permission-aware UI | `03-03-rbac-and-permissions.md` | Map roles to permissions; secure surfaces |
+| 3.4 | Extending with domain packs | `03-04-extending-domain-packs.md` | Scaffold pack; inventory; avoid second control plane |
+| 3.5 | Improve pipeline, loops & evolution | `03-05-improve-loops-and-evolution.md` | Reflect→propose→evaluate→canary; sandbox rules |
 
-| Ch | Title | File | SVG | Est. |
-|----|-------|------|-----|------|
-| 11 | Knowledge and memory | [chapters/11-knowledge-and-memory.md](./chapters/11-knowledge-and-memory.md) | 11-knowledge-memory | 50m |
-| 12 | Process intelligence | [chapters/12-process-intelligence.md](./chapters/12-process-intelligence.md) | 12-pi-evolution | 45m |
-| 13 | Evaluation and evolution sandbox | [chapters/13-evaluation-and-evolution.md](./chapters/13-evaluation-and-evolution.md) | 12-pi-evolution | 60m |
-| 14 | Self-improvement and loops | [chapters/14-self-improvement-loops.md](./chapters/14-self-improvement-loops.md) | 13-self-improve | 50m |
-
-**Part IV exit criteria:** Can explain Tier 0/1; open Evolution archive; run Reflect on a completed run; never promote without evaluate.
-
----
-
-## Part V — Expert & production
-
-*Goal: extend the system and run it safely.*
-
-| Ch | Title | File | SVG | Est. |
-|----|-------|------|-----|------|
-| 15 | Backend runtime and APIs | [chapters/15-backend-runtime-and-apis.md](./chapters/15-backend-runtime-and-apis.md) | 02-system-overview | 75m |
-| 16 | Frontend deep dive | [chapters/16-frontend-deep-dive.md](./chapters/16-frontend-deep-dive.md) | 04-console-map | 60m |
-| 17 | Extend DNA, agents, and packs | [chapters/17-extend-dna-agents-packs.md](./chapters/17-extend-dna-agents-packs.md) | 14-extend-pack | 90m |
-| 18 | Security, ops, and troubleshooting | [chapters/18-security-ops-troubleshooting.md](./chapters/18-security-ops-troubleshooting.md) | 15-security-production | 60m |
-| 19 | Expert playbooks and checklists | [chapters/19-expert-playbooks-and-checklists.md](./chapters/19-expert-playbooks-and-checklists.md) | 01-learning-path | 40m+ |
-
-**Part V exit criteria:** Can scaffold/extend a pack safely; production checklist complete; teach E1 + recommend to another person.
+**Exit §3:** Can extend safely and improve without mutating production DNA in place.
 
 ---
 
-## Appendices
+## Section 4 — Troubleshooting & Support
 
-| ID | Title | File |
+| ID | Chapter | File | Learning objectives |
+|----|---------|------|---------------------|
+| 4.1 | Common errors & fixes | `04-01-common-errors-and-fixes.md` | Resolve top failure modes with a matrix |
+| 4.2 | Health, doctor & diagnostics | `04-02-health-doctor-and-diagnostics.md` | Use health endpoints and npm doctor |
+| 4.3 | Support paths & evidence packs | `04-03-support-paths-and-evidence.md` | Collect logs, request_id, versions for support |
+
+**Exit §4:** Self-serve recovery for boot, auth, demoMode, and run failures.
+
+---
+
+## Section 5 — Optimization & Scaling (Advanced Expert)
+
+| ID | Chapter | File | Learning objectives |
+|----|---------|------|---------------------|
+| 5.1 | Performance & Postgres ops | `05-01-performance-and-postgres.md` | Prefer Postgres primary; tune local ops |
+| 5.2 | Security hardening | `05-02-security-hardening.md` | Hardening checklist beyond seed demos |
+| 5.3 | Deployment, scale & maintenance | `05-03-deployment-scale-and-maintenance.md` | Long-term ops playbook; promote discipline |
+
+**Exit §5:** Production-minded checklist complete.
+
+---
+
+## Appendices (compiled into master)
+
+| ID | Topic | File |
 |----|-------|------|
-| A | Glossary | [chapters/A-glossary.md](./chapters/A-glossary.md) |
-| B | Commands and API cheat sheet | [chapters/B-command-and-api-cheatsheet.md](./chapters/B-command-and-api-cheatsheet.md) |
-| C | Troubleshooting matrix | [chapters/C-troubleshooting-matrix.md](./chapters/C-troubleshooting-matrix.md) |
-
----
-
-## Suggested lab sequence (operator intensive day)
-
-1. Ch03 Lab A–B — boot  
-2. Ch04 — console map  
-3. Ch05 Lab E1-UI — flagship run  
-4. Ch06 — approve + audit  
-5. Ch08 Lab UI recommend  
-6. Ch09 Lab special skills ×17  
-7. Ch14 Lab Reflect  
-
----
-
-## Cross-links to design-phase books
-
-Use **after** Part III, not before first boot:
-
-| Design book | When |
-|-------------|------|
-| `book/design_phase/book.md` | Architecture monograph |
-| `book/design_phase/book.structure_hk.md` | Six-layer structure (ZH) |
-| `book/design_phase/book.backend_hk.md` | Backend deep dive (ZH) |
-| `book/design_phase/book.frontend_hk.md` | Frontend deep dive (ZH) |
+| A | Glossary | `99-01-glossary.md` |
+| B | Command & API cheat sheet | `99-02-command-api-cheatsheet.md` |
 
 ---
 
 ## Chapter count
 
-- Narrative chapters: **20** (00–19)  
-- Appendices: **3** (A–C)  
-- SVG assets: **15**  
-- Total scaffold MD files: **23**
+- Section chapters: **21** (5+5+5+3+3)  
+- Appendices: **2**  
+- Total MD content files: **23** + README + user_guide.md + TOC  
+- SVGs: **one primary illustration per section chapter** (21) + optional overview  

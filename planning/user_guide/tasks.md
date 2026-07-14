@@ -1,65 +1,31 @@
-# User guide — execution tasks
+# User guide build tasks (per `create_user_guide.md`)
 
-Track writing and publish work. Check boxes as you complete them.
+## Phase 1 — TOC
 
-## Phase A — Structure & plan (this pass)
+- [x] Design five-section TOC with 3–5 chapters each
+- [x] Save `planning/user_guide/TOC.md` + `00_PLAN.md`
 
-- [x] Create `planning/user_guide/` folder
-- [x] Write `00_PLAN.md` (goal, principles, success criteria)
-- [x] Write complete `TOC.md` (parts, tracks, exit criteria)
-- [x] Generate 15 SVG illustrations in `assets/`
-- [x] Generate 23 chapter scaffold MDs with embeds + labs + sources
-- [x] Document regenerate scripts `_gen_assets.py`, `_gen_chapters.py`
-- [x] **Save canonical guide into `book/user_guide/`** (`user_guide.md`, `chapters/`, `assets/`, `TOC.md`)
-- [x] **Traditional Chinese pairs** `*_hk.md` for master + TOC + README + all chapters (`user_guide_hk.md`, `LANGUAGE.md`, `_gen_hk.py`)
+## Phase 2 — Markdown chapters
 
-## Phase B — Full prose (beginner path first)
+- [x] Write 21 section chapters + 2 appendices under `book/user_guide/chapters/`
+- [x] Each chapter: objectives, prerequisites, steps, use cases, best practices, summary, quiz
+- [x] Naming `NN-MM-slug.md`
 
-Expand narrative **in place** under `book/user_guide/chapters/` (already populated).
+## Phase 3 — SVG
 
-- [x] `book/user_guide/assets` present
-- [x] `book/user_guide/chapters` present
-- [x] `book/user_guide/user_guide.md` master entry
-- [ ] Ch00 full prose (**EN + `_hk`**)
-- [ ] Ch01 full prose (**EN + `_hk`**)
-- [ ] Ch02 full prose (**EN + `_hk`**)
-- [ ] Ch03 full prose + verify boot labs (**EN + `_hk`**)
-- [ ] Ch04 full prose (**EN + `_hk`**)
-- [ ] Ch05 full prose + E1 lab green (**EN + `_hk`**)
-- [ ] Ch06 full prose (**EN + `_hk`**)
-- [ ] Ch07 full prose (**EN + `_hk`**)
+- [x] One primary SVG per section chapter (21) in `book/user_guide/assets/`
+- [x] Embed with relative paths; broken_embeds=0
 
-## Phase C — Domains & intermediate
+## Phase 4 — Compile & QA
 
-- [ ] Ch08 full prose + recommend lab (**EN + `_hk`**)
-- [ ] Ch09 full prose + 17 skills (**EN + `_hk`**)
-- [ ] Ch10 full prose (**EN + `_hk`**)
+- [x] `book/user_guide/user_guide.md` master TOC
+- [x] `book/user_guide/README.md` entry
+- [x] Product-accurate residuals vs `EXECUTABLE_PRODUCT.md`
+- [x] Real ids: E1 workflow, viral-hook DNA, special skills 17
 
-## Phase D — Advanced & expert
+## Generators
 
-- [ ] Ch11–14 full prose (**EN + `_hk`**)
-- [ ] Ch15–19 full prose (**EN + `_hk`**)
-- [ ] Appendices A–C complete tables (**EN + `_hk`**)
-
-## Phase E — Assemble & polish
-
-- [x] Build `book/user_guide/user_guide.md` master (TOC + links)
-- [x] Relative image paths under `book/user_guide/assets/`
-- [ ] Update root `README.md` docs map: `book/user_guide/user_guide.md` (not old `book/book.md`)
-- [ ] Update `create_youtube_script.txt` paths if needed
-- [ ] Pass honesty review against `EXECUTABLE_PRODUCT.md`
-- [ ] Optional: PDF export later
-
-## Phase F — Verification gates
-
-- [ ] Cold reader can finish E1 using only the guide
-- [ ] Recommend + special skills labs match shipped APIs
-- [ ] Troubleshooting matrix covers demoMode default and Domains nav
-- [ ] No chapter claims live media or fleet true-100 without residual box
-
----
-
-## Definition of done (whole guide)
-
-All Phase B–F complete; success criteria in `00_PLAN.md` checked;  
-**every** reader-facing `book/user_guide/**/*.md` has a Traditional Chinese `*_hk.md` pair (`LANGUAGE.md`).
+```powershell
+python planning/user_guide/build_chapters.py
+python planning/user_guide/build_chapters_rest.py
+```
