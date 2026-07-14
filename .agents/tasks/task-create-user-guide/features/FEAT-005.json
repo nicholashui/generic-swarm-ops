@@ -1,0 +1,38 @@
+{
+  "id": "FEAT-005",
+  "type": "docs",
+  "description": "Create Section 5 - Optimization & Scaling (chapters 05-01 through 05-04) with matching SVG illustrations, then perform final quality assurance on all chapters. This section covers advanced expert content: performance tuning, resource allocation, large-scale deployment, and security hardening/maintenance.",
+  "status": "completed",
+  "steps": [
+    "Create book/user_guide/chapters/05-01-performance-tuning-strategies.md - Cover Postgres optimization (JSONB indexing, connection pooling, query optimization), backend tuning (uvicorn workers, async patterns, rate limiting configuration), frontend optimization (Next.js build optimization, API caching), knowledge retrieval tuning (embedding dimensions, tier escalation thresholds, graph query optimization), process intelligence batch processing. Include benchmarking approaches.",
+    "Create book/user_guide/chapters/05-02-resource-allocation-optimization.md - Cover evaluation corpus management (golden tasks sizing, regression test coverage), memory management (retention policies, provenance cleanup), evolution sandbox resource limits (variant count, evaluation budget, canary scope), tool adapter concurrency, Loop Engineering budget caps (max_iterations, fail_budget). Include cost-per-case optimization strategies.",
+    "Create book/user_guide/chapters/05-03-large-scale-deployment.md - Cover multi-domain deployment architecture, horizontal scaling (multiple backend instances, database replication), domain pack isolation at scale, federated knowledge (Neo4j/GraphAnything export via POST /api/v1/knowledge/graph/federate), CI/CD integration (inventory checks, business:validate in pipelines), Docker containerization, environment variable management for production.",
+    "Create book/user_guide/chapters/05-04-security-hardening-maintenance.md - Cover the full OWASP control matrix (LLM01-LLM10 from structure.md section 7), agentic security controls (Tool Permission Broker, memory-poisoning defense, skill vetting, observability, incident response), ongoing security practices (npm run business:security, red-team testing, prompt injection defense), long-term maintenance (evolution lesson archival, DNA version management, audit log retention, assurance case updates).",
+    "Create book/user_guide/assets/05-01-performance-architecture.svg - Diagram showing performance-critical paths: request flow through backend, database interaction patterns, caching layers, and optimization points.",
+    "Create book/user_guide/assets/05-02-resource-allocation.svg - Resource allocation diagram showing: eval corpus budget, memory retention tiers, evolution sandbox limits, tool concurrency pools.",
+    "Create book/user_guide/assets/05-03-deployment-architecture.svg - Large-scale deployment architecture: multiple backend instances, database cluster, domain pack isolation, federated knowledge graph, CI/CD pipeline.",
+    "Create book/user_guide/assets/05-04-security-controls-matrix.svg - Visual security control matrix mapping OWASP risks to implemented controls, organized by layer (model, data, autonomy, infrastructure).",
+    "Embed SVG references in each chapter with proper relative paths and descriptive alt text.",
+    "Update book/user_guide/README.md to ensure all links to all 18 chapters are correct and complete."
+  ],
+  "acceptance_criteria": [
+    "All 4 chapter files exist in book/user_guide/chapters/ with naming 05-0N-*.md",
+    "All 4 SVG files exist in book/user_guide/assets/ with naming 05-0N-*.svg",
+    "Each chapter has title, learning objectives, prerequisites, numbered instructions, technical explanations, 2-3 use cases, best practices, summary, quiz",
+    "Security content accurately maps OWASP LLM Top 10 controls from structure.md section 7",
+    "Deployment content includes federated knowledge API endpoints",
+    "All SVGs use consistent style (960px viewBox, Segoe UI, WCAG 2.1 AA colors)",
+    "All markdown links across all chapters resolve correctly",
+    "README.md TOC has working links to all 18 chapter files",
+    "Total output: 1 README.md + 18 chapter .md files + 18 SVG files = 37 files in book/user_guide/"
+  ],
+  "verification": [
+    "Confirm all section 5 files exist: ls book/user_guide/chapters/05-*.md book/user_guide/assets/05-*.svg",
+    "Verify complete file count: find book/user_guide -name '*.md' | wc -l should be 19 (README + 18 chapters); find book/user_guide -name '*.svg' | wc -l should be 18",
+    "Verify all SVG files are valid XML",
+    "Verify all markdown image references point to existing SVG files",
+    "Verify README.md links all resolve to existing chapter files"
+  ],
+  "blocked_reason": null,
+  "findings": "All 8 section 5 files created successfully (4 chapters + 4 SVGs). README.md updated with correct links to all 23 actual chapter filenames on disk (previous README had placeholder names that did not match actual files from FEAT-001 through FEAT-004). Final counts verified: 24 .md files (1 README + 23 chapters), 23 .svg files. All SVGs pass XML validation. All README links resolve to existing files. All image references in chapters point to existing SVGs. Chapter line counts: 05-01=808, 05-02=857, 05-03=814, 05-04=832. The feature spec mentions 18 chapters/SVGs in some places but actual implementation across all features produced 23 chapters and 23 SVGs (5+5+5+4+4), which matches the 5-section structure."
+}
