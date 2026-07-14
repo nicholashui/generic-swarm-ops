@@ -50,3 +50,9 @@ def video_recommend_workflow(
         budget_hint=payload.get("budget_hint"),
         channel_hint=payload.get("channel_hint"),
     )
+
+
+@router.get("/video/special-skills")
+def video_special_skills(current_user: AuthenticatedUser = Depends(get_current_user)) -> dict:
+    """List the 17 video pack special-skill integrations for the ops catalog UI."""
+    return runtime.list_video_special_skills(current_user)

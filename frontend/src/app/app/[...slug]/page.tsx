@@ -12,6 +12,8 @@ import { RunWorkflowButton } from "@/components/domain/run-workflow-button";
 import { UserAdminPanel } from "@/components/domain/user-admin-panel";
 import { WorkflowRunConsole } from "@/components/domain/workflow-run-console";
 import { DomainPackPanel } from "@/components/domain/domain-pack-panel";
+import { RecommendWorkflowPanel } from "@/components/domain/recommend-workflow-panel";
+import { SpecialSkillsPanel } from "@/components/domain/special-skills-panel";
 import { VideoN3RosterPanel } from "@/components/domain/video-n3-roster-panel";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -346,6 +348,12 @@ export default async function AppCatchAllPage({
         <DomainPackPanel agents={agents as never[]} />
         <Card className="p-6">
           <VideoN3RosterPanel />
+        </Card>
+        <Card className="p-6">
+          <RecommendWorkflowPanel />
+        </Card>
+        <Card className="p-6">
+          <SpecialSkillsPanel />
         </Card>
       </div>
     );

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="320" viewBox="0 0 920 320" role="img" aria-label="Workflow DNA">
+  <defs>
+    <style>
+      .bg { fill: #0b1220; }
+      .card { fill: #121a2b; stroke: #2a3a55; stroke-width: 1.5; }
+      .card-hi { fill: #152238; stroke: #3d7eff; stroke-width: 1.8; }
+      .t { fill: #e8eef9; font-family: Segoe UI, system-ui, sans-serif; font-size: 14px; }
+      .t-sm { fill: #a8b6cc; font-family: Segoe UI, system-ui, sans-serif; font-size: 11px; }
+      .t-title { fill: #ffffff; font-family: Segoe UI, system-ui, sans-serif; font-size: 16px; font-weight: 600; }
+      .accent { fill: #3d7eff; }
+      .ok { fill: #2ecc71; }
+      .line { stroke: #4a6080; stroke-width: 1.6; fill: none; }
+      .arrow { stroke: #3d7eff; stroke-width: 1.8; fill: none; marker-end: url(#arr); }
+    </style>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#3d7eff"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="920" height="320" rx="12"/>
+  
+  <text class="t-title" x="24" y="36">Workflow DNA lifecycle</text>
+  <rect class="card" x="30" y="70" width="140" height="80" rx="8"/><text class="t-sm" x="50" y="115">Author DNA</text>
+  <path class="arrow" d="M175 110 H205"/>
+  <rect class="card" x="205" y="70" width="140" height="80" rx="8"/><text class="t-sm" x="225" y="115">Validate</text>
+  <path class="arrow" d="M350 110 H380"/>
+  <rect class="card" x="380" y="70" width="140" height="80" rx="8"/><text class="t-sm" x="400" y="115">Sandbox run</text>
+  <path class="arrow" d="M525 110 H555"/>
+  <rect class="card" x="555" y="70" width="140" height="80" rx="8"/><text class="t-sm" x="575" y="115">Evaluate</text>
+  <path class="arrow" d="M700 110 H730"/>
+  <rect class="card-hi" x="730" y="70" width="150" height="80" rx="8"/><text class="t-sm" x="750" y="105">Canary /</text><text class="t-sm" x="750" y="125">Promote</text>
+  <rect class="card" x="30" y="190" width="850" height="90" rx="10"/>
+  <text class="t" x="50" y="225">DNA fields (conceptual)</text>
+  <text class="t-sm" x="50" y="250">id · steps · agents · tools · memory · verification · risk_tier · human_gates</text>
+
+</svg>

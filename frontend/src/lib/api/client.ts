@@ -216,6 +216,22 @@ export const backendApi = {
     return request(`/improvement/lesson-utility?${params.toString()}`);
   },
   videoN3Status: () => request("/domains/video/n3-status"),
+  /** Video archetype A–J registry (selection metadata). */
+  videoArchetypes: () => request("/domains/video/archetypes"),
+  /** Ranked DNA recommendation from free-text brief (real selector, not mock). */
+  recommendVideoWorkflow: (payload: {
+    brief: string;
+    duration_sec?: number | null;
+    top_k?: number;
+    budget_hint?: string;
+    channel_hint?: string;
+  }) =>
+    request("/domains/video/recommend-workflow", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
+  /** Pack special-skill integrations (17) from REGISTRY on disk. */
+  videoSpecialSkills: () => request("/domains/video/special-skills"),
   federateKnowledgeGraph: (pushNeo4j = false) =>
     request("/knowledge/graph/federate", {
       method: "POST",

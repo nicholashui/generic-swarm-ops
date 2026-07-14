@@ -4,7 +4,7 @@
   "kind": "agent_family",
   "summary": "Research family 66\u201372 for doc/research production",
   "status": "mvp_integrated",
-  "integrated_at": "2026-07-13",
+  "integrated_at": "2026-07-14",
   "n1": "video logic in pack only; host modules are infrastructure",
   "agents": [
     "video.webresearch",

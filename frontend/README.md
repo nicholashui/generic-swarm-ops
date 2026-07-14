@@ -30,9 +30,9 @@ pnpm test:e2e            # Playwright smoke (skips if servers down)
 
 - Uses a documented fallback design workflow because the required `opendesign` MCP server is not currently available in this workspace.
 - Targets the existing FastAPI backend under `../backend`.
-- Defaults to demo mode for local preview unless `NEXT_PUBLIC_DEMO_MODE=false`.
-- **Ops profile (recommended):** `NEXT_PUBLIC_DEMO_MODE=false` with a running backend and Postgres.
-- **Demo profile:** leave `NEXT_PUBLIC_DEMO_MODE` unset/true for UI-only preview without live mutations.
+- Defaults to **live ops** (real backend APIs). Set `NEXT_PUBLIC_DEMO_MODE=true` only for UI-only preview without a backend.
+- **Ops profile (default/recommended):** leave demo unset/`false` with a running backend and Postgres.
+- **Demo profile:** `NEXT_PUBLIC_DEMO_MODE=true` for UI-only preview without live mutations.
 - OpenAPI: `pnpm api:generate` exports FastAPI schema to `openapi.json` and generates `src/lib/api/generated/openapi.d.ts`.
 - Create agent/workflow routes use real form fields (Zod + react-hook-form); mutation errors show backend message + `request_id`.
 - Verified with `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build`.

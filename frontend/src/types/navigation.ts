@@ -6,6 +6,7 @@ import {
   Database,
   FileKey2,
   LayoutDashboard,
+  Layers,
   Shield,
   ShieldAlert,
   Sparkles,
@@ -13,6 +14,7 @@ import {
   Waypoints,
   Wrench,
 } from "lucide-react";
+import { appPaths } from "@/lib/routes/paths";
 import type { Permission } from "./permissions";
 
 export type NavigationItem = { label: string; href: string; icon: LucideIcon; permissions: Permission[] };
@@ -20,11 +22,12 @@ export type NavigationGroup = { title: string; items: NavigationItem[] };
 
 export const NAVIGATION_GROUPS: NavigationGroup[] = [
   { title: "Main", items: [
-    { label: "Dashboard", href: "/app", icon: LayoutDashboard, permissions: ["workflows:read"] },
-    { label: "Agents", href: "/app/agents", icon: Bot, permissions: ["agents:read"] },
-    { label: "Tools", href: "/app/tools", icon: Wrench, permissions: ["tools:read"] },
-    { label: "Workflows", href: "/app/workflows", icon: Waypoints, permissions: ["workflows:read"] },
-    { label: "Approvals", href: "/app/approvals", icon: ShieldAlert, permissions: ["approvals:read"] },
+    { label: "Dashboard", href: appPaths.dashboard, icon: LayoutDashboard, permissions: ["workflows:read"] },
+    { label: "Agents", href: appPaths.agents, icon: Bot, permissions: ["agents:read"] },
+    { label: "Domains", href: appPaths.domains, icon: Layers, permissions: ["workflows:read"] },
+    { label: "Tools", href: appPaths.tools, icon: Wrench, permissions: ["tools:read"] },
+    { label: "Workflows", href: appPaths.workflows, icon: Waypoints, permissions: ["workflows:read"] },
+    { label: "Approvals", href: appPaths.approvals, icon: ShieldAlert, permissions: ["approvals:read"] },
   ]},
   { title: "Data", items: [
     { label: "Knowledge", href: "/app/knowledge", icon: Database, permissions: ["knowledge:read"] },

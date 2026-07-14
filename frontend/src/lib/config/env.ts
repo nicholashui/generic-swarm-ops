@@ -5,5 +5,6 @@ export const env = {
   enableRegistration: process.env.NEXT_PUBLIC_ENABLE_REGISTRATION !== "false",
   enableBilling: process.env.NEXT_PUBLIC_ENABLE_BILLING !== "false",
   enableSso: process.env.NEXT_PUBLIC_ENABLE_SSO === "true",
-  demoMode: process.env.NEXT_PUBLIC_DEMO_MODE !== "false",
+  // Opt-in only: real backend is the default product path (recommend, special-skills, etc.).
+  demoMode: process.env.NEXT_PUBLIC_DEMO_MODE === "true",
 };

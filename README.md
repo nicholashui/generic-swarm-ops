@@ -118,7 +118,9 @@ Ops surfaces include agents, workflows, **Run now**, approvals, knowledge, evalu
 | `docs/self-improvement-and-orchestration.md` | Self-evolving / loops / K1-lite |
 | `docs/architecture.md` | Layered architecture |
 | `backend/docs/postgres-runbook.md` | Postgres ops |
-| `book/book.md` | Full technical book |
+| `book/user_guide/user_guide.md` | Operator user guide EN (beginner → expert) |
+| `book/user_guide/user_guide_hk.md` | Same guide Traditional Chinese (`*_hk.md` pairs) |
+| `book/design_phase/` | Design monographs (architecture depth) |
 | `memory/handoff.md` | Session continuity |
 
 ## License / policy

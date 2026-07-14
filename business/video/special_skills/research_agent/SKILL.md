@@ -1,6 +1,6 @@
 # Special skill integration — `research_agent`
 
-**Status:** MVP integrated (2026-07-13)  
+**Status:** MVP integrated (2026-07-14)  
 **Kind:** agent_family  
 **Plan:** [`planning/special/research_agent.md`](../../../planning/special/research_agent.md)  
 **Summary:** Research family 66–72 for doc/research production

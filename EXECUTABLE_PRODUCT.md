@@ -104,6 +104,18 @@ python scripts/business/recommend_video_workflow.py "15s viral TikTok hook"
 # Then run the recommended dna_id via API / runtime (viral-hook path proven above)
 ```
 
+### Operator UI slice (2026-07-14)
+
+Ops **Domains** page now includes:
+
+1. **Recommend workflow** — brief → ranked `dna_id` / scale / confidence via `POST /api/v1/domains/video/recommend-workflow`
+2. **Special skills** — 17 pack integrations via `GET /api/v1/domains/video/special-skills`
+
+Components: `RecommendWorkflowPanel`, `SpecialSkillsPanel` under `frontend/src/components/domain/`.  
+Client: `backendApi.recommendVideoWorkflow`, `videoSpecialSkills`, `videoArchetypes`.
+
+This closes the FE gap for existing pack selection/catalog — **not** full studio / live media.
+
 ---
 
 ## Architecture (executable slice)

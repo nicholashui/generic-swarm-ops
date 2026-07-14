@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="220" viewBox="0 0 920 220" role="img" aria-label="Learning path">
+  <defs>
+    <style>
+      .bg { fill: #0b1220; }
+      .card { fill: #121a2b; stroke: #2a3a55; stroke-width: 1.5; }
+      .card-hi { fill: #152238; stroke: #3d7eff; stroke-width: 1.8; }
+      .t { fill: #e8eef9; font-family: Segoe UI, system-ui, sans-serif; font-size: 14px; }
+      .t-sm { fill: #a8b6cc; font-family: Segoe UI, system-ui, sans-serif; font-size: 11px; }
+      .t-title { fill: #ffffff; font-family: Segoe UI, system-ui, sans-serif; font-size: 16px; font-weight: 600; }
+      .accent { fill: #3d7eff; }
+      .ok { fill: #2ecc71; }
+      .line { stroke: #4a6080; stroke-width: 1.6; fill: none; }
+      .arrow { stroke: #3d7eff; stroke-width: 1.8; fill: none; marker-end: url(#arr); }
+    </style>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#3d7eff"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="920" height="220" rx="12"/>
+  
+  <text class="t-title" x="24" y="36">Beginner to expert learning path</text>
+  <g>
+    <rect class="card-hi" x="24" y="60" width="150" height="120" rx="10"/>
+    <text class="t" x="44" y="95">Part I</text>
+    <text class="t-sm" x="44" y="120">Mental model</text>
+    <text class="t-sm" x="44" y="140">Install and boot</text>
+    <text class="t-sm" x="44" y="160">Console tour</text>
+  </g>
+  <path class="arrow" d="M180 120 H210"/>
+  <g>
+    <rect class="card" x="210" y="60" width="150" height="120" rx="10"/>
+    <text class="t" x="230" y="95">Part II</text>
+    <text class="t-sm" x="230" y="120">First E1 run</text>
+    <text class="t-sm" x="230" y="140">Approvals</text>
+    <text class="t-sm" x="230" y="160">Agents and tools</text>
+  </g>
+  <path class="arrow" d="M366 120 H396"/>
+  <g>
+    <rect class="card" x="396" y="60" width="150" height="120" rx="10"/>
+    <text class="t" x="416" y="95">Part III</text>
+    <text class="t-sm" x="416" y="120">Domains</text>
+    <text class="t-sm" x="416" y="140">Recommend DNA</text>
+    <text class="t-sm" x="416" y="160">Special skills</text>
+  </g>
+  <path class="arrow" d="M552 120 H582"/>
+  <g>
+    <rect class="card" x="582" y="60" width="150" height="120" rx="10"/>
+    <text class="t" x="602" y="95">Part IV</text>
+    <text class="t-sm" x="602" y="120">Knowledge</text>
+    <text class="t-sm" x="602" y="140">PI and evals</text>
+    <text class="t-sm" x="602" y="160">Evolution</text>
+  </g>
+  <path class="arrow" d="M738 120 H768"/>
+  <g>
+    <rect class="card" x="768" y="60" width="130" height="120" rx="10"/>
+    <text class="t" x="788" y="95">Part V</text>
+    <text class="t-sm" x="788" y="120">Extend</text>
+    <text class="t-sm" x="788" y="140">Secure</text>
+    <text class="t-sm" x="788" y="160">Produce</text>
+  </g>
+
+</svg>

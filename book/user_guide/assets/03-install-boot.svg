@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="280" viewBox="0 0 900 280" role="img" aria-label="Install boot">
+  <defs>
+    <style>
+      .bg { fill: #0b1220; }
+      .card { fill: #121a2b; stroke: #2a3a55; stroke-width: 1.5; }
+      .card-hi { fill: #152238; stroke: #3d7eff; stroke-width: 1.8; }
+      .t { fill: #e8eef9; font-family: Segoe UI, system-ui, sans-serif; font-size: 14px; }
+      .t-sm { fill: #a8b6cc; font-family: Segoe UI, system-ui, sans-serif; font-size: 11px; }
+      .t-title { fill: #ffffff; font-family: Segoe UI, system-ui, sans-serif; font-size: 16px; font-weight: 600; }
+      .accent { fill: #3d7eff; }
+      .ok { fill: #2ecc71; }
+      .line { stroke: #4a6080; stroke-width: 1.6; fill: none; }
+      .arrow { stroke: #3d7eff; stroke-width: 1.8; fill: none; marker-end: url(#arr); }
+    </style>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#3d7eff"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="900" height="280" rx="12"/>
+  
+  <text class="t-title" x="24" y="36">First boot sequence</text>
+  <g>
+    <circle class="accent" cx="70" cy="120" r="28"/>
+    <text class="t" x="62" y="125">1</text>
+    <text class="t-sm" x="40" y="175">bootstrap</text>
+  </g>
+  <path class="arrow" d="M105 120 H145"/>
+  <g>
+    <circle class="accent" cx="180" cy="120" r="28"/>
+    <text class="t" x="172" y="125">2</text>
+    <text class="t-sm" x="150" y="175">backend</text>
+  </g>
+  <path class="arrow" d="M215 120 H255"/>
+  <g>
+    <circle class="accent" cx="290" cy="120" r="28"/>
+    <text class="t" x="282" y="125">3</text>
+    <text class="t-sm" x="255" y="175">health/ready</text>
+  </g>
+  <path class="arrow" d="M325 120 H365"/>
+  <g>
+    <circle class="accent" cx="400" cy="120" r="28"/>
+    <text class="t" x="392" y="125">4</text>
+    <text class="t-sm" x="370" y="175">frontend</text>
+  </g>
+  <path class="arrow" d="M435 120 H475"/>
+  <g>
+    <circle class="accent" cx="510" cy="120" r="28"/>
+    <text class="t" x="502" y="125">5</text>
+    <text class="t-sm" x="480" y="175">login</text>
+  </g>
+  <path class="arrow" d="M545 120 H585"/>
+  <g>
+    <circle class="ok" cx="620" cy="120" r="28"/>
+    <text class="t" x="612" y="125">6</text>
+    <text class="t-sm" x="590" y="175">E1 path</text>
+  </g>
+  <rect class="card" x="700" y="70" width="170" height="140" rx="10"/>
+  <text class="t" x="720" y="100">Credentials</text>
+  <text class="t-sm" x="720" y="125">admin@example.com</text>
+  <text class="t-sm" x="720" y="145">admin-password</text>
+  <text class="t-sm" x="720" y="175">API :8000</text>
+  <text class="t-sm" x="720" y="195">UI :3000</text>
+
+</svg>

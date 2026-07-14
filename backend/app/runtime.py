@@ -3946,6 +3946,72 @@ class RuntimeServices:
             raise ValidationError(str(exc)) from exc
         return result
 
+    def list_video_special_skills(self, current_user: AuthenticatedUser) -> dict[str, Any]:
+        """List pack special-skill integrations for operator UI (from disk REGISTRY)."""
+        self.assert_permission(current_user, "agents:read")
+        import re
+
+        special_root = self.repo_root / "business" / "video" / "special_skills"
+        reg_path = special_root / "REGISTRY.json"
+        if not reg_path.is_file():
+            raise ValidationError("special skills registry not found")
+        reg = json.loads(reg_path.read_text(encoding="utf-8"))
+        skill_ids = list(reg.get("skills") or [])
+
+        # Optional scores from honest scorecard markdown
+        scores: dict[str, int] = {}
+        score_path = self.repo_root / "planning" / "special" / "special_skill_impl_score.md"
+        if score_path.is_file():
+            for line in score_path.read_text(encoding="utf-8", errors="replace").splitlines():
+                m = re.match(
+                    r"^\| `([a-z0-9_]+)` \| .+ \| \*\*(\d+)\*\* \|",
+                    line,
+                )
+                if m:
+                    scores[m.group(1)] = int(m.group(2))
+
+        items: list[dict[str, Any]] = []
+        for sid in skill_ids:
+            integ_path = special_root / sid / "integration.json"
+            skill_md = special_root / sid / "SKILL.md"
+            row: dict[str, Any] = {
+                "skill_id": sid,
+                "integration_path": f"business/video/special_skills/{sid}/integration.json",
+                "has_skill_md": skill_md.is_file(),
+            }
+            if integ_path.is_file():
+                try:
+                    man = json.loads(integ_path.read_text(encoding="utf-8"))
+                except json.JSONDecodeError:
+                    man = {}
+                row.update(
+                    {
+                        "kind": man.get("kind"),
+                        "status": man.get("status"),
+                        "summary": man.get("summary"),
+                        "agents": man.get("agents") or [],
+                        "dna": man.get("dna") or [],
+                        "modules": man.get("modules") or [],
+                        "process_ids": man.get("process_ids") or [],
+                    }
+                )
+            if sid in scores:
+                row["score"] = scores[sid]
+                row["full_mark"] = scores[sid] >= 100
+            items.append(row)
+
+        return {
+            "domain_id": "video",
+            "count": len(items),
+            "registry_path": "business/video/special_skills/REGISTRY.json",
+            "score_path": "planning/special/special_skill_impl_score.md",
+            "skills": items,
+            "residuals_note": (
+                "Catalog + selection only; live media vendors and full DNA production_ready "
+                "are not claimed by this operator slice."
+            ),
+        }
+
     def video_n3_roster_status(self, current_user: AuthenticatedUser) -> dict[str, Any]:
         """N3 completeness snapshot for the video pack (Wave 5). Reads pack disk artifacts."""
         self.assert_permission(current_user, "agents:read")
