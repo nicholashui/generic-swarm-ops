@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="640" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Initial Setup Wizard Flow</text>
+  <text x="480" y="56" text-anchor="middle" font-size="12" fill="#64748b">Bootstrap &#8594; Init &#8594; Configure &#8594; Start &#8594; Verify</text>
+
+  <!-- Phase 1: Bootstrap -->
+  <rect x="40" y="84" width="260" height="100" rx="8" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="170" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#1e1b4b">Phase 1: Bootstrap</text>
+  <text x="170" y="134" text-anchor="middle" font-size="11" fill="#3730a3">npm run bootstrap</text>
+  <text x="170" y="154" text-anchor="middle" font-size="10" fill="#3730a3">Creates business/ tree structure</text>
+  <text x="170" y="170" text-anchor="middle" font-size="10" fill="#3730a3">Initializes starter harness</text>
+
+  <!-- Phase 2: Business Init -->
+  <rect x="350" y="84" width="260" height="100" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="480" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#14532d">Phase 2: Business Init</text>
+  <text x="480" y="134" text-anchor="middle" font-size="11" fill="#166534">npm run business:init</text>
+  <text x="480" y="154" text-anchor="middle" font-size="10" fill="#166534">Scaffolds governance artifacts</text>
+  <text x="480" y="170" text-anchor="middle" font-size="10" fill="#166534">Creates eval golden tasks</text>
+
+  <!-- Phase 3: Environment -->
+  <rect x="660" y="84" width="260" height="100" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="790" y="110" text-anchor="middle" font-size="14" font-weight="700" fill="#1e3a8a">Phase 3: Environment</text>
+  <text x="790" y="134" text-anchor="middle" font-size="11" fill="#1d4ed8">Configure backend/.env</text>
+  <text x="790" y="154" text-anchor="middle" font-size="10" fill="#1d4ed8">Set DATABASE_URL</text>
+  <text x="790" y="170" text-anchor="middle" font-size="10" fill="#1d4ed8">Set frontend env vars</text>
+
+  <!-- Phase 4: Backend Start -->
+  <rect x="40" y="240" width="260" height="100" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="170" y="266" text-anchor="middle" font-size="14" font-weight="700" fill="#713f12">Phase 4: Backend</text>
+  <text x="170" y="290" text-anchor="middle" font-size="11" fill="#854d0e">cd backend</text>
+  <text x="170" y="308" text-anchor="middle" font-size="10" fill="#854d0e">pip install -e .</text>
+  <text x="170" y="324" text-anchor="middle" font-size="10" fill="#854d0e">uvicorn app.main:app --reload</text>
+
+  <!-- Phase 5: Frontend Start -->
+  <rect x="350" y="240" width="260" height="100" rx="8" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="480" y="266" text-anchor="middle" font-size="14" font-weight="700" fill="#701a75">Phase 5: Frontend</text>
+  <text x="480" y="290" text-anchor="middle" font-size="11" fill="#86198f">cd frontend</text>
+  <text x="480" y="308" text-anchor="middle" font-size="10" fill="#86198f">pnpm install</text>
+  <text x="480" y="324" text-anchor="middle" font-size="10" fill="#86198f">pnpm dev</text>
+
+  <!-- Phase 6: Verification -->
+  <rect x="660" y="240" width="260" height="100" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="790" y="266" text-anchor="middle" font-size="14" font-weight="700" fill="#14532d">Phase 6: Verify</text>
+  <text x="790" y="290" text-anchor="middle" font-size="11" fill="#166534">GET /api/v1/health/ready</text>
+  <text x="790" y="308" text-anchor="middle" font-size="10" fill="#166534">database: postgres &#10003;</text>
+  <text x="790" y="324" text-anchor="middle" font-size="10" fill="#166534">Frontend loads at :3000 &#10003;</text>
+
+  <!-- Arrows -->
+  <g stroke="#64748b" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <line x1="300" y1="134" x2="348" y2="134"/>
+    <line x1="610" y1="134" x2="658" y2="134"/>
+    <line x1="790" y1="184" x2="790" y2="210"/>
+    <line x1="790" y1="210" x2="170" y2="210"/>
+    <line x1="170" y1="210" x2="170" y2="238"/>
+    <line x1="300" y1="290" x2="348" y2="290"/>
+    <line x1="610" y1="290" x2="658" y2="290"/>
+  </g>
+
+  <!-- Validation commands section -->
+  <rect x="40" y="390" width="420" height="210" rx="8" fill="#fafafa" stroke="#cbd5e1"/>
+  <text x="250" y="418" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Post-Setup Validation Commands</text>
+  <g font-size="11" fill="#334155">
+    <text x="60" y="446">npm run business:validate</text>
+    <text x="60" y="466" font-size="10" fill="#64748b">  Validates all business artifacts and schemas</text>
+    <text x="60" y="492">npm run business:governance</text>
+    <text x="60" y="512" font-size="10" fill="#64748b">  Checks governance layer completeness</text>
+    <text x="60" y="538">npm run business:security</text>
+    <text x="60" y="558" font-size="10" fill="#64748b">  Runs security baseline checks</text>
+    <text x="60" y="584">npm run doctor</text>
+  </g>
+
+  <!-- Key endpoints section -->
+  <rect x="500" y="390" width="420" height="210" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="710" y="418" text-anchor="middle" font-size="13" font-weight="700" fill="#0f172a">Key Verification Endpoints</text>
+  <g font-size="11" fill="#334155">
+    <text x="520" y="446">GET /api/v1/health/ready</text>
+    <text x="520" y="466" font-size="10" fill="#64748b">  Returns database connectivity status</text>
+    <text x="520" y="492">GET /api/v1/workflows</text>
+    <text x="520" y="512" font-size="10" fill="#64748b">  Lists all registered workflow definitions</text>
+    <text x="520" y="538">GET /api/v1/agents</text>
+    <text x="520" y="558" font-size="10" fill="#64748b">  Lists all configured agents</text>
+    <text x="520" y="584">POST /api/v1/auth/login</text>
+    <text x="520" y="604" font-size="10" fill="#64748b">  Authenticate with credentials</text>
+  </g>
+
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>

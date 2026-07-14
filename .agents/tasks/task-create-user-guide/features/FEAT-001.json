@@ -1,0 +1,37 @@
+{
+  "id": "FEAT-001",
+  "type": "docs",
+  "description": "Create the user guide directory structure, README.md with full TOC, and Section 1 - Core System Fundamentals (chapters 01-01 through 01-05) with matching SVG illustrations. This section covers beginner-level content: system overview, installation prerequisites, initial setup wizard, first-time configuration, and basic navigation/account management.",
+  "status": "in_progress",
+  "steps": [
+    "Create directory structure: book/user_guide/, book/user_guide/chapters/, book/user_guide/assets/",
+    "Create book/user_guide/README.md as the main entry point with a complete Table of Contents linking to all 5 sections and all subchapters (approximately 20 chapters total). The TOC must list all 5 sections with their subchapters and learning objectives. Use relative links to chapters/ subfolder.",
+    "Create book/user_guide/chapters/01-01-system-overview.md - Cover the full system architecture (six layers: Process Intelligence, Knowledge, Execution, Evolution, Governance, Security), design priorities (Safety > Auditability > Correctness > Efficiency > Autonomy), core concepts (Workflow DNA, bounded autonomy, sandbox evolution, provenance). Include learning objectives, prerequisites, step-by-step exploration of the system, 2-3 real-world use cases, best practices, summary, and knowledge check quiz.",
+    "Create book/user_guide/chapters/01-02-installation-prerequisites.md - Cover all requirements (Node.js 20+, Python 3.11+, PostgreSQL 14+, pnpm, Git), system requirements, environment variables, optional dependencies (Neo4j, pgvector). Include step-by-step installation for each prerequisite on major platforms. Reference docs/installation.md content.",
+    "Create book/user_guide/chapters/01-03-initial-setup-wizard.md - Cover npm run bootstrap, business:init, database setup (backend/.env, DATABASE_URL), backend startup (uvicorn), frontend startup (pnpm dev), environment variables (NEXT_PUBLIC_DEMO_MODE, NEXT_PUBLIC_API_BASE_URL, GENERIC_SWARM_AUTO_REFLECT etc). Step-by-step first-run walkthrough.",
+    "Create book/user_guide/chapters/01-04-first-time-configuration.md - Cover seed login (admin@example.com / admin-password), password auth setup, initial agent configuration, first workflow DNA creation, business layer validation (npm run business:validate, business:governance, business:security). Real examples of configuration values.",
+    "Create book/user_guide/chapters/01-05-basic-navigation-account-management.md - Cover the Next.js ops console navigation (agents, workflows, runs, approvals, knowledge, evaluations, processes, evolution), user account management, RBAC basics (roles: admin, operator, reviewer), session management (cookies, tokens). Annotated UI walkthrough.",
+    "Create book/user_guide/assets/01-01-system-architecture.svg - System architecture diagram showing the six layers, intake router, business orchestrator, and their connections. Follow the style from book/design_phase/assets/01-system-overview.svg (960px wide viewBox, Segoe UI font, colored boxes with rx=8, arrow markers, WCAG 2.1 AA contrast).",
+    "Create book/user_guide/assets/01-02-installation-flow.svg - Flowchart showing the installation sequence: prerequisites check, npm run bootstrap, database setup, backend startup, frontend startup, health check verification.",
+    "Create book/user_guide/assets/01-03-setup-wizard-flow.svg - Step-by-step setup process diagram showing bootstrap, business:init, env configuration, service startup, and verification endpoints.",
+    "Create book/user_guide/assets/01-04-configuration-overview.svg - Diagram showing configuration layers: environment variables, backend .env, frontend env, business artifacts, and their relationships.",
+    "Create book/user_guide/assets/01-05-navigation-layout.svg - Annotated UI layout diagram showing the Next.js ops console structure: sidebar navigation, main content area, key pages (agents, workflows, runs, approvals, knowledge, evaluations, processes, evolution).",
+    "Embed SVG references in each markdown chapter using relative paths (e.g., ![System Architecture](../assets/01-01-system-architecture.svg)) with descriptive alt text."
+  ],
+  "acceptance_criteria": [
+    "book/user_guide/README.md exists with complete TOC linking all 5 sections and ~20 subchapters",
+    "All 5 chapter files exist in book/user_guide/chapters/ with proper naming convention (01-0N-*.md)",
+    "All 5 SVG files exist in book/user_guide/assets/ with matching naming convention",
+    "Each chapter contains: title, learning objectives, prerequisites, numbered instructions, technical explanations, 2-3 use cases, best practices, summary, knowledge check quiz",
+    "Each SVG uses consistent style: viewBox with 960px width, Segoe UI font, colored boxes, proper markers, WCAG 2.1 AA colors",
+    "All SVG references in markdown use valid relative paths (../assets/filename.svg)",
+    "Content is technically accurate based on the actual system documentation (structure.md, docs/*.md)"
+  ],
+  "verification": [
+    "Confirm all files exist: ls book/user_guide/README.md book/user_guide/chapters/01-*.md book/user_guide/assets/01-*.svg",
+    "Verify SVG files are valid XML: xmllint or python xml.etree check on each SVG",
+    "Verify markdown links resolve: grep for SVG references and confirm target files exist"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

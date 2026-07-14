@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="960" height="620" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Next.js Ops Console - Navigation Layout</text>
+  <text x="480" y="56" text-anchor="middle" font-size="12" fill="#64748b">NEXT_PUBLIC_DEMO_MODE=false &#183; Live API connection &#183; RBAC enforced</text>
+
+  <!-- Browser frame -->
+  <rect x="40" y="80" width="880" height="500" rx="8" fill="#fafafa" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="40" y="80" width="880" height="32" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <text x="480" y="101" text-anchor="middle" font-size="10" fill="#64748b">http://localhost:3000/app</text>
+
+  <!-- Sidebar -->
+  <rect x="44" y="116" width="180" height="460" fill="#f8fafc" stroke="#e2e8f0"/>
+  <text x="134" y="142" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">Navigation</text>
+
+  <!-- Nav items -->
+  <g font-size="11" fill="#334155">
+    <rect x="54" y="154" width="160" height="30" rx="4" fill="#e0e7ff" stroke="#6366f1"/>
+    <text x="134" y="174" text-anchor="middle" font-weight="600" fill="#1e1b4b">Agents</text>
+    <rect x="54" y="192" width="160" height="30" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="134" y="212" text-anchor="middle">Workflows</text>
+    <rect x="54" y="230" width="160" height="30" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="134" y="250" text-anchor="middle">Runs</text>
+    <rect x="54" y="268" width="160" height="30" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="134" y="288" text-anchor="middle">Approvals</text>
+    <rect x="54" y="306" width="160" height="30" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="134" y="326" text-anchor="middle">Knowledge</text>
+    <rect x="54" y="344" width="160" height="30" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="134" y="364" text-anchor="middle">Evaluations</text>
+    <rect x="54" y="382" width="160" height="30" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="134" y="402" text-anchor="middle">Processes</text>
+    <rect x="54" y="420" width="160" height="30" rx="4" fill="#ffffff" stroke="#e2e8f0"/>
+    <text x="134" y="440" text-anchor="middle">Evolution</text>
+  </g>
+
+  <!-- Main content area -->
+  <rect x="228" y="116" width="688" height="460" fill="#ffffff" stroke="#e2e8f0"/>
+  <text x="572" y="148" text-anchor="middle" font-size="14" font-weight="700" fill="#0f172a">Main Content Area</text>
+
+  <!-- Content sections -->
+  <rect x="248" y="166" width="310" height="120" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="403" y="192" text-anchor="middle" font-size="12" font-weight="600" fill="#14532d">Agent Management</text>
+  <g font-size="10" fill="#166534">
+    <text x="268" y="216">Create / Edit agents</text>
+    <text x="268" y="234">Assign roles and tools</text>
+    <text x="268" y="252">View agent activity</text>
+    <text x="268" y="270">Configure permissions</text>
+  </g>
+
+  <rect x="578" y="166" width="310" height="120" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="733" y="192" text-anchor="middle" font-size="12" font-weight="600" fill="#1e3a8a">Workflow Operations</text>
+  <g font-size="10" fill="#1d4ed8">
+    <text x="598" y="216">Create Workflow DNA</text>
+    <text x="598" y="234">Run workflows with payload</text>
+    <text x="598" y="252">Monitor execution steps</text>
+    <text x="598" y="270">View audit trails</text>
+  </g>
+
+  <rect x="248" y="306" width="310" height="120" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+  <text x="403" y="332" text-anchor="middle" font-size="12" font-weight="600" fill="#713f12">Self-Improvement</text>
+  <g font-size="10" fill="#854d0e">
+    <text x="268" y="356">Reflect on completed runs</text>
+    <text x="268" y="374">Propose workflow variants</text>
+    <text x="268" y="392">Evaluate against golden tasks</text>
+    <text x="268" y="410">Canary deploy or rollback</text>
+  </g>
+
+  <rect x="578" y="306" width="310" height="120" rx="8" fill="#fae8ff" stroke="#a21caf"/>
+  <text x="733" y="332" text-anchor="middle" font-size="12" font-weight="600" fill="#701a75">Knowledge + Evolution</text>
+  <g font-size="10" fill="#86198f">
+    <text x="598" y="356">Search knowledge (tiered)</text>
+    <text x="598" y="374">View memory entries</text>
+    <text x="598" y="392">Population archive</text>
+    <text x="598" y="410">Fitness metrics dashboard</text>
+  </g>
+
+  <!-- RBAC legend -->
+  <rect x="248" y="446" width="640" height="50" rx="8" fill="#f1f5f9" stroke="#475569"/>
+  <text x="268" y="470" font-size="11" font-weight="600" fill="#0f172a">RBAC Roles:</text>
+  <text x="358" y="470" font-size="11" fill="#334155">admin (full access)</text>
+  <text x="520" y="470" font-size="11" fill="#334155">operator (run + create)</text>
+  <text x="700" y="470" font-size="11" fill="#334155">reviewer (approve only)</text>
+  <text x="268" y="488" font-size="10" fill="#64748b">Session: gso_access_token cookie &#183; Password auth preferred &#183; Static tokens for curl smoke only</text>
+
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+</svg>
