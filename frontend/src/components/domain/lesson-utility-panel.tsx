@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { backendApi } from "@/lib/api/client";
+import { cachedFetch } from "@/lib/api/client-cache";
 import { env } from "@/lib/config/env";
 import { formatMutationError } from "@/lib/forms/create-resource-schemas";
 
@@ -63,7 +64,9 @@ async function fetchUtility(): Promise<UtilityState> {
   if (env.demoMode) {
     return DEMO_UTILITY;
   }
-  return (await backendApi.lessonUtilityDashboard()) as UtilityState;
+  return cachedFetch("improvement:lesson-utility", async () =>
+    (await backendApi.lessonUtilityDashboard()) as UtilityState,
+  );
 }
 
 export function LessonUtilityPanel() {

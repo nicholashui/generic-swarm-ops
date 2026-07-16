@@ -1,10 +1,10 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import dynamic from "next/dynamic";
 import { ArrowRight, FileKey2, Play, Plus } from "lucide-react";
 import { ApiKeyTable } from "@/components/domain/api-key-table";
 import { ApprovalDecisionPanel } from "@/components/domain/approval-decision-panel";
 import { DetailMetadata } from "@/components/domain/detail-metadata";
-import { EvolutionArchivePanel } from "@/components/domain/evolution-archive-panel";
 import { FormRouteActions, type FormMutationKind } from "@/components/domain/form-route-actions";
 import { ImproveRunButton } from "@/components/domain/improve-run-button";
 import { OrganizationSettingsForm } from "@/components/domain/organization-settings-form";
@@ -12,9 +12,6 @@ import { RunWorkflowButton } from "@/components/domain/run-workflow-button";
 import { UserAdminPanel } from "@/components/domain/user-admin-panel";
 import { WorkflowRunConsole } from "@/components/domain/workflow-run-console";
 import { DomainPackPanel } from "@/components/domain/domain-pack-panel";
-import { RecommendWorkflowPanel } from "@/components/domain/recommend-workflow-panel";
-import { SpecialSkillsPanel } from "@/components/domain/special-skills-panel";
-import { VideoN3RosterPanel } from "@/components/domain/video-n3-roster-panel";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
@@ -24,9 +21,33 @@ import { MetricCard } from "@/components/ui/metric-card";
 import { SearchInput } from "@/components/ui/search-input";
 import { Section } from "@/components/ui/section";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { loadProductBundle } from "@/lib/data/product-data";
+import { loadProductSlice, productSlicesForRoute } from "@/lib/data/product-data";
 import { env } from "@/lib/config/env";
 import { formatDateTime } from "@/lib/formatting/dates";
+
+// Heavy client panels: load only when their route renders (smaller initial JS).
+const EvolutionArchivePanel = dynamic(
+  () =>
+    import("@/components/domain/evolution-archive-panel").then((m) => m.EvolutionArchivePanel),
+  { loading: () => <p className="p-4 text-sm text-muted">Loading evolution…</p> },
+);
+const LessonUtilityPanel = dynamic(
+  () => import("@/components/domain/lesson-utility-panel").then((m) => m.LessonUtilityPanel),
+  { loading: () => <p className="p-4 text-sm text-muted">Loading lessons…</p> },
+);
+const RecommendWorkflowPanel = dynamic(
+  () =>
+    import("@/components/domain/recommend-workflow-panel").then((m) => m.RecommendWorkflowPanel),
+  { loading: () => <p className="p-4 text-sm text-muted">Loading recommender…</p> },
+);
+const SpecialSkillsPanel = dynamic(
+  () => import("@/components/domain/special-skills-panel").then((m) => m.SpecialSkillsPanel),
+  { loading: () => <p className="p-4 text-sm text-muted">Loading skills…</p> },
+);
+const VideoN3RosterPanel = dynamic(
+  () => import("@/components/domain/video-n3-roster-panel").then((m) => m.VideoN3RosterPanel),
+  { loading: () => <p className="p-4 text-sm text-muted">Loading roster…</p> },
+);
 
 type Column<T> = {
   key: keyof T | string;
@@ -321,6 +342,13 @@ export default async function AppCatchAllPage({
   params: Promise<{ slug?: string[] }>;
 }) {
   const slug = (await params).slug ?? [];
+
+  if (!slug.length) {
+    return <NotFoundPanel slug={[""]} />;
+  }
+
+  const [section, child, grandchild] = slug;
+  // Only fetch APIs required for this route (was 12 parallel calls on every navigation).
   const {
     agents,
     apiKeys,
@@ -334,13 +362,7 @@ export default async function AppCatchAllPage({
     userRows,
     workflowRunEvents,
     workflows,
-  } = await loadProductBundle();
-
-  if (!slug.length) {
-    return <NotFoundPanel slug={[""]} />;
-  }
-
-  const [section, child, grandchild] = slug;
+  } = await loadProductSlice(productSlicesForRoute(section, child));
 
   if (section === "domains") {
     return (

@@ -6,7 +6,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { MetricCard } from "@/components/ui/metric-card";
 import { Section } from "@/components/ui/section";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { loadProductBundle } from "@/lib/data/product-data";
+import { loadProductSlice, productSlicesForRoute } from "@/lib/data/product-data";
 import { formatDateTime } from "@/lib/formatting/dates";
 
 export default async function DashboardPage() {
@@ -18,7 +18,7 @@ export default async function DashboardPage() {
     onboardingChecklist,
     processes,
     workflows,
-  } = await loadProductBundle();
+  } = await loadProductSlice(productSlicesForRoute(undefined));
   return (
     <Section
       eyebrow="Operations"

@@ -6,7 +6,7 @@
 - URL: https://github.com/affaan-m/ECC.git
 - Target: external/sources/ecc
 - Status: downloaded
-- Commit: 4130457d674d2180c5af2c5f634f3cae4cbc6c4f
+- Commit: ed387446052dfbc6b52de149406b70efa65edc59
 - Branch: main
 - License files: LICENSE
 - Package files: package-lock.json, package.json
@@ -25,7 +25,7 @@
 - URL: https://github.com/anthropics/claude-code.git
 - Target: external/sources/anthropic-claude-code
 - Status: downloaded
-- Commit: 7930e1c82d997b013af28673501f3b95569a71cb
+- Commit: c39cb0f14bfe8bb519bae5bfc55add6867c5e2ab
 - Branch: main
 - License files: LICENSE.md
 - Package files: none
@@ -44,7 +44,7 @@
 - URL: https://github.com/anthropics/claude-code-action.git
 - Target: external/sources/anthropic-claude-code-action
 - Status: downloaded
-- Commit: f87768c6d25f92ae6efa7175e223ef77d4cbf97f
+- Commit: 1298632ce7736903d02a1435002705aa2a594a6c
 - Branch: main
 - License files: LICENSE
 - Package files: package.json
@@ -82,7 +82,7 @@
 - URL: https://github.com/anthropics/claude-plugins-official.git
 - Target: external/sources/anthropic-claude-plugins-official
 - Status: downloaded
-- Commit: 6d5f79446b996d64c87f1bedf0e13eb4dda542d2
+- Commit: b5eddebc6444d73108941ee698f25fa8759b8710
 - Branch: main
 - License files: LICENSE
 - Package files: none
@@ -101,7 +101,7 @@
 - URL: https://github.com/openai/codex.git
 - Target: external/sources/openai-codex
 - Status: downloaded
-- Commit: 831c14fc39f7810703263c31a4a712842dba35f4
+- Commit: e7efc5b04b78095801c9025574c20cbc409419d8
 - Branch: main
 - License files: LICENSE
 - Package files: package.json
@@ -120,7 +120,7 @@
 - URL: https://github.com/google-gemini/gemini-cli.git
 - Target: external/sources/google-gemini-cli
 - Status: downloaded
-- Commit: 15a9429b69bd4c72514678ac17c88087f7ab9d48
+- Commit: 3ff5ba20fc1ad7d867218bbdb34756eb54d6eccb
 - Branch: main
 - License files: LICENSE
 - Package files: package-lock.json, package.json
@@ -139,7 +139,7 @@
 - URL: https://github.com/anomalyco/opencode.git
 - Target: external/sources/opencode
 - Status: downloaded
-- Commit: 9353559088fcb81d02290707e2da2e79d31b9bdc
+- Commit: 888c4cb50476aaecaad48e6a448759da3040ed2e
 - Branch: dev
 - License files: LICENSE
 - Package files: package.json
@@ -177,7 +177,7 @@
 - URL: https://github.com/modelcontextprotocol/registry.git
 - Target: external/sources/modelcontextprotocol-registry
 - Status: downloaded
-- Commit: 535941a30e92c88b5bc83ef4e951d4183ccf19db
+- Commit: 29e32c39dcb5e0e2b43974089d959fcc4794eb6d
 - Branch: main
 - License files: LICENSE
 - Package files: none
@@ -196,7 +196,7 @@
 - URL: https://github.com/github/github-mcp-server.git
 - Target: external/sources/github-mcp-server
 - Status: downloaded
-- Commit: 74c34cd71b363fa960683c1f4eafd3abbef5b40a
+- Commit: 8ac674b0562bf2d2cccaea2965d32fcb2511cdbe
 - Branch: main
 - License files: LICENSE
 - Package files: none
@@ -272,7 +272,7 @@
 - URL: https://github.com/thedotmack/claude-mem.git
 - Target: external/sources/claude-mem
 - Status: downloaded
-- Commit: 312d640b0188753acd92a1a82d95a84d5c7c43db
+- Commit: f5633c1f84181673896c038cbe285131c6d669a3
 - Branch: main
 - License files: LICENSE
 - Package files: package.json
@@ -310,7 +310,7 @@
 - URL: https://github.com/shanraisshan/claude-code-best-practice.git
 - Target: external/sources/claude-code-best-practice
 - Status: downloaded
-- Commit: 647821cb6107c2714033b214cc86b650ceb094c3
+- Commit: 0c9123288eb8f16d06bd69421556a610967eab59
 - Branch: main
 - License files: LICENSE
 - Package files: none
@@ -329,7 +329,7 @@
 - URL: https://github.com/hesreallyhim/awesome-claude-code.git
 - Target: external/sources/awesome-claude-code
 - Status: downloaded
-- Commit: e50c7555ebeb8bfb9c163585711b5fc471a4dee5
+- Commit: 8633f29f7297d8816a39571fdb5f094cedd8a7b3
 - Branch: main
 - License files: LICENSE
 - Package files: none
@@ -348,7 +348,7 @@
 - URL: https://github.com/VoltAgent/awesome-agent-skills.git
 - Target: external/sources/awesome-agent-skills
 - Status: downloaded
-- Commit: 2fcbf138f63697e999d26c6266eea597e6564a23
+- Commit: c97eda5e3406670f3285c6bf9eb7639a7ecc03cc
 - Branch: main
 - License files: LICENSE
 - Package files: none
@@ -367,7 +367,7 @@
 - URL: https://github.com/wshobson/agents.git
 - Target: external/sources/wshobson-agents
 - Status: downloaded
-- Commit: 5cc2549a50fc672230efd0a0307e2fd27ffba792
+- Commit: b6af3711058190e4b5c5274b9758498fe626ec5a
 - Branch: main
 - License files: LICENSE
 - Package files: none

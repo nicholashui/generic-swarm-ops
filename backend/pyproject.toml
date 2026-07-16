@@ -16,3 +16,8 @@ dependencies = [
 [build-system]
 requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
+
+# Only package the FastAPI app — exclude runtime data/, docs/, scripts/ from discovery.
+[tool.setuptools.packages.find]
+include = ["app*"]
+exclude = ["data*", "docs*", "scripts*", "tests*"]

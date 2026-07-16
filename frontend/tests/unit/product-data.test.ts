@@ -16,6 +16,15 @@ describe("product-data facade", () => {
     expect(bundle.workflows[0].id).toBeTruthy();
   });
 
+  it("productSlicesForRoute only requests data for the active section", async () => {
+    const { productSlicesForRoute } = await import("@/lib/data/product-data");
+    expect(productSlicesForRoute("workflows")).toEqual(["workflows"]);
+    expect(productSlicesForRoute("evolution")).toEqual([]);
+    expect(productSlicesForRoute("settings", "api-keys")).toEqual(["apiKeys"]);
+    expect(productSlicesForRoute(undefined).length).toBeGreaterThan(0);
+    expect(productSlicesForRoute(undefined)).not.toContain("apiKeys");
+  });
+
   it("sends Authorization from resolveAccessToken for live lists (cookie/session path)", async () => {
     vi.stubEnv("NEXT_PUBLIC_DEMO_MODE", "false");
     vi.stubEnv("NEXT_PUBLIC_API_BASE_URL", "http://127.0.0.1:8000/api/v1");
@@ -170,14 +179,15 @@ describe("UI mutation modules call shipped backendApi", () => {
     expect(src).toContain("onClick");
   });
 
-  it("client stores token in gso_access_token cookie for SSR", async () => {
+  it("client resolves access token for SSR and uses same-origin API base", async () => {
     const fs = await import("node:fs/promises");
     const path = await import("node:path");
     const src = await fs.readFile(path.join(process.cwd(), "src/lib/api/client.ts"), "utf8");
-    expect(src).toContain('TOKEN_COOKIE = "gso_access_token"');
+    expect(src).toContain("ACCESS_TOKEN_COOKIE");
     expect(src).toContain("getServerAccessToken");
-    expect(src).toContain("writeBrowserCookie");
     expect(src).toContain("resolveAccessToken");
+    expect(src).toContain("resolveApiBaseUrl");
+    expect(src).toContain("logoutViaBff");
   });
 
   it("FormRouteActions source wires createAgent/createWorkflow/settings (not dead buttons)", async () => {

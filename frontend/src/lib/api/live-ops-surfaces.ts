@@ -68,11 +68,7 @@ export const LIVE_OPS_SURFACES = [
     method: "updateOrganization",
     component: "src/components/domain/organization-settings-form.tsx",
   },
-  {
-    id: "accept_invite",
-    method: "acceptInvitation",
-    component: "src/components/auth/auth-form.tsx",
-  },
+  // accept-invite uses same-origin BFF /api/auth/accept-invite (httpOnly cookies), not backendApi.*
 ] as const;
 
 export type LiveOpsSurfaceId = (typeof LIVE_OPS_SURFACES)[number]["id"];

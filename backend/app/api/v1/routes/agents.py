@@ -3,7 +3,16 @@ from fastapi import APIRouter, Depends
 from app.api.dependencies import get_current_user
 from app.runtime import AuthenticatedUser, runtime
 from app.schemas.common import AgentCreateRequest, StatusUpdateRequest
-from app.services.agent_service import agent_activity, agent_tools, archive_agent, create_agent, get_agent, list_agents, update_agent_status
+from app.services.agent_service import (
+    agent_activity,
+    agent_tools,
+    archive_agent,
+    create_agent,
+    get_agent,
+    get_agent_spec,
+    list_agents,
+    update_agent_status,
+)
 
 router = APIRouter()
 
@@ -17,6 +26,13 @@ def agents_route(current_user: AuthenticatedUser = Depends(get_current_user)) ->
 @router.post("")
 def create_agent_route(payload: AgentCreateRequest, current_user: AuthenticatedUser = Depends(get_current_user)) -> dict:
     return create_agent(current_user, payload.model_dump())
+
+
+@router.get("/{agent_id}/spec")
+def agent_spec_route(agent_id: str, current_user: AuthenticatedUser = Depends(get_current_user)) -> dict:
+    """Return SPEC.md markdown for a domain-pack agent folder (business/<domain>/agents/<id>/)."""
+    runtime.assert_permission(current_user, "agents:read")
+    return get_agent_spec(current_user, agent_id)
 
 
 @router.get("/{agent_id}")

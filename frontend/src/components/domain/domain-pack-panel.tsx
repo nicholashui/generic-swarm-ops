@@ -3,6 +3,9 @@
 import { useMemo, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { useWorkspaceHelpOptional } from "@/components/help/workspace-help-context";
+import { backendApi } from "@/lib/api/client";
+import { formatMutationError } from "@/lib/forms/create-resource-schemas";
 
 export type DomainPackAgent = {
   id: string;
@@ -34,6 +37,7 @@ function isAlcReady(agent: DomainPackAgent): boolean {
 }
 
 export function DomainPackPanel({ agents }: { agents: DomainPackAgent[] }) {
+  const help = useWorkspaceHelpOptional();
   const domains = useMemo(() => {
     const set = new Set<string>();
     for (const a of agents) {
@@ -53,6 +57,34 @@ export function DomainPackPanel({ agents }: { agents: DomainPackAgent[] }) {
   const alcReadyCount = filtered.filter(isAlcReady).length;
   const packCount = domains.filter((d) => d !== "all").length;
 
+  async function openAgentSpec(agent: DomainPackAgent) {
+    const name = agent.name || agent.id;
+    if (!help) return;
+    help.openAgentSpecInPanel({
+      agentId: agent.id,
+      name,
+      loading: true,
+    });
+    try {
+      const data = await backendApi.getAgentSpec(agent.id);
+      help.openAgentSpecInPanel({
+        agentId: data.agent_id,
+        name: data.name || name,
+        path: data.path,
+        source: (data as { source?: string }).source,
+        markdown: data.markdown,
+        loading: false,
+      });
+    } catch (err) {
+      help.openAgentSpecInPanel({
+        agentId: agent.id,
+        name,
+        loading: false,
+        error: formatMutationError(err),
+      });
+    }
+  }
+
   return (
     <Card className="space-y-4 p-5" data-testid="domain-pack-panel">
       <div className="flex flex-wrap items-end justify-between gap-3">
@@ -60,7 +92,9 @@ export function DomainPackPanel({ agents }: { agents: DomainPackAgent[] }) {
           <p className="text-xs uppercase tracking-[0.24em] text-muted">Domain packs</p>
           <h3 className="mt-1 text-lg font-semibold text-white">Roster by domain + ALC</h3>
           <p className="mt-1 text-sm text-muted">
-            Multi-pack ops view — filter registered pack agents and ALC readiness (N1/N2).
+            Multi-pack ops view — filter registered pack agents and ALC readiness (N1/N2). Click an
+            agent name to open its{" "}
+            <code className="text-[var(--accent-2)]">SPEC.md</code> in the right help panel.
           </p>
           <p className="mt-1 text-xs text-muted" data-testid="domain-pack-summary">
             {packCount} domain pack{packCount === 1 ? "" : "s"} · isolation: agent_id lessons + tool
@@ -104,7 +138,18 @@ export function DomainPackPanel({ agents }: { agents: DomainPackAgent[] }) {
               const ready = isAlcReady(agent);
               return (
                 <tr key={agent.id} className="border-t border-white/5">
-                  <td className="px-2 py-2 text-white">{agent.name || agent.id}</td>
+                  <td className="px-2 py-2">
+                    <button
+                      type="button"
+                      className="text-left font-medium text-[var(--accent)] underline-offset-2 hover:underline"
+                      data-testid={`agent-spec-link-${agent.id}`}
+                      title={`Open SPEC in right panel: ${agent.id}`}
+                      onClick={() => void openAgentSpec(agent)}
+                    >
+                      {agent.name || agent.id}
+                    </button>
+                    <p className="mt-0.5 font-[var(--font-mono)] text-[10px] text-muted">{agent.id}</p>
+                  </td>
                   <td className="px-2 py-2 text-muted">{d}</td>
                   <td className="px-2 py-2">
                     <StatusBadge status={agent.status} />
@@ -122,7 +167,10 @@ export function DomainPackPanel({ agents }: { agents: DomainPackAgent[] }) {
           <p className="mt-2 text-xs text-muted">Showing first 50 of {filtered.length} agents.</p>
         ) : null}
         {filtered.length === 0 ? (
-          <p className="py-6 text-sm text-muted">No agents for this domain filter. Register a pack (Wave 1 API) or create agents with domain_id.</p>
+          <p className="py-6 text-sm text-muted">
+            No agents for this domain filter. Register a pack (Wave 1 API) or create agents with
+            domain_id.
+          </p>
         ) : null}
       </div>
     </Card>

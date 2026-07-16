@@ -35,6 +35,26 @@ class RuntimeSmokeTests(unittest.TestCase):
         self.assertEqual(runtime._tier_level("tier_5_restricted"), 5)
         self.assertEqual(runtime._tier_level("high"), 4)
 
+    def test_issue_token_mints_unique_access_tokens_per_login(self):
+        first = runtime.issue_token("admin@example.com", "admin-password")
+        second = runtime.issue_token("admin@example.com", "admin-password")
+        self.assertIn("access_token", first)
+        self.assertIn("access_token", second)
+        self.assertNotEqual(first["access_token"], second["access_token"])
+        self.assertTrue(str(first["access_token"]).startswith("tok_"))
+        self.assertTrue(str(second["access_token"]).startswith("tok_"))
+        # Both tokens must authenticate until revoked
+        u1 = runtime.authenticate(first["access_token"])
+        u2 = runtime.authenticate(second["access_token"])
+        self.assertEqual(u1.email, "admin@example.com")
+        self.assertEqual(u2.email, "admin@example.com")
+        # Logout revokes only the presented token
+        runtime.logout(first["access_token"])
+        with self.assertRaises(PermissionDeniedError):
+            runtime.authenticate(first["access_token"])
+        still = runtime.authenticate(second["access_token"])
+        self.assertEqual(still.email, "admin@example.com")
+
 
 if __name__ == "__main__":
     unittest.main()

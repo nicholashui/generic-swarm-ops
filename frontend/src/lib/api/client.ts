@@ -1,53 +1,73 @@
-import { env } from "@/lib/config/env";
+import {
+  ACCESS_TOKEN_COOKIE,
+  AUTH_COOKIE_MAX_AGE_SEC,
+  SESSION_COOKIE,
+  toSessionCookieUser,
+} from "@/lib/auth/cookies";
+import { resolveApiBaseUrl } from "@/lib/config/env";
 import { AppError } from "@/lib/errors/app-error";
 
-const TOKEN_COOKIE = "gso_access_token";
+const TOKEN_COOKIE = ACCESS_TOKEN_COOKIE;
 let accessToken: string | null = null;
 
 function readBrowserCookie(name: string): string | null {
   if (typeof document === "undefined") return null;
   const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
-  return match ? decodeURIComponent(match[1]) : null;
+  if (!match) return null;
+  try {
+    return decodeURIComponent(match[1]);
+  } catch {
+    return match[1];
+  }
 }
 
-function writeBrowserCookie(name: string, value: string | null) {
-  if (typeof document === "undefined") return;
+function writeBrowserCookie(name: string, value: string | null, httpOnlyNote = false) {
+  // Browser JS cannot set httpOnly; only used for non-secret session display cookie.
+  if (typeof document === "undefined" || httpOnlyNote) return;
   if (value) {
-    document.cookie = `${name}=${encodeURIComponent(value)}; path=/; SameSite=Lax`;
+    document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${AUTH_COOKIE_MAX_AGE_SEC}; SameSite=Lax`;
   } else {
     document.cookie = `${name}=; path=/; Max-Age=0; SameSite=Lax`;
   }
 }
 
-/** Persist token for both client sessionStorage and a server-readable cookie (SSR). */
+/**
+ * Memory-only access token for rare client cases.
+ * Prefer httpOnly cookie + /api/proxy; do not mirror bearer into document.cookie.
+ */
 export function setAccessToken(token: string | null) {
   accessToken = token;
-  writeBrowserCookie(TOKEN_COOKIE, token);
   if (typeof window !== "undefined") {
     if (token) window.sessionStorage.setItem(TOKEN_COOKIE, token);
     else window.sessionStorage.removeItem(TOKEN_COOKIE);
   }
 }
 
-/** Persist session user for Server Components (`getSessionUser` reads `frontend_session`). */
+/** Persist non-secret session user for middleware / shell (not the bearer token). */
 export function setFrontendSessionUser(user: Record<string, unknown>) {
-  writeBrowserCookie("frontend_session", JSON.stringify(user));
+  const session = toSessionCookieUser(user);
+  writeBrowserCookie(SESSION_COOKIE, JSON.stringify(session));
+}
+
+export function clearClientSession() {
+  accessToken = null;
+  writeBrowserCookie(SESSION_COOKIE, null);
+  writeBrowserCookie(TOKEN_COOKIE, null);
+  if (typeof window !== "undefined") {
+    window.sessionStorage.removeItem(TOKEN_COOKIE);
+  }
 }
 
 export function getAccessToken(): string | null {
   if (accessToken) return accessToken;
-  const fromCookie = readBrowserCookie(TOKEN_COOKIE);
-  if (fromCookie) {
-    accessToken = fromCookie;
-    return fromCookie;
-  }
+  // httpOnly token is not readable in the browser — rely on /api/proxy.
   if (typeof window !== "undefined") {
-    accessToken = window.sessionStorage.getItem(TOKEN_COOKIE);
+    return window.sessionStorage.getItem(TOKEN_COOKIE);
   }
-  return accessToken;
+  return null;
 }
 
-/** Server Components / RSC: read token from request cookies. */
+/** Server Components / RSC: read token from request cookies (httpOnly OK). */
 export async function getServerAccessToken(): Promise<string | null> {
   try {
     const { cookies } = await import("next/headers");
@@ -62,6 +82,7 @@ export async function resolveAccessToken(): Promise<string | null> {
   if (typeof window === "undefined") {
     return getServerAccessToken();
   }
+  // Browser uses cookie via proxy; Authorization header optional.
   return getAccessToken();
 }
 
@@ -71,10 +92,13 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string> | undefined),
   };
+  // Server-side: attach bearer for direct backend calls.
+  // Browser-side via /api/proxy: cookie carries auth; still pass memory token if present.
   if (token) headers.Authorization = `Bearer ${token}`;
 
-  const response = await fetch(`${env.apiBaseUrl}${path}`, {
-    credentials: "include",
+  const base = resolveApiBaseUrl().replace(/\/$/, "");
+  const response = await fetch(`${base}${path.startsWith("/") ? path : `/${path}`}`, {
+    credentials: "same-origin",
     cache: "no-store",
     ...options,
     headers,
@@ -92,7 +116,6 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     const bodyRequestId = payload.meta?.request_id;
     const requestId = headerRequestId || bodyRequestId;
     let message = payload.error?.message || response.statusText;
-    // FastAPI validation errors
     if (!payload.error?.message && Array.isArray(payload.detail)) {
       message = payload.detail.map((d) => d.msg || "validation error").join("; ");
     } else if (!payload.error?.message && typeof payload.detail === "string") {
@@ -101,6 +124,19 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     throw new AppError(message || response.statusText, response.status, requestId, payload.error?.code);
   }
   return response.json() as Promise<T>;
+}
+
+/** Same-origin logout BFF — clears cookies + revokes backend token. */
+export async function logoutViaBff(): Promise<void> {
+  clearClientSession();
+  const response = await fetch("/api/auth/logout", {
+    method: "POST",
+    credentials: "same-origin",
+    headers: { Accept: "application/json" },
+  });
+  if (!response.ok) {
+    throw new AppError("Logout failed", response.status);
+  }
 }
 
 export const backendApi = {
@@ -113,6 +149,15 @@ export const backendApi = {
   metrics: () => request("/health/metrics"),
   health: () => request("/health"),
   listAgents: () => request("/agents"),
+  /** SPEC.md (or README) from business/<domain>/agents/<id>/ */
+  getAgentSpec: (agentId: string) =>
+    request<{
+      agent_id: string;
+      domain_id: string;
+      name: string;
+      path: string;
+      markdown: string;
+    }>(`/agents/${encodeURIComponent(agentId)}/spec`),
   listTools: () => request("/tools"),
   listWorkflows: () => request("/workflows"),
   listWorkflowRuns: () => request("/workflow-runs"),
@@ -135,7 +180,6 @@ export const backendApi = {
       method: "POST",
       body: JSON.stringify(payload),
     }),
-  /** Public endpoint — no prior session required. */
   acceptInvitation: (payload: { token: string; password: string; name?: string }) =>
     request<{
       access_token?: string;
@@ -216,9 +260,7 @@ export const backendApi = {
     return request(`/improvement/lesson-utility?${params.toString()}`);
   },
   videoN3Status: () => request("/domains/video/n3-status"),
-  /** Video archetype A–J registry (selection metadata). */
   videoArchetypes: () => request("/domains/video/archetypes"),
-  /** Ranked DNA recommendation from free-text brief (real selector, not mock). */
   recommendVideoWorkflow: (payload: {
     brief: string;
     duration_sec?: number | null;
@@ -230,7 +272,6 @@ export const backendApi = {
       method: "POST",
       body: JSON.stringify(payload),
     }),
-  /** Pack special-skill integrations (17) from REGISTRY on disk. */
   videoSpecialSkills: () => request("/domains/video/special-skills"),
   federateKnowledgeGraph: (pushNeo4j = false) =>
     request("/knowledge/graph/federate", {

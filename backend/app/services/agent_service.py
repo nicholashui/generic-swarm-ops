@@ -9,6 +9,10 @@ def get_agent(current_user: AuthenticatedUser, agent_id: str) -> dict:
     return runtime.get_agent(current_user, agent_id)
 
 
+def get_agent_spec(current_user: AuthenticatedUser, agent_id: str) -> dict:
+    return runtime.get_agent_spec_markdown(current_user, agent_id)
+
+
 def create_agent(current_user: AuthenticatedUser, payload: dict) -> dict:
     return runtime.create_agent(current_user, payload)
 

@@ -1,4 +1,5 @@
 import { execFile } from "node:child_process";
+import { rm } from "node:fs/promises";
 import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
@@ -51,16 +52,87 @@ export async function isShallowRepository(target) {
   return result.stdout === "true";
 }
 
+async function resolveOriginTip(target) {
+  try {
+    const head = (await runGit(["-C", target, "symbolic-ref", "refs/remotes/origin/HEAD"])).stdout;
+    // e.g. refs/remotes/origin/main -> origin/main
+    if (head.startsWith("refs/remotes/")) {
+      return head.slice("refs/remotes/".length);
+    }
+  } catch {
+    // fall through
+  }
+  const branch = (await runGit(["-C", target, "branch", "--show-current"])).stdout;
+  if (branch) {
+    return `origin/${branch}`;
+  }
+  return "origin/main";
+}
+
+async function recloneSource(source) {
+  await rm(source.target, { recursive: true, force: true });
+  await runGitWithRetry([
+    "-c",
+    "core.longpaths=true",
+    "clone",
+    "--depth",
+    "1",
+    source.url,
+    source.target
+  ]);
+}
+
+/**
+ * Clone or refresh a vendored external source.
+ * Updates always hard-reset to the remote tip: these trees are disposable mirrors
+ * (import_policy curated-only). pull --ff-only fails after shallow/unshallow history skew.
+ * On any update failure (diverged history, untracked conflicts, Windows long-path
+ * damage), fall back to delete + shallow reclone.
+ */
 export async function cloneOrUpdateSource(source, mode = "download") {
   if (mode === "download") {
-    await runGitWithRetry(["-c", "core.longpaths=true", "clone", "--depth", "1", source.url, source.target]);
-  } else {
-    if (await isShallowRepository(source.target)) {
-      await runGitWithRetry(["-c", "core.longpaths=true", "-C", source.target, "fetch", "--unshallow", "origin"]);
-    } else {
-      await runGitWithRetry(["-c", "core.longpaths=true", "-C", source.target, "fetch", "--depth", "1", "origin"]);
+    await runGitWithRetry([
+      "-c",
+      "core.longpaths=true",
+      "clone",
+      "--depth",
+      "1",
+      source.url,
+      source.target
+    ]);
+    return;
+  }
+
+  try {
+    const branch = (await runGit(["-C", source.target, "branch", "--show-current"])).stdout || "main";
+    // Depth-1 tip refresh only — avoid --unshallow (creates diverging local history).
+    await runGitWithRetry([
+      "-c",
+      "core.longpaths=true",
+      "-C",
+      source.target,
+      "fetch",
+      "--depth",
+      "1",
+      "origin",
+      branch
+    ]);
+
+    let tip = `origin/${branch}`;
+    try {
+      await runGit(["-C", source.target, "rev-parse", "--verify", tip]);
+    } catch {
+      tip = await resolveOriginTip(source.target);
     }
-    await runGitWithRetry(["-c", "core.longpaths=true", "-C", source.target, "pull", "--ff-only"]);
+
+    // Disposable mirrors: hard-reset + clean so shallow skew / leftover untracked
+    // files cannot block refresh (checkout alone fails on untracked conflicts).
+    await runGit(["-c", "core.longpaths=true", "-C", source.target, "checkout", "-B", branch]);
+    await runGit(["-c", "core.longpaths=true", "-C", source.target, "reset", "--hard", tip]);
+    await runGit(["-c", "core.longpaths=true", "-C", source.target, "clean", "-fd"]);
+  } catch (error) {
+    // Broken working trees (esp. Windows MAX_PATH) are cheaper to reclone than repair.
+    await recloneSource(source);
   }
 }
 

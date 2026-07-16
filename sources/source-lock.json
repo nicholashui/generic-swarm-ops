@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-07T02:56:41.241Z",
+  "generated_at": "2026-07-16T00:38:15.135Z",
   "sources": [
     {
       "id": "ecc",
@@ -9,10 +9,10 @@
       "resolved_url": "https://github.com/affaan-m/ECC.git",
       "target": "external/sources/ecc",
       "status": "downloaded",
-      "commit": "4130457d674d2180c5af2c5f634f3cae4cbc6c4f",
+      "commit": "ed387446052dfbc6b52de149406b70efa65edc59",
       "branch": "main",
-      "last_commit_at": "2026-07-04T13:44:27-07:00",
-      "last_commit_subject": "fix(tests): use mkdtempSync for test scratch dirs (CodeQL js/insecure-temporary-file) (#2443)",
+      "last_commit_at": "2026-07-13T21:31:12-04:00",
+      "last_commit_subject": "fix(hooks): require successful shell probe in observe runner (#2403)",
       "license_files": [
         "LICENSE"
       ],
@@ -30,9 +30,9 @@
       "resolved_url": "https://github.com/anthropics/claude-code.git",
       "target": "external/sources/anthropic-claude-code",
       "status": "downloaded",
-      "commit": "7930e1c82d997b013af28673501f3b95569a71cb",
+      "commit": "c39cb0f14bfe8bb519bae5bfc55add6867c5e2ab",
       "branch": "main",
-      "last_commit_at": "2026-07-06T22:51:11Z",
+      "last_commit_at": "2026-07-15T23:02:29Z",
       "last_commit_subject": "chore: Update CHANGELOG.md and feed.xml",
       "license_files": [
         "LICENSE.md"
@@ -48,10 +48,10 @@
       "resolved_url": "https://github.com/anthropics/claude-code-action.git",
       "target": "external/sources/anthropic-claude-code-action",
       "status": "downloaded",
-      "commit": "f87768c6d25f92ae6efa7175e223ef77d4cbf97f",
+      "commit": "1298632ce7736903d02a1435002705aa2a594a6c",
       "branch": "main",
-      "last_commit_at": "2026-07-06T22:52:16Z",
-      "last_commit_subject": "chore: bump Claude Code to 2.1.202 and Agent SDK to 0.3.202",
+      "last_commit_at": "2026-07-15T23:10:52Z",
+      "last_commit_subject": "chore: bump Claude Code to 2.1.211 and Agent SDK to 0.3.211",
       "license_files": [
         "LICENSE"
       ],
@@ -84,10 +84,10 @@
       "resolved_url": "https://github.com/anthropics/claude-plugins-official.git",
       "target": "external/sources/anthropic-claude-plugins-official",
       "status": "downloaded",
-      "commit": "6d5f79446b996d64c87f1bedf0e13eb4dda542d2",
+      "commit": "b5eddebc6444d73108941ee698f25fa8759b8710",
       "branch": "main",
-      "last_commit_at": "2026-07-06T19:10:21-05:00",
-      "last_commit_subject": "bump(astronomer-data-agents): 8827e934 → 03c2377a (#3753)",
+      "last_commit_at": "2026-07-15T19:11:27-05:00",
+      "last_commit_subject": "bump(carta-cap-table): 1db768d1 → 3c8a5d9f (#4129)",
       "license_files": [
         "LICENSE"
       ],
@@ -102,10 +102,10 @@
       "resolved_url": "https://github.com/openai/codex.git",
       "target": "external/sources/openai-codex",
       "status": "downloaded",
-      "commit": "831c14fc39f7810703263c31a4a712842dba35f4",
+      "commit": "e7efc5b04b78095801c9025574c20cbc409419d8",
       "branch": "main",
-      "last_commit_at": "2026-07-06T19:28:44-07:00",
-      "last_commit_subject": "Preserve managed exec policy after rules parse errors (#31188)",
+      "last_commit_at": "2026-07-16T00:34:36Z",
+      "last_commit_subject": "Move external agent migration into its crate (#33456)",
       "license_files": [
         "LICENSE"
       ],
@@ -122,10 +122,10 @@
       "resolved_url": "https://github.com/google-gemini/gemini-cli.git",
       "target": "external/sources/google-gemini-cli",
       "status": "downloaded",
-      "commit": "15a9429b69bd4c72514678ac17c88087f7ab9d48",
+      "commit": "3ff5ba20fc1ad7d867218bbdb34756eb54d6eccb",
       "branch": "main",
-      "last_commit_at": "2026-07-06T17:44:05Z",
-      "last_commit_subject": "fix(core): preserve escape sequences in string literals for modern models (#28299)",
+      "last_commit_at": "2026-07-15T19:58:55Z",
+      "last_commit_subject": "fix(core,a2a): group cancelled tool responses and coalesce consecutive roles to prevent 400 Bad Request (#28407)",
       "license_files": [
         "LICENSE"
       ],
@@ -143,10 +143,10 @@
       "resolved_url": "https://github.com/anomalyco/opencode.git",
       "target": "external/sources/opencode",
       "status": "downloaded",
-      "commit": "9353559088fcb81d02290707e2da2e79d31b9bdc",
+      "commit": "888c4cb50476aaecaad48e6a448759da3040ed2e",
       "branch": "dev",
-      "last_commit_at": "2026-07-07T02:37:53Z",
-      "last_commit_subject": "chore: generate",
+      "last_commit_at": "2026-07-15T16:00:53-05:00",
+      "last_commit_subject": "feat(tui): exit subagent menu with up arrow (#36951)",
       "license_files": [
         "LICENSE"
       ],
@@ -184,10 +184,10 @@
       "resolved_url": "https://github.com/modelcontextprotocol/registry.git",
       "target": "external/sources/modelcontextprotocol-registry",
       "status": "downloaded",
-      "commit": "535941a30e92c88b5bc83ef4e951d4183ccf19db",
+      "commit": "29e32c39dcb5e0e2b43974089d959fcc4794eb6d",
       "branch": "main",
-      "last_commit_at": "2026-06-25T06:46:17-04:00",
-      "last_commit_subject": "build(deps): bump github.com/pulumi/pulumi-kubernetes/sdk/v4 from 4.31.1 to 4.32.0 in /deploy (#1353)",
+      "last_commit_at": "2026-07-13T05:03:10-04:00",
+      "last_commit_subject": "deploy: update prod to v1.8.0 (#1443)",
       "license_files": [
         "LICENSE"
       ],
@@ -202,10 +202,10 @@
       "resolved_url": "https://github.com/github/github-mcp-server.git",
       "target": "external/sources/github-mcp-server",
       "status": "downloaded",
-      "commit": "74c34cd71b363fa960683c1f4eafd3abbef5b40a",
+      "commit": "8ac674b0562bf2d2cccaea2965d32fcb2511cdbe",
       "branch": "main",
-      "last_commit_at": "2026-07-06T19:24:27+01:00",
-      "last_commit_subject": "Add rationale and confidence to closing an issue (#2802)",
+      "last_commit_at": "2026-07-15T15:40:37+02:00",
+      "last_commit_subject": "build(deps): bump distroless/base-debian12 from `e7e678c` to `9c05cfd`",
       "license_files": [
         "LICENSE"
       ],
@@ -272,10 +272,10 @@
       "resolved_url": "https://github.com/thedotmack/claude-mem.git",
       "target": "external/sources/claude-mem",
       "status": "downloaded",
-      "commit": "312d640b0188753acd92a1a82d95a84d5c7c43db",
+      "commit": "f5633c1f84181673896c038cbe285131c6d669a3",
       "branch": "main",
-      "last_commit_at": "2026-07-06T12:34:00-07:00",
-      "last_commit_subject": "Merge pull request #3157 from thedotmack/freckle-nail",
+      "last_commit_at": "2026-07-12T21:01:22-07:00",
+      "last_commit_subject": "docs: update changelog for v13.11.0",
       "license_files": [
         "LICENSE"
       ],
@@ -312,10 +312,10 @@
       "resolved_url": "https://github.com/shanraisshan/claude-code-best-practice.git",
       "target": "external/sources/claude-code-best-practice",
       "status": "downloaded",
-      "commit": "647821cb6107c2714033b214cc86b650ceb094c3",
+      "commit": "0c9123288eb8f16d06bd69421556a610967eab59",
       "branch": "main",
-      "last_commit_at": "2026-07-06T23:28:56+05:00",
-      "last_commit_subject": "Merge pull request #141 from shanraisshan/settings-drift/2026-07-06",
+      "last_commit_at": "2026-07-15T11:41:47+05:00",
+      "last_commit_subject": "Merge pull request #152 from shanraisshan/settings-drift/2026-07-15",
       "license_files": [
         "LICENSE"
       ],
@@ -330,9 +330,9 @@
       "resolved_url": "https://github.com/hesreallyhim/awesome-claude-code.git",
       "target": "external/sources/awesome-claude-code",
       "status": "downloaded",
-      "commit": "e50c7555ebeb8bfb9c163585711b5fc471a4dee5",
+      "commit": "8633f29f7297d8816a39571fdb5f094cedd8a7b3",
       "branch": "main",
-      "last_commit_at": "2026-07-07T00:41:12Z",
+      "last_commit_at": "2026-07-16T00:32:13Z",
       "last_commit_subject": "chore: update repo ticker data and SVGs [skip ci]",
       "license_files": [
         "LICENSE"
@@ -348,10 +348,10 @@
       "resolved_url": "https://github.com/VoltAgent/awesome-agent-skills.git",
       "target": "external/sources/awesome-agent-skills",
       "status": "downloaded",
-      "commit": "2fcbf138f63697e999d26c6266eea597e6564a23",
+      "commit": "c97eda5e3406670f3285c6bf9eb7639a7ecc03cc",
       "branch": "main",
-      "last_commit_at": "2026-06-30T13:58:35+03:00",
-      "last_commit_subject": "Merge pull request #737 from VoltAgent/update-readme-3",
+      "last_commit_at": "2026-07-10T16:55:37+03:00",
+      "last_commit_subject": "Merge pull request #760 from taisly/add-taisly-agent-kit-mr8r5x2j",
       "license_files": [
         "LICENSE"
       ],
@@ -366,10 +366,10 @@
       "resolved_url": "https://github.com/wshobson/agents.git",
       "target": "external/sources/wshobson-agents",
       "status": "downloaded",
-      "commit": "5cc2549a50fc672230efd0a0307e2fd27ffba792",
+      "commit": "b6af3711058190e4b5c5274b9758498fe626ec5a",
       "branch": "main",
-      "last_commit_at": "2026-06-25T22:03:14+09:00",
-      "last_commit_subject": "Merge pull request #600 from wshobson/fix/issues-591-598",
+      "last_commit_at": "2026-07-14T13:36:44-04:00",
+      "last_commit_subject": "docs: catalog llm-finetuning + dgx-spark-ops skills/commands, fix dgx-spark-ops description",
       "license_files": [
         "LICENSE"
       ],

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { backendApi } from "@/lib/api/client";
+import { cachedFetch } from "@/lib/api/client-cache";
 import { env } from "@/lib/config/env";
 import { formatMutationError } from "@/lib/forms/create-resource-schemas";
 
@@ -43,7 +44,9 @@ async function fetchStatus(): Promise<N3Status> {
   if (env.demoMode) {
     return DEMO_STATUS;
   }
-  return (await backendApi.videoN3Status()) as N3Status;
+  return cachedFetch("domains:video:n3-status", async () =>
+    (await backendApi.videoN3Status()) as N3Status,
+  );
 }
 
 export function VideoN3RosterPanel() {

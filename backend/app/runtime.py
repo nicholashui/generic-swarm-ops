@@ -946,24 +946,44 @@ class RuntimeServices:
         if not str(user.get("password_hash", "")).startswith("pbkdf2$"):
             user["password_hash"] = hash_password(password)
             self.store.save()
-        access_token = next((key for key, value in self.store.state["access_tokens"].items() if value == user["id"]), None)
-        refresh_token = next((key for key, value in self.store.state["refresh_tokens"].items() if value == user["id"]), None)
-        if not access_token:
-            access_token = f"tok_{uuid.uuid4().hex[:18]}"
-            self.store.state["access_tokens"][access_token] = user["id"]
+        # Always mint a new access token per login (do not reuse static seed tokens).
+        access_token = f"tok_{uuid.uuid4().hex[:24]}"
+        self.store.state["access_tokens"][access_token] = user["id"]
+        # Keep a refresh token per user; rotate if missing.
+        refresh_token = next(
+            (key for key, value in self.store.state["refresh_tokens"].items() if value == user["id"]),
+            None,
+        )
         if not refresh_token:
-            refresh_token = f"ref_{uuid.uuid4().hex[:18]}"
+            refresh_token = f"ref_{uuid.uuid4().hex[:24]}"
             self.store.state["refresh_tokens"][refresh_token] = user["id"]
-        self._append_audit(user["organization_id"], user["id"], "auth", "user.login", "user", user["id"], {"email": email}, "success")
+        self._append_audit(
+            user["organization_id"],
+            user["id"],
+            "auth",
+            "user.login",
+            "user",
+            user["id"],
+            {"email": email},
+            "success",
+        )
         self.store.save()
-        return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer", "user": self._sanitize_user(user)}
+        return {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "token_type": "bearer",
+            "user": self._sanitize_user(user),
+        }
 
     def refresh_access_token(self, refresh_token: str) -> dict[str, Any]:
         user_id = self.store.state["refresh_tokens"].get(refresh_token)
         if not user_id:
             raise PermissionDeniedError("Invalid refresh token")
         user = self._find_user(user_id)
-        access_token = next((key for key, value in self.store.state["access_tokens"].items() if value == user["id"]), None)
+        # Mint a fresh access token on refresh as well
+        access_token = f"tok_{uuid.uuid4().hex[:24]}"
+        self.store.state["access_tokens"][access_token] = user["id"]
+        self.store.save()
         return {"access_token": access_token, "refresh_token": refresh_token, "token_type": "bearer"}
 
     def logout(self, token: str | None) -> dict[str, Any]:
@@ -1315,6 +1335,139 @@ class RuntimeServices:
         if not agent:
             raise NotFoundError(f"Agent not found: {agent_id}")
         return deepcopy(agent)
+
+    def get_agent_spec_markdown(self, current_user: AuthenticatedUser, agent_id: str) -> dict[str, Any]:
+        """Load SPEC.md for UI: pack disk first, then runtime seed agent synthetic spec."""
+        import re
+
+        self.assert_permission(current_user, "agents:read")
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", agent_id or ""):
+            raise NotFoundError(f"Agent not found: {agent_id}")
+
+        agent = next(
+            (item for item in self._scoped_items("agents", current_user.organization_id) if item["id"] == agent_id),
+            None,
+        )
+        # Allow disk pack agents even if not yet in runtime store (catalog-only).
+        domain_id = None
+        if agent:
+            domain_id = agent.get("domain_id") or agent.get("domain")
+        if not domain_id and agent_id.startswith("video."):
+            domain_id = "video"
+        if not domain_id:
+            # Try any business/*/agents/<id>
+            business = self.repo_root / "business"
+            if business.is_dir():
+                for d in business.iterdir():
+                    if not d.is_dir():
+                        continue
+                    if (d / "agents" / agent_id / "SPEC.md").is_file() or (
+                        d / "agents" / agent_id / "agent_spec.json"
+                    ).is_file():
+                        domain_id = d.name
+                        break
+
+        if domain_id:
+            agent_dir = self.repo_root / "business" / str(domain_id) / "agents" / agent_id
+            try:
+                resolved = agent_dir.resolve()
+                business_root = (self.repo_root / "business").resolve()
+                if str(resolved).startswith(str(business_root)):
+                    for name in ("SPEC.md", "Spec.md", "spec.md", "README.md"):
+                        path = resolved / name
+                        if path.is_file():
+                            text = path.read_text(encoding="utf-8")
+                            return {
+                                "agent_id": agent_id,
+                                "domain_id": domain_id,
+                                "name": (agent or {}).get("name") or agent_id,
+                                "path": str(path.relative_to(self.repo_root)).replace("\\", "/"),
+                                "source": "pack_disk",
+                                "markdown": text,
+                            }
+            except OSError:
+                pass
+
+        # Core/ops seed agents (e.g. business_orchestrator) live only in runtime store —
+        # no business/<domain>/agents/<id>/ folder. Synthesize a readable SPEC from the record.
+        if agent:
+            return {
+                "agent_id": agent_id,
+                "domain_id": agent.get("domain_id") or "ops",
+                "name": agent.get("name") or agent_id,
+                "path": "runtime://agents/" + agent_id,
+                "source": "runtime_seed",
+                "markdown": self._synthesize_agent_spec_markdown(agent),
+            }
+
+        raise NotFoundError(f"Agent pack folder not found for: {agent_id}")
+
+    def _synthesize_agent_spec_markdown(self, agent: dict[str, Any]) -> str:
+        """Human-readable SPEC for store-only agents (ops seeds, UI-created)."""
+        tools = agent.get("allowed_tools") or agent.get("tools") or []
+        scopes = agent.get("allowed_memory_scopes") or []
+        wf_types = agent.get("allowed_workflow_types") or []
+        lines = [
+            f"# {agent.get('name') or agent.get('id')}",
+            "",
+            "> **Runtime / seed agent** — this agent is defined in the control-plane store, "
+            "not as a domain pack folder under `business/<domain>/agents/`.",
+            "",
+            "## Identity",
+            "",
+            f"- **id:** `{agent.get('id')}`",
+            f"- **name:** {agent.get('name') or '—'}",
+            f"- **role:** {agent.get('role') or '—'}",
+            f"- **status:** {agent.get('status') or '—'}",
+            f"- **domain_id:** {agent.get('domain_id') or 'ops (seed)'}",
+            f"- **risk_tier / risk_level:** {agent.get('risk_tier') or agent.get('risk_level') or '—'}",
+            f"- **department:** {agent.get('department') or '—'}",
+            f"- **owner_user_id:** {agent.get('owner_user_id') or '—'}",
+            "",
+            "## Tools (allowed)",
+            "",
+        ]
+        if tools:
+            for t in tools:
+                lines.append(f"- `{t}`")
+        else:
+            lines.append("- _(none listed)_")
+        lines += ["", "## Memory scopes (allowed)", ""]
+        if scopes:
+            for s in scopes:
+                lines.append(f"- `{s}`")
+        else:
+            lines.append("- _(none listed)_")
+        lines += ["", "## Workflow types (allowed)", ""]
+        if wf_types:
+            for w in wf_types:
+                lines.append(f"- `{w}`")
+        else:
+            lines.append("- _(not restricted / none listed)_")
+        if agent.get("description"):
+            lines += ["", "## Description", "", str(agent["description"])]
+        lines += [
+            "",
+            "## Notes",
+            "",
+            "- Ops seed agents (`business_orchestrator`, `governance_officer`, …) are platform "
+            "control-plane roles used by Workflow DNA (see `structure.md` Execution layer).",
+            "- Domain pack agents (e.g. `video.director`) ship `SPEC.md` under "
+            "`business/<domain>/agents/<id>/SPEC.md` and open that file instead.",
+            "- To add a full pack-style SPEC, create that folder and file; the UI will prefer disk SPEC.",
+            "",
+            "## Raw record (JSON)",
+            "",
+            "```json",
+            json.dumps(
+                {k: v for k, v in agent.items() if k != "organization_id" or True},
+                indent=2,
+                default=str,
+            )[:8000],
+            "```",
+            "",
+        ]
+        return "\n".join(lines)
 
     def create_agent(self, current_user: AuthenticatedUser, payload: dict[str, Any]) -> dict[str, Any]:
         self.assert_permission(current_user, "agents:create")

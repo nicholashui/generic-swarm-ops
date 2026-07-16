@@ -7,13 +7,13 @@ async function readSrc(rel: string) {
 }
 
 describe("residual FE wiring (T-05-05, T-11-06, T-16-02, T-16-03)", () => {
-  it("accept-invite calls backendApi.acceptInvitation", async () => {
-    const client = await readSrc("src/lib/api/client.ts");
+  it("accept-invite uses same-origin BFF that sets httpOnly session cookies", async () => {
     const form = await readSrc("src/components/auth/auth-form.tsx");
-    expect(client).toContain("acceptInvitation");
-    expect(client).toContain("/users/invitations/accept");
-    expect(form).toContain("backendApi.acceptInvitation");
+    const bff = await readSrc("src/app/api/auth/accept-invite/route.ts");
+    expect(form).toContain('fetch("/api/auth/accept-invite"');
     expect(form).toContain("accept-invite");
+    expect(bff).toContain("users/invitations/accept");
+    expect(bff).toContain("applyAuthCookies");
   });
 
   it("run console exposes pause/resume/expire lifecycle actions", async () => {

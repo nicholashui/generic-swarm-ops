@@ -20,6 +20,21 @@ def _load_dotenv() -> None:
 _load_dotenv()
 
 
+def _cors_origins_from_env() -> list[str]:
+    """Parse CORS origins; never return bare '*' when using credentialed browser clients."""
+    raw = os.getenv("GENERIC_SWARM_CORS_ALLOWED_ORIGINS", "").strip()
+    dev_defaults = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3001",
+    ]
+    if not raw or raw == "*":
+        return dev_defaults
+    origins = [part.strip() for part in raw.split(",") if part.strip() and part.strip() != "*"]
+    return origins or dev_defaults
+
+
 def sync_database_url(url: str | None) -> str | None:
     """Convert async SQLAlchemy URLs to a sync driver for RuntimeStore."""
     if not url:
@@ -39,10 +54,10 @@ class Settings:
     app_name: str = os.getenv("GENERIC_SWARM_APP_NAME", "generic-swarm-ops-backend")
     api_prefix: str = os.getenv("GENERIC_SWARM_API_PREFIX", "/api/v1")
     environment: str = os.getenv("GENERIC_SWARM_ENV", "development")
+    # Explicit origins required when allow_credentials=True (browsers reject ACAO: * + credentials).
+    # Override with GENERIC_SWARM_CORS_ALLOWED_ORIGINS=comma,separated,list
     cors_allowed_origins: list[str] = field(
-        default_factory=lambda: list(
-            filter(None, os.getenv("GENERIC_SWARM_CORS_ALLOWED_ORIGINS", "*").split(","))
-        )
+        default_factory=lambda: _cors_origins_from_env()
     )
     rate_limit_enabled: bool = os.getenv("GENERIC_SWARM_RATE_LIMIT_ENABLED", "true").lower() == "true"
     auth_rate_limit_per_minute: int = int(os.getenv("GENERIC_SWARM_AUTH_RATE_LIMIT_PER_MINUTE", "12"))

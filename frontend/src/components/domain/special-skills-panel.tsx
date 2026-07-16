@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { backendApi } from "@/lib/api/client";
+import { cachedFetch } from "@/lib/api/client-cache";
 import { env } from "@/lib/config/env";
 import { formatMutationError } from "@/lib/forms/create-resource-schemas";
 
@@ -43,7 +44,9 @@ async function fetchSkills(): Promise<SpecialSkillsResponse> {
   if (env.demoMode) {
     return DEMO_SKILLS;
   }
-  return (await backendApi.videoSpecialSkills()) as SpecialSkillsResponse;
+  return cachedFetch("domains:video:special-skills", async () =>
+    (await backendApi.videoSpecialSkills()) as SpecialSkillsResponse,
+  );
 }
 
 export function SpecialSkillsPanel() {

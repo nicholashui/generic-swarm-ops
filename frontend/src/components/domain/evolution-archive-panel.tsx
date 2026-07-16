@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { backendApi } from "@/lib/api/client";
+import { cachedFetch, clearClientCache } from "@/lib/api/client-cache";
 import { env } from "@/lib/config/env";
 import { formatMutationError } from "@/lib/forms/create-resource-schemas";
 
@@ -30,11 +31,14 @@ const DEMO_ARCHIVE: ArchiveState = {
   variants: [{ id: "var_demo", name: "Demo elite", fitness: 0.91, status: "sandbox_evaluated" }],
 };
 
-async function fetchArchive(): Promise<ArchiveState> {
+async function fetchArchive(force = false): Promise<ArchiveState> {
   if (env.demoMode) {
     return DEMO_ARCHIVE;
   }
-  return (await backendApi.evolutionArchive()) as ArchiveState;
+  if (force) clearClientCache();
+  return cachedFetch("evolution:archive", async () =>
+    (await backendApi.evolutionArchive()) as ArchiveState,
+  );
 }
 
 export function EvolutionArchivePanel() {
@@ -68,9 +72,9 @@ export function EvolutionArchivePanel() {
   }, []);
 
   const load = useCallback(async () => {
-    // Event-handler path (Refresh / post-action): setState after await only where possible
+    // Event-handler path (Refresh / post-action): bypass cache after mutations
     try {
-      const data = await fetchArchive();
+      const data = await fetchArchive(true);
       setArchive(data);
       setError(null);
       setLoading(false);

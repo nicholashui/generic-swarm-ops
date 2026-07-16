@@ -32,12 +32,12 @@ export default function Home() {
             </h1>
           </div>
           <div className="flex gap-3">
-            <Button asChild href="/app">
-              Open workspace
+            <Button asChild href="/login">
+              Sign in to workspace
               <ArrowRight className="size-4" />
             </Button>
             <Button asChild href="/login" variant="secondary">
-              Sign in
+              Seed admin login
             </Button>
           </div>
         </header>
@@ -68,7 +68,9 @@ export default function Home() {
                 `frontend.md` requires OpenDesign MCP, but this execution uses a documented fallback because the `opendesign` server is not currently available in the workspace.
               </p>
             </div>
-            <Button asChild href="/app" variant="ghost">Review the implemented app shell</Button>
+            <Button asChild href="/login" variant="ghost">
+              Sign in to review the app shell
+            </Button>
           </Card>
         </section>
 
