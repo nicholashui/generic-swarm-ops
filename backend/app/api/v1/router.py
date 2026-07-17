@@ -14,6 +14,7 @@ from app.api.v1.routes import (
     knowledge,
     loops,
     memory,
+    orchestration,
     organizations,
     processes,
     settings,
@@ -33,6 +34,7 @@ api_router.include_router(domains.router, prefix="/domains", tags=["domains"])
 api_router.include_router(tools.router, prefix="/tools", tags=["tools"])
 api_router.include_router(workflows.router, prefix="/workflows", tags=["workflows"])
 api_router.include_router(workflow_runs.router, prefix="/workflow-runs", tags=["workflow-runs"])
+api_router.include_router(orchestration.router, prefix="/orchestration", tags=["orchestration"])
 api_router.include_router(approvals.router, prefix="/approvals", tags=["approvals"])
 api_router.include_router(governance.router, prefix="/governance", tags=["governance"])
 api_router.include_router(knowledge.router, prefix="/knowledge", tags=["knowledge"])

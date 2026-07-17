@@ -6,6 +6,9 @@ import { ApiKeyTable } from "@/components/domain/api-key-table";
 import { ApprovalDecisionPanel } from "@/components/domain/approval-decision-panel";
 import { DetailMetadata } from "@/components/domain/detail-metadata";
 import { FormRouteActions, type FormMutationKind } from "@/components/domain/form-route-actions";
+import { GraphRunConsole } from "@/components/domain/graph/graph-run-console";
+import { GraphTopologyPanel } from "@/components/domain/graph/graph-topology-panel";
+import { PatternAuthoringPanel } from "@/components/domain/graph/pattern-authoring-panel";
 import { ImproveRunButton } from "@/components/domain/improve-run-button";
 import { OrganizationSettingsForm } from "@/components/domain/organization-settings-form";
 import { RunWorkflowButton } from "@/components/domain/run-workflow-button";
@@ -707,6 +710,9 @@ export default async function AppCatchAllPage({
             </Button>
             <RunWorkflowButton
               workflowId={workflow.id}
+              defaultEngine={
+                (workflow as { execution_engine?: string }).execution_engine || "langgraph"
+              }
               inputSchema={
                 (workflow as { input_schema?: { type?: string; required?: string[]; properties?: Record<string, { type?: string }> } })
                   .input_schema || {
@@ -721,16 +727,47 @@ export default async function AppCatchAllPage({
       >
         <div className="grid gap-6 xl:grid-cols-2">
           <Card className="p-6">
-            <h2 className="text-lg font-semibold text-white">Visual step map</h2>
-            <p className="mt-3 leading-7 text-muted">
-              {workflow.description} This scaffold reserves space for the full step graph, approval checkpoints, and branching conditions.
+            <h2 className="text-lg font-semibold text-white">Orchestration topology</h2>
+            <p className="mt-2 text-sm leading-7 text-muted">
+              {workflow.description} LangGraph / DNA topology (pipeline, supervisor, gates).
             </p>
+            <div className="mt-4">
+              <GraphTopologyPanel workflowId={workflow.id} />
+            </div>
           </Card>
           <Card className="p-6">
-            <h2 className="text-lg font-semibold text-white">Version and release notes</h2>
-            <p className="mt-3 leading-7 text-muted">
-              Use this panel to compare revisions, inspect rollout history, and verify that evaluation coverage exists before publishing changes.
+            <h2 className="text-lg font-semibold text-white">Pattern authoring</h2>
+            <p className="mt-2 text-sm leading-7 text-muted">
+              Configure pipeline / supervisor and engine. Saves orchestration metadata only.
             </p>
+            <div className="mt-4">
+              <PatternAuthoringPanel
+                workflowId={workflow.id}
+                initialPattern={
+                  (workflow as { orchestration?: { pattern?: string } }).orchestration?.pattern ||
+                  "pipeline"
+                }
+                initialEngine={
+                  (workflow as { execution_engine?: string; engine?: string }).execution_engine ||
+                  (workflow as { engine?: string }).engine ||
+                  "legacy"
+                }
+                initialSupervisor={
+                  (
+                    workflow as {
+                      orchestration?: { config?: { supervisor_agent?: string } };
+                    }
+                  ).orchestration?.config?.supervisor_agent || "business_orchestrator"
+                }
+                initialSpecialists={
+                  (
+                    workflow as {
+                      orchestration?: { config?: { specialists?: string[] } };
+                    }
+                  ).orchestration?.config?.specialists || []
+                }
+              />
+            </div>
           </Card>
         </div>
       </DetailRoutePage>
@@ -760,6 +797,7 @@ export default async function AppCatchAllPage({
               <ImproveRunButton runId={child} />
             </div>
           </Card>
+          <GraphRunConsole runId={child} />
           <WorkflowRunConsole runId={child} initialEvents={workflowRunEvents} />
         </div>
       </Section>

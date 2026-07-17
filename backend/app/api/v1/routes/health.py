@@ -45,6 +45,10 @@ def ready() -> dict:
                 },
             },
         )
+    from app.core.config import settings
+    from app.infrastructure.orchestration.registry import list_engines
+
+    engines = list_engines()
     return {
         "status": status,
         "dependencies": {
@@ -56,6 +60,9 @@ def ready() -> dict:
             "vector_store": "not_configured",
             "object_storage": store_backend,
             "tool_adapters": "local",
+            "orchestration_engine_default": settings.engine_default,
+            "orchestration_engines": engines,
+            "langgraph_enabled": settings.langgraph_enabled,
         },
     }
 

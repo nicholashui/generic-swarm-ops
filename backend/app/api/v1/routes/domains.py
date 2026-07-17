@@ -56,3 +56,20 @@ def video_recommend_workflow(
 def video_special_skills(current_user: AuthenticatedUser = Depends(get_current_user)) -> dict:
     """List the 17 video pack special-skill integrations for the ops catalog UI."""
     return runtime.list_video_special_skills(current_user)
+
+
+@router.get("/video/graphs")
+def video_pack_graphs(current_user: AuthenticatedUser = Depends(get_current_user)) -> dict:
+    """List LangGraph pack graph packages under business/video/graphs (LG-10)."""
+    runtime.assert_permission(current_user, "workflows:read")
+    from app.infrastructure.langgraph_engine.pack_loader import list_pack_graphs
+
+    return {"domain_id": "video", "items": list_pack_graphs("video")}
+
+
+@router.get("/{domain_id}/graphs")
+def domain_pack_graphs(domain_id: str, current_user: AuthenticatedUser = Depends(get_current_user)) -> dict:
+    runtime.assert_permission(current_user, "workflows:read")
+    from app.infrastructure.langgraph_engine.pack_loader import list_pack_graphs
+
+    return {"domain_id": domain_id, "items": list_pack_graphs(domain_id)}

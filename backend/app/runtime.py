@@ -425,6 +425,8 @@ class BusinessSourceLoader:
             "evaluation_policy": {"required": True, "block_on_fail": True},
             "governance_policy": {"risk_tier": workflow["risk_tier"], "human_gate_steps": [step["id"] for step in workflow["steps"] if step["human_gate_required"]]},
             "active_version": workflow["version"],
+            "execution_engine": "langgraph",
+            "orchestration": {"pattern": "pipeline", "config": {}},
             "versions": [{
                 "version": workflow["version"],
                 "status": "active",
@@ -719,6 +721,23 @@ class RuntimeServices:
                 }
             if not wf.get("name"):
                 wf["name"] = wf.get("id") or "unnamed_workflow"
+            # LG-17: prefer LangGraph for flagship + video DNA when unset.
+            # Video DNA with steps must use pipeline (not pack_spine agent-only short-circuit).
+            wid = str(wf.get("id") or "")
+            if not wf.get("execution_engine"):
+                if wid == "wf_customer_onboarding_v12" or wid.startswith("wf_video") or "viral_hook" in wid:
+                    wf["execution_engine"] = "langgraph"
+            if wid.startswith("wf_video") or "viral_hook" in wid:
+                cfg: dict[str, Any] = {"domain_id": "video", "entry_agent": "video.orchestrator"}
+                if "viral" in wid:
+                    wf["pack_graph_id"] = "viral_hook"
+                    cfg["graph_id"] = "viral_hook"
+                orch = wf.get("orchestration") if isinstance(wf.get("orchestration"), dict) else {}
+                # Heal prior bad pack_spine defaults that skipped DNA steps
+                if not orch or orch.get("pattern") == "pack_spine":
+                    wf["orchestration"] = {"pattern": "pipeline", "config": {**cfg, **(orch.get("config") or {})}}
+            elif wid == "wf_customer_onboarding_v12" and not wf.get("orchestration"):
+                wf["orchestration"] = {"pattern": "pipeline", "config": {}}
             normalized.append(wf)
             seen.add(wf["id"])
         # Ensure flagship seed exists for live ops demos
@@ -1695,9 +1714,39 @@ class RuntimeServices:
             "rollback",
             "fitness_metrics",
             "production_ready",
+            "execution_engine",
         ]:
             if field in payload and payload[field] is not None:
                 workflow[field] = payload[field]
+        if "orchestration" in payload and payload["orchestration"] is not None:
+            orch = payload["orchestration"]
+            if not isinstance(orch, dict):
+                raise ValidationError("orchestration must be an object")
+            pattern = str(orch.get("pattern") or "pipeline").strip().lower()
+            allowed = {
+                "pipeline",
+                "supervisor",
+                "router",
+                "critique",
+                "map_reduce",
+                "pack_spine",
+            }
+            if pattern not in allowed:
+                raise ValidationError(f"Unknown orchestration pattern: {pattern}")
+            config = orch.get("config") if isinstance(orch.get("config"), dict) else {}
+            if pattern == "supervisor":
+                specialists = config.get("specialists") or []
+                if not isinstance(specialists, list):
+                    raise ValidationError("supervisor.config.specialists must be an array")
+                bad = [s for s in specialists if not isinstance(s, str) or not s.strip()]
+                if bad:
+                    raise ValidationError("supervisor specialists must be non-empty agent id strings")
+                if not (config.get("supervisor_agent") or workflow.get("owner")):
+                    raise ValidationError("supervisor.config.supervisor_agent is required")
+            workflow["orchestration"] = {"pattern": pattern, "config": deepcopy(config)}
+            # multi-pattern implies langgraph when not explicitly legacy
+            if pattern != "pipeline" and not workflow.get("execution_engine"):
+                workflow["execution_engine"] = "langgraph"
         if "steps" in payload and payload["steps"]:
             workflow["steps"] = deepcopy(payload["steps"])
             if workflow.get("versions"):
@@ -1707,7 +1756,19 @@ class RuntimeServices:
         if "output_schema" in payload and payload["output_schema"] is not None:
             workflow["output_schema"] = payload["output_schema"]
         self._assert_production_dna_safe(workflow, context="update_workflow")
-        self._append_audit(current_user.organization_id, current_user.id, "workflow", "workflow.updated", "workflow", workflow_id, {}, "success")
+        self._append_audit(
+            current_user.organization_id,
+            current_user.id,
+            "workflow",
+            "workflow.updated",
+            "workflow",
+            workflow_id,
+            {
+                "execution_engine": workflow.get("execution_engine"),
+                "orchestration": workflow.get("orchestration"),
+            },
+            "success",
+        )
         self.store.save()
         return deepcopy(workflow)
 
@@ -1830,7 +1891,11 @@ class RuntimeServices:
         input_schema = workflow.get("input_schema") or self._default_input_schema()
         if not isinstance(input_schema, dict):
             raise ValidationError("workflow input_schema must be an object schema")
-        self._validate_schema(input_schema, payload or {}, "workflow input")
+        payload = dict(payload or {})
+        # Optional orchestration engine selector (not part of business case schema)
+        explicit_engine = payload.pop("engine", None)
+        payload.pop("_engine", None)
+        self._validate_schema(input_schema, payload, "workflow input")
         steps = workflow.get("steps") or []
         if not steps:
             raise ValidationError("Workflow has no steps to execute")
@@ -1847,6 +1912,12 @@ class RuntimeServices:
             if existing:
                 return deepcopy(existing)
         version = workflow.get("active_version") or workflow.get("version") or "1.0.0"
+        from app.infrastructure.orchestration.registry import resolve_engine_name
+
+        engine_name = resolve_engine_name(
+            workflow=workflow,
+            explicit=explicit_engine if isinstance(explicit_engine, str) else None,
+        )
         run = {
             "id": f"run_{uuid.uuid4().hex[:12]}",
             "organization_id": requested_by.organization_id,
@@ -1854,6 +1925,10 @@ class RuntimeServices:
             "workflow_name": workflow.get("name") or workflow_id,
             "workflow_version": version,
             "status": "queued",
+            "engine": engine_name,
+            "graph_thread_id": None,
+            "graph_id": None,
+            "orchestration_pattern": (workflow.get("orchestration") or {}).get("pattern") if isinstance(workflow.get("orchestration"), dict) else None,
             "risk_tier": workflow.get("risk_tier") or "tier_2_draft",
             "requested_by": requested_by.id,
             "input_payload": payload,
@@ -1896,8 +1971,17 @@ class RuntimeServices:
         for step in run["steps"]:
             step["workflow_run_id"] = run["id"]
         self.store.collection("workflow_runs").append(run)
-        self._append_audit(requested_by.organization_id, requested_by.id, "workflow_run", "workflow_run.started", "workflow_run", run["id"], {"workflow_id": workflow_id, "status": "queued"}, "success")
-        self._emit_event("run.started", run["id"], None, "Workflow run queued")
+        self._append_audit(
+            requested_by.organization_id,
+            requested_by.id,
+            "workflow_run",
+            "workflow_run.started",
+            "workflow_run",
+            run["id"],
+            {"workflow_id": workflow_id, "status": "queued", "engine": engine_name},
+            "success",
+        )
+        self._emit_event("run.started", run["id"], None, f"Workflow run queued (engine={engine_name})")
         self.store.save()
         return deepcopy(run)
 
@@ -1907,14 +1991,19 @@ class RuntimeServices:
 
     def dispatch_queued_runs(self, requested_by: AuthenticatedUser) -> list[dict[str, Any]]:
         self.assert_permission(requested_by, "workflow_runs:dispatch")
+        from app.infrastructure.orchestration.registry import get_engine, resolve_engine_name
+
         queued = [item for item in self._scoped_items("workflow_runs", requested_by.organization_id) if item["status"] in {"queued", "retry_queued"}]
         results = []
         for run in queued:
             run["status"] = "running"
             run["started_at"] = run["started_at"] or utc_now()
             run["updated_at"] = utc_now()
-            self._emit_event("run.status_changed", run["id"], None, "Run picked up by worker")
-            self._execute_run(run, requested_by.id)
+            engine_name = resolve_engine_name(run=run)
+            run["engine"] = engine_name
+            self._emit_event("run.status_changed", run["id"], None, f"Run picked up by worker (engine={engine_name})")
+            engine = get_engine(engine_name)
+            engine.execute(self, run, requested_by.id)
             results.append(deepcopy(run))
         self.store.save()
         return results
@@ -2371,13 +2460,21 @@ class RuntimeServices:
             "run_id": run["id"],
             "workflow_id": run["workflow_id"],
             "step_id": step["id"],
-            "requested_action": step["action_type"],
+            "graph_node_id": step.get("id"),
+            "engine": run.get("engine") or "legacy",
+            "requested_action": step.get("action_type"),
             "risk_level": run["risk_tier"],
             "requested_by": actor_user_id,
             "assigned_reviewer": None,
             "status": "pending",
             "decision": None,
             "decision_reason": None,
+            "payload_preview": {
+                "case_id": (run.get("input_payload") or {}).get("case_id"),
+                "step_id": step.get("id"),
+                "agent": step.get("agent"),
+                "tools": list(step.get("tools") or []),
+            },
             "created_at": utc_now(),
             "decided_at": None,
         }
@@ -2422,7 +2519,17 @@ class RuntimeServices:
             run["approval_state"] = "approved"
             self._append_audit(decided_by.organization_id, decided_by.id, "approval", "approval.approved", "approval", approval_id, {"run_id": run["id"]}, "success")
             self._emit_event("approval.approved", run["id"], approval["step_id"], "Approval granted")
-            self._execute_run(run, decided_by.id)
+            from app.infrastructure.orchestration.registry import get_engine, resolve_engine_name
+
+            engine_name = resolve_engine_name(run=run)
+            engine = get_engine(engine_name)
+            engine.resume_from_approval(
+                self,
+                run,
+                decided_by.id,
+                decision=decision,
+                reason=reason,
+            )
         else:
             run["status"] = "rejected"
             run["approval_state"] = "rejected"

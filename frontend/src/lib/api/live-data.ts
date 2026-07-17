@@ -64,6 +64,9 @@ export async function fetchLiveWorkflows(): Promise<Workflow[]> {
     description: asString(row.description || row.objective, asString(row.name)),
     // Preserve schema for Run now payload builder (extra field on domain Workflow is fine)
     input_schema: row.input_schema as Workflow["input_schema"] | undefined,
+    // LangGraph orchestration fields (LG-13)
+    execution_engine: row.execution_engine ?? row.engine,
+    orchestration: row.orchestration,
   })) as Workflow[];
 }
 

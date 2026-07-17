@@ -45,6 +45,71 @@ def workflow_run_steps_route(run_id: str, current_user: AuthenticatedUser = Depe
     return get_run_steps(current_user, run_id)
 
 
+@router.get("/{run_id}/graph-state")
+def workflow_run_graph_state_route(run_id: str, current_user: AuthenticatedUser = Depends(get_current_user)) -> dict:
+    """Redacted HostGraphState projection for a run (LG-11)."""
+    runtime.assert_permission(current_user, "workflow_runs:read")
+    run = get_run(current_user, run_id)
+    # Prefer live engine memory if langgraph
+    state: dict = {
+        "run_id": run.get("id"),
+        "workflow_id": run.get("workflow_id"),
+        "engine": run.get("engine") or "legacy",
+        "status": run.get("status"),
+        "current_step_id": run.get("current_step"),
+        "pattern": run.get("orchestration_pattern"),
+        "graph_thread_id": run.get("graph_thread_id"),
+        "graph_id": run.get("graph_id"),
+        "artifacts": run.get("output") if isinstance(run.get("output"), dict) else {},
+        "metrics": run.get("graph_metrics") or {},
+        "interrupt": {
+            "approval_id": run.get("approval_request_id"),
+            "approval_state": run.get("approval_state"),
+            "node_id": run.get("current_step"),
+        }
+        if run.get("status") == "waiting_for_approval"
+        else None,
+        "completed_step_ids": [s.get("id") for s in (run.get("steps") or []) if s.get("status") == "completed"],
+        "steps": [
+            {"id": s.get("id"), "status": s.get("status"), "agent_id": s.get("agent_id")}
+            for s in (run.get("steps") or [])
+        ],
+    }
+    try:
+        from app.infrastructure.orchestration.registry import get_engine
+
+        if (run.get("engine") or "") == "langgraph":
+            eng = get_engine("langgraph")
+            tid = run.get("graph_thread_id")
+            if tid and hasattr(eng, "_states") and tid in eng._states:
+                from app.infrastructure.langgraph_engine.security import redact_state
+
+                live = redact_state(dict(eng._states[tid]))
+                state["live"] = {
+                    k: live[k]
+                    for k in (
+                        "status",
+                        "current_step_id",
+                        "completed_step_ids",
+                        "artifacts",
+                        "messages",
+                        "handoffs",
+                        "node_visits",
+                        "pattern",
+                        "interrupt",
+                        "metrics",
+                        "memory_hits",
+                        "tool_effects",
+                    )
+                    if k in live
+                }
+                if run.get("trajectory"):
+                    state["trajectory"] = run["trajectory"]
+    except Exception:  # noqa: BLE001
+        pass
+    return state
+
+
 @router.get("/{run_id}/evaluations")
 def workflow_run_evaluations_route(run_id: str, current_user: AuthenticatedUser = Depends(get_current_user)) -> list[dict]:
     runtime.assert_permission(current_user, "evaluations:read")
@@ -90,9 +155,25 @@ def workflow_run_retry_route(run_id: str, current_user: AuthenticatedUser = Depe
 def workflow_run_stream_route(run_id: str, current_user: AuthenticatedUser = Depends(get_current_user)) -> StreamingResponse:
     runtime.assert_permission(current_user, "workflow_runs:read")
     events = stream_run_events(current_user, run_id)
+    from app.infrastructure.langgraph_engine.streaming import normalize_event
 
     def iter_events():
         for event in events:
-            yield f"data: {json.dumps(event)}\n\n"
+            yield f"data: {json.dumps(normalize_event(event))}\n\n"
 
     return StreamingResponse(iter_events(), media_type="text/event-stream")
+
+
+@router.get("/{run_id}/trajectory")
+def workflow_run_trajectory_route(run_id: str, current_user: AuthenticatedUser = Depends(get_current_user)) -> dict:
+    """LG-15 trajectory score for a completed or in-flight graph run."""
+    runtime.assert_permission(current_user, "workflow_runs:read")
+    run = get_run(current_user, run_id)
+    if run.get("trajectory"):
+        return {"run_id": run_id, "trajectory": run["trajectory"]}
+    from app.infrastructure.langgraph_engine.trajectory import score_trajectory
+    from app.services.audit_service import stream_run_events as _events
+
+    events = _events(current_user, run_id)
+    state = {"pattern": run.get("orchestration_pattern")}
+    return {"run_id": run_id, "trajectory": score_trajectory(run, events, state)}

@@ -85,6 +85,13 @@ class Settings:
     neo4j_uri: str | None = field(default_factory=lambda: os.getenv("NEO4J_URI"))
     neo4j_user: str | None = field(default_factory=lambda: os.getenv("NEO4J_USER"))
     neo4j_password: str | None = field(default_factory=lambda: os.getenv("NEO4J_PASSWORD"))
+    # LangGraph orchestration (structure.md §4 dual-engine)
+    # LG-17: default to langgraph for multi-agent orchestration; override with legacy for rollback
+    engine_default: str = os.getenv("GENERIC_SWARM_ENGINE_DEFAULT", "langgraph").strip().lower()
+    langgraph_enabled: bool = os.getenv("GENERIC_SWARM_LANGGRAPH_ENABLED", "true").lower() == "true"
+    lg_checkpoint: str = os.getenv("GENERIC_SWARM_LG_CHECKPOINT", "memory").strip().lower()
+    lg_max_nodes: int = int(os.getenv("GENERIC_SWARM_LG_MAX_NODES", "200"))
+    lg_max_handoffs: int = int(os.getenv("GENERIC_SWARM_LG_MAX_HANDOFFS", "32"))
 
     @property
     def sync_database_url(self) -> str | None:

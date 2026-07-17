@@ -203,11 +203,32 @@ export const backendApi = {
       method: "POST",
       body: JSON.stringify({ decision, reason: reason || decision }),
     }),
-  startWorkflowRun: (workflowId: string, payload: Record<string, unknown> = {}) =>
+  startWorkflowRun: (workflowId: string, payload: Record<string, unknown> = {}, engine?: string) =>
     request(`/workflows/${workflowId}/run`, {
       method: "POST",
-      body: JSON.stringify({ input_payload: payload }),
+      body: JSON.stringify({
+        input_payload: payload,
+        ...(engine ? { engine } : {}),
+      }),
     }),
+  /** Pick up queued runs and execute until completion or a human gate. */
+  dispatchWorkflowRuns: () =>
+    request("/workflow-runs/dispatch", {
+      method: "POST",
+      body: "{}",
+    }),
+  getWorkflowRun: (runId: string) =>
+    request(`/workflow-runs/${encodeURIComponent(runId)}`),
+  getWorkflowTopology: (workflowId: string) =>
+    request(`/workflows/${encodeURIComponent(workflowId)}/topology`),
+  getWorkflowRunGraphState: (runId: string) =>
+    request(`/workflow-runs/${encodeURIComponent(runId)}/graph-state`),
+  getWorkflowRunTrajectory: (runId: string) =>
+    request(`/workflow-runs/${encodeURIComponent(runId)}/trajectory`),
+  listOrchestrationPatterns: () => request("/orchestration/patterns"),
+  listOrchestrationEngines: () => request("/orchestration/engines"),
+  listDomainGraphs: (domainId: string) =>
+    request(`/domains/${encodeURIComponent(domainId)}/graphs`),
   createAgent: (payload: Record<string, unknown>) =>
     request("/agents", {
       method: "POST",
@@ -218,6 +239,13 @@ export const backendApi = {
       method: "POST",
       body: JSON.stringify(payload),
     }),
+  updateWorkflow: (workflowId: string, payload: Record<string, unknown>) =>
+    request(`/workflows/${encodeURIComponent(workflowId)}`, {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    }),
+  getApproval: (approvalId: string) =>
+    request(`/approvals/${encodeURIComponent(approvalId)}`),
   settings: () => request("/settings"),
   cancelWorkflowRun: (runId: string) =>
     request(`/workflow-runs/${runId}/cancel`, { method: "POST", body: "{}" }),

@@ -12,6 +12,7 @@ import { formatMutationError } from "@/lib/forms/create-resource-schemas";
 export function RunWorkflowButton({
   workflowId,
   inputSchema,
+  defaultEngine,
 }: {
   workflowId: string;
   /** Optional schema so required fields (case_id, …) are filled for live runs */
@@ -20,11 +21,14 @@ export function RunWorkflowButton({
     required?: string[];
     properties?: Record<string, { type?: string; default?: unknown }>;
   } | null;
+  /** Prefer workflow.execution_engine when set */
+  defaultEngine?: string;
 }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<Record<string, unknown> | null>(null);
+  const [engine, setEngine] = useState(defaultEngine || "langgraph");
 
   async function onRun() {
     setError(null);
@@ -35,12 +39,27 @@ export function RunWorkflowButton({
         { triggered_from: "frontend_run_now" },
       );
       if (env.demoMode) {
-        setResult({ demo: true, workflowId, status: "queued", input_payload: payload });
+        setResult({ demo: true, workflowId, status: "queued", engine, input_payload: payload });
         return;
       }
-      const run = (await backendApi.startWorkflowRun(workflowId, payload)) as Record<string, unknown>;
-      setResult(run);
+      let run = (await backendApi.startWorkflowRun(workflowId, payload, engine)) as Record<
+        string,
+        unknown
+      >;
       const runId = String(run.id || "");
+      try {
+        await backendApi.dispatchWorkflowRuns();
+        if (runId) {
+          const refreshed = (await backendApi.getWorkflowRun(runId).catch(() => null)) as Record<
+            string,
+            unknown
+          > | null;
+          if (refreshed) run = refreshed;
+        }
+      } catch {
+        /* keep queued */
+      }
+      setResult(run);
       if (runId) router.push(`/app/workflow-runs/${runId}`);
     } catch (err) {
       setError(formatMutationError(err));
@@ -51,6 +70,18 @@ export function RunWorkflowButton({
 
   return (
     <div className="inline-flex flex-col items-start gap-2">
+      <label className="flex items-center gap-2 text-[11px] text-muted">
+        Engine
+        <select
+          className="rounded-lg border border-white/10 bg-black/40 px-2 py-1 text-xs text-white"
+          value={engine}
+          onChange={(e) => setEngine(e.target.value)}
+          data-testid="run-engine"
+        >
+          <option value="langgraph">langgraph</option>
+          <option value="legacy">legacy</option>
+        </select>
+      </label>
       <Button data-testid="run-now" disabled={busy} onClick={() => void onRun()}>
         <Play className="size-4" />
         {busy ? "Starting…" : "Run now"}

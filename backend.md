@@ -2,14 +2,29 @@
 
 # Backend API Server Requirements, Design, and Implementation Plan
 
-**Architecture source of truth:** `structure.md` (implementation mapping §12)  
-**Status:** Product bar mark ~100 — as-built under `backend/`  
-**Last Updated:** 2026-07-10  
-**Related:** `frontend.md` · `backend_hk.md` · `backend/README.md` · `status.md` · `planning/structure/` · `planning/backend/` · `planning/gap_analysis_for_structure.md` · `planning/gap_analysis_for_backend.md` · `docs/domain-packs.md`
+**Version:** 3.1 · aligned with `structure.md` v3.1 (Single Source of Truth)  
+**Status:** Product bar mark ~100 + **LangGraph multi-agent orchestration** as-built under `backend/`  
+**Last Updated:** 2026-07-17  
+**Product host:** `C:\Project\generic-swarm-ops`  
+**Companion:** `frontend.md` (ops console) · `backend/README.md`
 
-**Domain Pack (Wave 0):** Inventory gate `scripts/business/inventory_check.py` + schema tests for domain-manifest/agent-spec/learning-log. Register stub is CLI-only (`register_domain.py`); full `/domains` + ALC runtime is Wave 1. Video pack data lives under `business/video/` — not hard-coded in the control plane.
+### Authority
 
-This document is the **backend requirements, design, and implementation plan**. It refines how the architecture in `structure.md` becomes an API control plane. Executable **backend** sub-functional requirements live under `planning/backend/nn_*/requirements.md` (sequential order 01–24). Architecture SDD specs live under `planning/structure/`; **as-built realization and non-goals** are recorded in **§24** below and in `structure.md` §11.1 / §12. Those notes refine this document; they do not replace the architecture priorities: **Safety → Auditability → Correctness → Efficiency → Autonomy.**
+| Rule | Meaning |
+|------|---------|
+| **Architecture SoT** | `structure.md` wins for system-wide architecture intent |
+| **Backend contract SoT** | **This file** is the complete backend control-plane contract (requirements, design, as-built). You should not need other project markdown to operate or implement the API surface described here |
+| **Priorities** | Safety → Auditability → Correctness → Efficiency → Autonomy |
+
+### Orchestration posture (structure.md §0.2 / §4)
+
+- **Public control plane:** FastAPI `/api/v1/*` only (LG-N1).  
+- **Execution engines (dual):**  
+  - **`langgraph`** (default): StateGraph multi-agent patterns, checkpointer, HITL interrupt bridge, host tool broker.  
+  - **`legacy`**: linear DNA step walker (compat / rollback).  
+- **DNA** remains portable IR; compiled to topology / graphs.  
+- **Domain packs** under `business/<domain_id>/` (video: 114 agents, pack graphs under `graphs/`).  
+- Inventory gate: `python scripts/business/inventory_check.py` → `count=114 n3=complete`.
 
 ## 1. Purpose
 
@@ -40,19 +55,20 @@ The backend should support:
 
 - secure authentication
 - role-based access control
-- agent orchestration
-- workflow execution
-- workflow run tracking
-- governance approval gates
-- memory and knowledge retrieval
+- agent orchestration (**LangGraph multi-pattern** + legacy dual-engine)
+- workflow execution (DNA IR → graph or linear runner)
+- workflow run tracking (engine, thread_id, topology, trajectory)
+- governance approval gates (HITL interrupt bridge on LangGraph)
+- memory and knowledge retrieval (pre-act inject on graph steps)
 - audit logging
-- evaluation and quality checks
+- evaluation and quality checks (including graph **trajectory** scores)
 - process intelligence APIs
-- evolution sandbox APIs (propose → evaluate → canary → promote / rollback)
+- evolution sandbox APIs (propose → evaluate → canary → promote / rollback; orchestration variants)
 - self-improvement APIs (reflect, lessons, auto-propose, skill sandbox, loop runner)
-- production Workflow DNA safety checks before activate / production_ready
-- background workers
-- streaming updates to the frontend
+- production Workflow DNA / graph safety checks before activate / production_ready
+- in-process dispatch (local-inline) with optional future queue
+- streaming updates to the frontend (SSE with normalized graph events)
+- domain pack registration, recommend-workflow, special-skills, pack graphs
 - extensible integrations
 
 ---
@@ -63,18 +79,20 @@ This document recommends the following stack:
 
 ```text
 Backend Framework: FastAPI
-Language: Python
+Language: Python 3.11+
 Database: PostgreSQL (primary control-plane store; as-built: runtime_state JSONB)
+Orchestration: LangGraph (in-process engine) + dual-engine registry (langgraph | legacy)
+  - langgraph, langchain-core (pyproject)
+  - checkpointer: MemorySaver default; Postgres checkpointer optional later
 Vector Search: pgvector (optional), Qdrant, Weaviate, or Pinecone
-Queue: Redis + Celery/RQ/Arq, or Temporal for advanced workflows (as-built: in-process run engine)
+Queue: as-built local-inline dispatch; Redis/Celery/Temporal optional later
 Cache: Redis (optional)
-Object Storage: S3-compatible storage (optional for document blobs)
+Object Storage: Postgres JSONB / optional S3 for blobs
 LLM Provider Layer: Provider-agnostic abstraction (optional critic / generation)
-Auth: JWT / OAuth2 / SSO-ready
-API Style: REST first, WebSocket/SSE for streaming
+Auth: Bearer access tokens (PBKDF2 password hashes); FE BFF cookies
+API Style: REST first, SSE for run streaming
 Documentation: OpenAPI generated from FastAPI
 Containerization: No Docker required for local product bar
-Deployment: No Docker required for local product bar
 Persistence note: JSON file snapshot = backup/seed only when Postgres is configured
 ```
 
@@ -141,44 +159,36 @@ Instead, it must enforce:
 │  - Auth                                                 │
 │  - RBAC / ABAC                                          │
 │  - API validation                                       │
-│  - Workflow API                                         │
-│  - Agent API                                            │
-│  - Governance API                                       │
-│  - Knowledge API                                        │
-│  - Memory API                                           │
-│  - Evaluation API                                       │
-│  - Audit API                                            │
-│  - Process Intelligence API                             │
+│  - Workflow / Run / Topology / Trajectory API           │
+│  - Orchestration patterns & engines API                 │
+│  - Agent API · Domain packs API                         │
+│  - Governance / Approvals (HITL) API                    │
+│  - Knowledge · Memory · Evaluation · Audit · PI API     │
+│  - Evolution · Improvement · Loops API                  │
 └───────────────────────┬─────────────────────────────────┘
                         │
+          ┌─────────────┴─────────────┐
+          v                           v
+   engine=langgraph             engine=legacy
+   (default)                    (compat)
+   StateGraph multi-pattern     linear DNA walker
+   checkpointer · HITL bridge   _execute_run
+          │                           │
+          └─────────────┬─────────────┘
                         v
 ┌─────────────────────────────────────────────────────────┐
-│                    Service Layer                        │
-│                                                         │
-│  - AgentService                                         │
-│  - WorkflowService                                      │
-│  - GovernanceService                                    │
-│  - ApprovalService                                      │
-│  - KnowledgeService                                     │
-│  - MemoryService                                        │
-│  - EvaluationService                                    │
-│  - AuditService                                         │
-│  - ProcessService                                       │
-└───────────────────────┬─────────────────────────────────┘
-                        │
-                        v
-┌─────────────────────────────────────────────────────────┐
-│                  Infrastructure Layer                   │
-│                                                         │
-│  - PostgreSQL                                           │
-│  - Vector DB                                            │
-│  - Redis                                                │
-│  - Queue / Workers                                      │
-│  - Object Storage                                       │
-│  - LLM Providers                                        │
-│  - External Integrations                                │
+│  Host tool broker + adapters + memory/ALC + audit      │
+│  Postgres runtime_state · optional vector / LLM         │
+│  Domain packs business/<domain_id>/ (+ graphs/)         │
 └─────────────────────────────────────────────────────────┘
 ```
+
+**Critical facts (as-built):**
+
+1. `POST .../workflows/{id}/run` **queues** a run; `engine` may be set on body or workflow `execution_engine`.  
+2. `POST .../workflow-runs/dispatch` picks up queued runs and invokes the selected engine.  
+3. LangGraph gates create approval rows and set `waiting_for_approval`; decide approval **resumes** the graph engine.  
+4. Tools always go through **host adapters** (allow-list ∩ DNA ∩ RBAC ∩ gates) — never free LangChain tools.
 
 ---
 
@@ -521,28 +531,32 @@ Each workflow run should store:
 - workflow_run ID
 - workflow ID
 - workflow version
+- engine: langgraph | legacy
+- graph_thread_id, graph_id, orchestration_pattern (LangGraph)
+- graph_topology (optional snapshot)
+- trajectory score (on terminal LangGraph runs)
 - requested by user
 - organization ID
 - input
 - status
-- current step
-- output
+- current step / current graph node
+- output / artifacts
 - error
 - timestamps
 - token/cost usage
-- approval state
+- approval state / approval_request_id
 - evaluation results
 ```
 
 The frontend must be able to:
 
 ```text
-- start a workflow run
-- view run status
-- view run steps
-- cancel a run
-- retry a failed run if allowed
-- stream progress
+- start a workflow run (optional engine selector)
+- dispatch / view run status and steps
+- view topology, graph-state, trajectory
+- cancel / retry / pause / resume when allowed
+- stream or poll graph events
+- approve human gates and resume
 - view final output
 ```
 
@@ -1040,6 +1054,11 @@ backend/
           evaluations.py
           audit_logs.py
           processes.py
+          orchestration.py
+          domains.py
+          evolution.py
+          improvement.py
+          loops.py
           settings.py
           health.py
 
@@ -1054,6 +1073,26 @@ backend/
       pagination.py
       idempotency.py
       rate_limit.py
+
+    infrastructure/
+      orchestration/          # dual-engine registry (legacy + langgraph)
+      langgraph_engine/       # StateGraph host engine, patterns, pack loader
+        engine.py
+        compiler.py
+        state.py
+        checkpointer.py
+        graph_builder.py
+        pack_loader.py
+        trajectory.py
+        streaming.py
+        security.py
+        patterns/runners.py
+        nodes/memory_read.py
+        tools/host_tool_node.py
+      tools/adapters.py
+      database/
+      evolution/
+      self_improvement/
 
     domain/
       __init__.py
@@ -1604,6 +1643,30 @@ internal_error
 
 ---
 
+## 11.6a Orchestration / graph endpoints (as-built LangGraph)
+
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| GET | `/api/v1/orchestration/patterns` | Pattern catalog + engines |
+| GET | `/api/v1/orchestration/engines` | Available engines |
+| GET | `/api/v1/workflows/{id}/topology` | Nodes/edges/pattern for FE canvas |
+| GET | `/api/v1/workflow-runs/{id}/graph-state` | Redacted graph state projection |
+| GET | `/api/v1/workflow-runs/{id}/trajectory` | Trajectory fitness score |
+| GET | `/api/v1/domains/{domain_id}/graphs` | Pack graph packages |
+| GET | `/api/v1/domains/video/graphs` | Video pack graphs |
+| PATCH | `/api/v1/workflows/{id}` | May set `execution_engine`, `orchestration` |
+
+Start run body extension:
+
+```json
+{
+  "input_payload": { "case_id": "..." },
+  "engine": "langgraph"
+}
+```
+
+---
+
 ## 11.7 Workflow Run Endpoints
 
 | Method | Endpoint | Purpose |
@@ -1786,14 +1849,32 @@ Exact paths follow OpenAPI generated from FastAPI; frontend consumes them via ty
 
 # 12. Workflow Execution Design
 
+## 12.0 Dual-engine orchestration (normative — structure.md §4)
+
+| Engine | Module | Role |
+|--------|--------|------|
+| `langgraph` | `app/infrastructure/langgraph_engine/` | Multi-pattern StateGraph host engine (default) |
+| `legacy` | `app/infrastructure/orchestration/legacy_engine.py` | Linear DNA step walker |
+
+| Pattern | Behavior |
+|---------|----------|
+| `pipeline` | DNA steps as ordered graph with gates + memory inject + host tools |
+| `supervisor` | Supervisor handoffs to specialists (max_handoffs) |
+| `router` | Deterministic branch → subset of steps |
+| `critique` | Pipeline then critic loop (max_iterations) |
+| `map_reduce` | Fan-out over case items then pipeline join |
+| `pack_spine` | Domain pack entry + optional `business/<domain>/graphs/*.graph.json` |
+
+**Env:** `GENERIC_SWARM_ENGINE_DEFAULT` (default `langgraph`), `GENERIC_SWARM_LANGGRAPH_ENABLED`, `GENERIC_SWARM_LG_MAX_NODES`, `GENERIC_SWARM_LG_MAX_HANDOFFS`, `GENERIC_SWARM_LG_CHECKPOINT`.
+
 ## 12.1 Workflow Run Lifecycle
 
 ```text
 queued
-  -> running
-    -> waiting_for_approval
-      -> running
-        -> completed
+  -> running  (dispatch → engine.execute)
+    -> waiting_for_approval  (gate / interrupt bridge)
+      -> running  (approval decision → engine.resume)
+        -> completed  (+ trajectory score on langgraph)
 
 queued
   -> running
@@ -1811,27 +1892,35 @@ running
 ## 12.2 Workflow Start Flow
 
 ```text
-1. Frontend sends POST /api/v1/workflows/{workflow_id}/runs
-2. Backend authenticates user
-3. Backend checks user permission
-4. Backend loads workflow
-5. Backend validates input schema
-6. Backend runs governance pre-check
-7. Backend creates workflow_run with status queued
-8. Backend writes audit log
-9. Backend enqueues worker job
-10. Backend returns workflow_run_id
-11. Worker executes workflow
-12. Frontend polls or streams status
+1. Frontend POST /api/v1/workflows/{workflow_id}/run
+   body: { input_payload, engine? }
+2. Backend authenticates + RBAC
+3. Backend loads workflow; resolves engine
+   (request → workflow.execution_engine → default)
+4. Validates input schema (engine key stripped from business case)
+5. Creates workflow_run status=queued with engine fields
+6. Audit + event
+7. Returns run (still queued)
+8. Frontend or operator POST /api/v1/workflow-runs/dispatch
+9. Engine executes until terminal or waiting_for_approval
+10. Frontend polls run / graph-state / stream / trajectory
 ```
 
 ---
 
-## 12.3 Worker Execution Flow
+## 12.3 Engine / worker execution flow
 
 ```text
-1. Worker receives workflow_run_id
-2. Worker loads workflow run
+1. Dispatch loads queued runs for organization
+2. get_engine(run.engine).execute(runtime, run, actor)
+3. LangGraph path:
+   - seed HostGraphState
+   - select pattern runner
+   - for each step/node: memory inject → gate? → host tools → artifacts
+   - interrupt → create approval + waiting_for_approval
+   - on resume: continue from completed steps
+   - score trajectory on terminal
+4. Legacy path: _execute_run linear steps (same gates/tools)
 3. Worker marks run as running
 4. Worker loads workflow version
 5. Worker iterates through steps
@@ -2280,6 +2369,18 @@ SMTP_USERNAME
 SMTP_PASSWORD
 SSO_CLIENT_ID
 SSO_CLIENT_SECRET
+```
+
+LangGraph / dual-engine (as-built, `GENERIC_SWARM_*`):
+
+```text
+GENERIC_SWARM_ENGINE_DEFAULT=langgraph   # or legacy
+GENERIC_SWARM_LANGGRAPH_ENABLED=true
+GENERIC_SWARM_LG_CHECKPOINT=memory
+GENERIC_SWARM_LG_MAX_NODES=200
+GENERIC_SWARM_LG_MAX_HANDOFFS=32
+GENERIC_SWARM_FORCE_JSON_STORE=false
+GENERIC_SWARM_CORS_ALLOWED_ORIGINS=http://127.0.0.1:3000,http://localhost:3000
 ```
 
 ---
@@ -2937,79 +3038,87 @@ Frontend
 
 ---
 
-# 24. Implementation Mapping (structure.md §11.1 / §12 alignment)
+# 24. Implementation Mapping (structure.md v3.1 — as-built)
 
-This section records **how this backend plan is realized today** for product bar mark ~100. It does not weaken architecture intent in `structure.md`. Evidence: `status.md`, `structure_scorecard_100.md`, `mark_100_verification.md`, `reviews/e1_operator_checklist.md`, `planning/gap_analysis_for_structure.md`, `planning/gap_analysis_for_backend.md`, `backend/README.md`.
+This section is the **self-contained as-built map** for the backend. It aligns with `structure.md` §0.2, §4, §11, §12 after LangGraph adoption.
 
 ## 24.1 Document relationship
 
 | Document | Role |
 |----------|------|
-| `structure.md` | Architecture vision and source of truth |
-| `planning/structure/nn_*/` | Architecture SDD requirements / design / tasks (01–17) |
-| `backend.md` (this file) | Backend API requirements and design plan |
-| `planning/backend/nn_*/requirements.md` | Backend sub-functional EARS specs (01–24, sequential) |
-| `planning/backend/nn_*/design.md` | Backend SDD designs v2.0 (portfolio score 100; see `DESIGN_QUALITY_SCORE.md`) |
-| `planning/backend/nn_*/tasks.md` | Backend SDD tasks **v2.2** with **Deliverable (code paths)** per task (see `TASK_TO_CODE_TRACEABILITY.md`) |
-| `backend/` | As-built FastAPI control plane |
-| `frontend.md` / `frontend/` | Ops console contract and as-built UI |
+| `structure.md` **v3.1** | System architecture SoT (LangGraph posture, product bar, LG-N rules) |
+| `backend.md` (this file) | **Backend control-plane SoT** — requirements, design, API, as-built |
+| `frontend.md` | Ops console SoT |
+| `backend/` | Executable FastAPI + LangGraph engine code |
+| `business/` | Domain packs, evals, DNA, pack graphs |
 
-## 24.2 Capability gates (backend share of structure §11.1)
+Optional engineering breakdowns under `planning/` are delivery archaeology only.
 
-| Phase | structure.md band | Backend as-built |
-|-------|-------------------|------------------|
-| A Foundation | Days 1–14 | Auth, RBAC, audit events, health/ready, seed data, business corpus validation hooks |
-| B Shadow learning | Days 15–30 | Event/process APIs; PI disk artifacts under `business/process-intelligence/`; knowledge ingest/search |
-| C Controlled co-pilot | Days 31–60 | Postgres `runtime_state` JSONB primary store; DNA runs; human approval gates; Tier-0/1 retrieval; tool adapters + `tool_effects`; production DNA checks on activate |
-| D Evolution sandbox | Days 61–90 | Corpus eval, canary/promote/rollback, fitness archive; auto-reflect, lessons, auto-propose, loop runner, skill sandbox |
+## 24.2 Capability gates
 
-## 24.3 As-built realization (backend topics from structure §12.3)
+| Phase | Band | Backend as-built |
+|-------|------|------------------|
+| A Foundation | Days 1–14 | Auth, RBAC, audit, health/ready, seed data |
+| B Shadow learning | Days 15–30 | PI artifacts, knowledge ingest/search |
+| C Controlled co-pilot | Days 31–60 | Postgres store; DNA runs; human gates; Tier-0/1 retrieval; tool adapters |
+| D Evolution sandbox | Days 61–90 | Corpus eval, canary/rollback; auto-reflect / lessons / loops |
+| **E Multi-agent graphs** | structure §11.2 E | **LangGraph dual-engine**, patterns, topology/trajectory APIs, pack graphs, HITL bridge |
 
-| Topic | Architecture intent | Backend as-built |
-|-------|---------------------|------------------|
-| Control plane | API + durable state | FastAPI + **Postgres** `runtime_state` JSONB; JSON file = backup/seed only |
-| Tool adapters | Real execution | Local adapters + durable `tool_effects`; live CRM/email SaaS = later |
-| Tool broker | Scoped permissions | Allow-list ∩ DNA tools ∩ RBAC ∩ gates; ephemeral OAuth per tool = later |
-| PI | Miner / conformance / bottleneck / causal | PI **services + disk artifacts** (not five independent LLM agents) |
-| Retrieval | Tier 0 / 1 / 2 | Tier 0 keyword+hash embed + provenance; Tier 1 entity multi-hop (LightRAG-**lite**); Tier 2 + full LightRAG vendor = later |
-| Knowledge graph | Agent-native graph | K1-lite extract/operators + optional federation export |
-| Evolution | Sandbox only | Variants `sandbox_only`; corpus eval; canary; versioned promote; rollback; **no** host code self-rewrite |
-| Self-improvement | Reflective loops | Auto-reflect, lessons, auto-propose, Loop runner, skill sandbox APIs |
-| DNA production safety | Gates + rollback | `business:validate` + runtime `activate_workflow_version` / production DNA checks (`structure_validators`) |
-| Operator proof | End-to-end path | E1: login → run → human gate → complete → improve (`test_e1_operator_path`) |
+## 24.3 As-built realization
 
-## 24.4 structure.md sections primarily realized in backend
+| Topic | Intent | Backend as-built |
+|-------|--------|------------------|
+| Control plane | API + durable state | FastAPI + Postgres `runtime_state`; JSON backup |
+| **Orchestration** | Multi-agent graphs | **LangGraph** default; **legacy** linear runner for rollback |
+| DNA | Portable IR | Workflow DNA + pack `graphs/*.graph.json`; topology export |
+| Checkpoints | Durable pause/resume | MemorySaver process-local; thread_id = `{org}:{run_id}` |
+| HITL | Risk-tier gates | Interrupt bridge → approvals → engine resume |
+| Tools | Real side effects | Host adapters + `tool_effects`; fail-closed allow-list |
+| Memory | Hybrid + ALC | Pre-act inject on LangGraph steps |
+| Trajectory | Eval multi-agent quality | Auto score + `GET .../trajectory` |
+| Security | Tenancy + budgets | Cross-org thread deny; max nodes/handoffs; redacted graph-state |
+| Evolution | Sandbox only | No silent prod DNA/graph mutation |
+| Operator proof | E1 | login → run (langgraph) → gate → complete → improve |
 
-| structure.md | Spec folder (planning/structure) | Backend surface |
-|--------------|----------------------------------|-----------------|
-| §2 Intake + Risk Router | `03_intake-and-risk-router` | Run start governance pre-check / risk classification |
-| §6 Governance | `04_governance-risk-tiers-and-gates` | Policies, approval gates, tier enforcement |
-| §7 Security | `05_security-controls-and-tool-broker` | AuthZ, tool allow-list, rate limits, audit |
-| §2.3 Process Intelligence | `06_process-intelligence-layer` | Process APIs + disk artifacts |
-| §3 Knowledge / memory / retrieval | `07`–`09` | Knowledge, memory, tiered retrieval, K1-lite |
-| §4 Workflow DNA + execution | `10`–`12` | DNA models, engine, human gates, audit path |
-| §8 Evaluation | `13_evaluation-harness-and-corpus` | Evaluation routes + corpus eval |
-| §5 Evolution sandbox | `14_evolution-sandbox-engine` | `/api/v1/evolution/*` |
-| §9 Agent roster (control roles) | `15_agent-roster-and-control-roles` | Agent registry + control-plane services |
-| §11 Rollout / operator path | `17_phased-rollout-and-operator-path` | E1 e2e path + health/ready |
+## 24.4 structure.md → backend surface
 
-## 24.5 Explicit non-goals (current product bar)
+| structure.md | Backend surface |
+|--------------|-----------------|
+| §0.2 / LG-N | Dual-engine registry; FastAPI-only public API |
+| §0.3 Domain packs | `/domains/*`, pack graphs, inventory |
+| §4 Execution | `langgraph_engine` + legacy; dispatch; topology |
+| §5 Evolution | `/evolution/*` + orchestration variants in sandbox |
+| §6 Governance | Tiers, approvals, RBAC |
+| §7 Security | Broker, budgets, rate limits, audit |
+| §8 Evaluation | Corpus eval + trajectory |
+| §11 Product bar / E1 | `test_e1_operator_path`, health engines |
 
-Do **not** treat as missing `backend.md` / `structure.md` requirements for mark ~100:
+## 24.5 Explicit non-goals
 
-- Full commercial LightRAG / Neo4j production mesh  
-- Live external CRM / email / billing SaaS adapters  
-- DGM-style host application self-rewrite  
-- Always-on multi-worker Temporal/Celery cluster as a hard requirement  
-- Ephemeral per-tool OAuth credential broker (when live SaaS adapters land)  
-- Infinite enterprise content fill of every `business/` leaf  
+- Second public LangGraph / LangSmith cloud control plane  
+- Free-form ungoverned tool use inside graphs  
+- Full commercial LightRAG / Neo4j mesh  
+- Live CRM/email/media SaaS adapters (stubs OK)  
+- DGM host self-rewrite  
+- Always-on Temporal/Celery as hard requirement  
 
 ## 24.6 Runtime entry points
 
 | Layer | Entry |
 |-------|--------|
-| Backend code | `backend/` — FastAPI `app/main.py`, `runtime.py`, `infrastructure/*` |
-| Persistence | `DATABASE_URL` → Postgres; see `docs/postgres-runbook.md` |
-| Business corpus | `business/` |
-| Continuity / evidence | `memory/handoff.md`, `memory/project.md`, `status.md` |
-| Ops UI | `frontend/` (consumes this API; see `frontend.md` §33) |
+| App | `backend/app/main.py` |
+| Control plane | `backend/app/runtime.py` |
+| Dual engine | `backend/app/infrastructure/orchestration/` |
+| LangGraph | `backend/app/infrastructure/langgraph_engine/` |
+| Tools | `backend/app/infrastructure/tools/adapters.py` |
+| Pack graphs | `business/video/graphs/` |
+| Tests | `backend/app/tests/unit/test_langgraph_engine.py`, `.../e2e/test_e1_operator_path.py` |
+| Ops UI | `frontend/` (`frontend.md`) |
+
+## 24.7 Document control
+
+| Field | Value |
+|-------|-------|
+| Version | **3.1** |
+| Supersedes | pre–LangGraph backend plan (2026-07-10) |
+| Change | Aligned with structure.md v3.1: LangGraph dual-engine, patterns, topology/trajectory, pack graphs, HITL bridge, env defaults |

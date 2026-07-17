@@ -105,6 +105,8 @@ class StatusUpdateRequest(BaseModel):
 
 class WorkflowStartRequest(BaseModel):
     input_payload: dict[str, Any] = Field(default_factory=dict)
+    # Optional dual-engine selector: legacy | langgraph (structure.md §4)
+    engine: str | None = None
 
 
 class WorkflowCreateRequest(BaseModel):
@@ -145,6 +147,9 @@ class WorkflowUpdateRequest(BaseModel):
     verification: dict[str, Any] | None = None
     rollback: dict[str, Any] | None = None
     fitness_metrics: list[str] = Field(default_factory=list)
+    # LangGraph orchestration (LG-13)
+    execution_engine: str | None = None
+    orchestration: dict[str, Any] | None = None
 
 
 class WorkflowVersionCreateRequest(BaseModel):

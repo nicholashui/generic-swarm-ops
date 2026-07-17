@@ -1,17 +1,29 @@
-
 # `frontend.md`
 
 **Project:** Generic Swarm Business Operating System  
 **Component:** Frontend Server (ops console)  
-**Architecture source of truth:** `structure.md` (implementation mapping §12)  
-**Status:** Product bar mark ~100 — as-built under `frontend/`  
-**Last Updated:** 2026-07-10  
-**Related:** `backend.md` · `frontend/README.md` · `status.md` · `planning/structure/` · `planning/backend/` · `planning/frontend/` · `planning/gap_analysis_for_structure.md` · `planning/gap_analysis_for_backend.md` · `planning/gap_analysis_for_frontend.md`  
-**Primary Goal:** Build a professional, secure, responsive SaaS frontend that allows users to manage AI agents, workflows, tools, approvals, knowledge, memory, evaluations, audits, evolution sandbox variants, self-improvement actions, and organization settings.
+**Version:** 3.1 · aligned with `structure.md` v3.1 (Single Source of Truth)  
+**Status:** Product bar mark ~100 + **LangGraph graph ops console** as-built under `frontend/`  
+**Last Updated:** 2026-07-17  
+**Product host:** `C:\Project\generic-swarm-ops`  
+**Companion:** `backend.md` (API control plane) · `frontend/README.md`
 
-**Domain Pack (Wave 0):** No required UI changes. Future `/app/domains/video` roster views (Wave 1–2) will list the 114-agent catalog from `business/video/`. See `docs/domain-packs.md`.
+**Primary Goal:** Build a professional, secure, responsive SaaS frontend that allows operators to manage AI agents, **multi-agent graph workflows** (LangGraph), tools, approvals, knowledge, memory, evaluations, audits, evolution sandbox variants, self-improvement actions, domain packs, and organization settings.
 
-This document is the **frontend requirements, design, and implementation plan**. It refines how the architecture in `structure.md` becomes an operator console. Executable architecture SDD specs live under `planning/structure/`; the **backend API control-plane SDD** (requirements / design / tasks BE-01…24, code-path deliverables) lives under `planning/backend/` — see `backend.md` §24 and `planning/backend/TASK_TO_CODE_TRACEABILITY.md`. The **frontend sub-functional SDD** (requirements FE-01…20, sequential implementation order) lives under `planning/frontend/` — see `planning/frontend/README.md`. **As-built realization and non-goals** for this console are recorded in **§33** below and in `structure.md` §11.1 / §12. The frontend remains a presentation and interaction layer — **backend is the source of truth for authorization, execution, and governance.**
+### Authority
+
+| Rule | Meaning |
+|------|---------|
+| **Architecture SoT** | `structure.md` wins for system-wide architecture |
+| **Frontend contract SoT** | **This file** is the complete ops-console contract (IA, pages, components, as-built) |
+| **Backend is authority** | Authorization, execution, governance, and mutations are **only** via `/api/v1/*` — never re-implemented in the browser |
+
+### Orchestration UI posture (structure.md §4 / §10)
+
+- Operators must **see** orchestration: topology, engine, pattern, node status, handoffs, interrupts.  
+- **Run now** selects engine (`langgraph` default / `legacy`).  
+- Human gates show **graph node + payload preview**, not empty approve buttons.  
+- Domain packs surface recommend-workflow, special-skills, and pack graphs where APIs exist.  
 ---
 
 ## 1. Purpose
@@ -24,8 +36,9 @@ It provides the interface where users can:
 - View the main dashboard.
 - Create, inspect, and manage AI agents.
 - Configure tools and integrations.
-- Build and run workflows.
-- Review workflow approvals.
+- Build, configure orchestration patterns, and run workflows (LangGraph or legacy).
+- Inspect live graph runs (topology, events, trajectory).
+- Review workflow approvals and interrupt context.
 - Manage knowledge sources and indexed documents.
 - Inspect memory records.
 - View evaluations and quality metrics.
@@ -117,9 +130,10 @@ The frontend server must include:
 - Dashboard page.
 - Agents section.
 - Tools section.
-- Workflows section.
-- Workflow run detail section.
-- Approvals section.
+- Workflows section (topology + pattern authoring).
+- Workflow run detail section (**GraphRunConsole** + Improve + legacy console).
+- Approvals section (interrupt / graph-node context).
+- Domains section (recommend workflow, special skills, pack graphs when exposed).
 - Knowledge section.
 - Memory section.
 - Evaluations section.
@@ -1700,6 +1714,7 @@ Route:
 Purpose:
 
 - View, edit, run, and monitor a workflow.
+- Configure **orchestration pattern + engine** (LangGraph dual-engine).
 
 Required sections:
 
@@ -1707,7 +1722,8 @@ Required sections:
 - Header
 - Status
 - Metadata
-- Visual step map
+- Orchestration topology (GraphTopologyPanel)
+- Pattern authoring (PatternAuthoringPanel: pattern, engine, supervisor/specialists)
 - Trigger configuration
 - Step list
 - Latest run summary
@@ -1719,19 +1735,26 @@ Required sections:
 
 Actions:
 
-- Run now.
-- Edit.
-- Duplicate.
-- Pause.
-- Publish.
-- Archive.
+- **Run now** with engine selector (`langgraph` | `legacy`); auto-dispatch after start.
+- Edit / save orchestration (PATCH workflow `execution_engine` + `orchestration`).
 - View latest run.
-- Create new version.
+- Create new version (when backend supports).
 
 Critical UI behavior:
 
-- Running a workflow should show immediate feedback.
-- If backend creates a run, redirect or link to `/app/workflow-runs/[runId]`.
+- Running a workflow must not leave the user on a silent queued state without navigation.
+- Redirect or deep-link to `/app/workflow-runs/[runId]`.
+- Topology preview refreshes after saving orchestration.
+
+**Backend contracts:**
+
+```text
+GET  /api/v1/workflows/{id}/topology
+PATCH /api/v1/workflows/{id}  { execution_engine, orchestration }
+POST /api/v1/workflows/{id}/run  { input_payload, engine? }
+POST /api/v1/workflow-runs/dispatch
+GET  /api/v1/orchestration/patterns
+```
 
 ---
 
@@ -1745,28 +1768,20 @@ Route:
 
 Purpose:
 
-- Show live workflow run execution.
+- Show live **multi-agent graph** execution (not only a log wall).
 
 This is one of the most important pages.
 
 Required sections:
 
 ```text
-- Run header
-- Status summary
-- Timeline
-- Current step
-- Step details
-- Live logs
-- Tool calls
-- Agent messages
-- Input payload
-- Output payload
-- Approval state
-- Error details
-- Retry/cancel/pause/resume/expire actions (via backend run APIs)
-- Audit metadata
-- Improve pipeline panel (self-improvement; structure.md §5 / §12.3)
+- Run header (status, engine, pattern, workflow link)
+- Waiting-for-approval banner → deep link to Approvals (RunWaitingBanner)
+- GraphRunConsole: topology with node status, trajectory score, graph events
+- Improve pipeline panel (reflect → propose → evaluate → canary)
+- Optional legacy WorkflowRunConsole for step/event stream
+- Input / output / error
+- Retry/cancel/pause/resume/expire actions (via backend)
 ```
 
 Run statuses (aligned with backend workflow_run lifecycle):
@@ -1783,6 +1798,16 @@ Expired
 Retry Queued
 Timed Out
 Partially Completed
+```
+
+**Backend contracts:**
+
+```text
+GET /api/v1/workflow-runs/{id}
+GET /api/v1/workflow-runs/{id}/graph-state
+GET /api/v1/workflow-runs/{id}/trajectory
+GET /api/v1/workflow-runs/{id}/stream   (normalized graph events)
+GET /api/v1/workflows/{workflowId}/topology
 ```
 
 Timeline item types:
@@ -1915,12 +1940,54 @@ Everything is moving automatically.
 
 ---
 
+## 16.14a Domains / pack graphs (as-built)
+
+Route family:
+
+```text
+/app/domains  (and domain sub-panels)
+```
+
+Purpose:
+
+- Domain pack operator surfaces (video recommend workflow, special skills, N3 status).
+- Pack graph inventory when API available.
+
+**Backend contracts:**
+
+```text
+POST /api/v1/domains/video/recommend-workflow
+GET  /api/v1/domains/video/special-skills
+GET  /api/v1/domains/video/graphs
+GET  /api/v1/domains/{domain_id}/graphs
+```
+
+---
+
 ## 16.15 Approval Detail Page
 
 Route:
 
 ```text
 /app/approvals/[approvalId]
+```
+
+**Interrupt-aware UX (structure.md §4.2.4 / LG-14):**
+
+```text
+- Show engine, graph_node_id / step_id, risk, payload_preview
+- Deep link to related workflow run
+- Approve / Reject with reason
+- Optional override JSON field (client-validated; server uses decision API)
+- After approve, offer return to run console
+```
+
+**Backend contracts:**
+
+```text
+GET  /api/v1/approvals/{id}
+POST /api/v1/approvals/{id}/decision  { decision, reason }
+GET  /api/v1/workflow-runs/{runId}/graph-state
 ```
 
 Purpose:
@@ -2458,10 +2525,15 @@ WorkflowRunTimeline
 WorkflowRunStatusHeader
 WorkflowRunLogs
 WorkflowVersionHistory
+GraphTopologyPanel
+GraphRunConsole
+PatternAuthoringPanel
+RunWaitingBanner
+RunWorkflowButton (engine selector)
 
 ApprovalCard
 ApprovalRiskBadge
-ApprovalDecisionPanel
+ApprovalDecisionPanel (interrupt / graph-node context)
 
 KnowledgeSourceCard
 KnowledgeHealthCard
@@ -2683,6 +2755,17 @@ frontend/
 ---
 
 ## 19. Environment Variables
+
+Ops / LangGraph-related (as-built):
+
+```text
+NEXT_PUBLIC_DEMO_MODE=false
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000/api/v1
+```
+
+Backend dual-engine defaults are **server-side** (`GENERIC_SWARM_ENGINE_DEFAULT=langgraph`). The FE Run now control can still override per run via `engine` on start.
+
+---
 
 ### 19.1 Public Variables
 
@@ -3833,133 +3916,129 @@ A path to silent production DNA mutation
 
 ---
 
-## 33. Implementation Mapping (structure.md §11.1 / §12 + backend SDD alignment)
+## 33. Implementation Mapping (structure.md v3.1 — as-built)
 
-This section records **how this frontend plan is realized today** for product bar mark ~100. It does not weaken architecture intent in `structure.md`. Evidence: `status.md`, `structure_scorecard_100.md`, `mark_100_verification.md`, `reviews/e1_operator_checklist.md`, `planning/gap_analysis_for_structure.md`, `planning/gap_analysis_for_backend.md`, `frontend/README.md`.
+Self-contained as-built map for the ops console after LangGraph adoption.
 
 ### 33.1 Document relationship
 
 | Document | Role |
 |----------|------|
-| `structure.md` | Architecture vision and source of truth |
-| `planning/structure/nn_*/` | Architecture SDD requirements / design / tasks (01–17) |
-| `planning/structure/TASK_TO_CODE_TRACEABILITY.md` | STRUCT task → source path index |
-| `backend.md` | Backend API requirements / design plan + §24 as-built |
-| `planning/backend/nn_*/` | Backend sub-functional SDD (BE-01…24): requirements, design, tasks v2.2 |
-| `planning/backend/TASK_TO_CODE_TRACEABILITY.md` | BE task → `backend/app/**` code paths |
-| `planning/gap_analysis_for_backend.md` | Backend tasks vs implementation (100/100 product bar) |
-| `frontend.md` (this file) | Frontend requirements and design plan |
-| `planning/frontend/nn_*/` | Frontend sub-functional SDD (FE-01…20): requirements (EARS) + design.md v2.1 + tasks.md v2.3 |
-| `planning/frontend/README.md` | FE execution order, dependency sketch, template |
-| `planning/frontend/DESIGN_QUALITY_SCORE.md` | FE design portfolio quality assessment (**100/100**) |
-| `planning/frontend/TASKS_QUALITY_SCORE.md` | FE tasks portfolio quality assessment (**100/100**) |
-| `planning/frontend/TASK_TO_CODE_TRACEABILITY.md` | FE task → `frontend/**` code paths |
-| `planning/gap_analysis_for_frontend.md` | Frontend tasks vs implementation (product bar score) |
-| `frontend/` | As-built Next.js ops console |
-| `backend/` | As-built FastAPI control plane (sole mutation authority) |
+| `structure.md` **v3.1** | System architecture SoT (LangGraph, product bar, HAI) |
+| `frontend.md` (this file) | **Frontend SoT** — IA, pages, components, as-built |
+| `backend.md` **v3.1** | Backend API SoT the console must honor |
+| `frontend/` | Executable Next.js code |
+| `backend/` | Sole mutation / execution authority |
 
-**Dependency rule:** Frontend never re-implements backend policy. New console features must call versioned `/api/v1/*` routes defined by `backend.md` / BE tasks, then refresh OpenAPI types via `pnpm api:generate`.
+**Dependency rule:** Frontend never re-implements backend policy. All mutations go through `/api/v1/*`. After OpenAPI changes: `pnpm api:generate`.
 
-### 33.2 Capability gates (frontend share of structure §11.1)
+### 33.2 Capability gates
 
-| Phase | structure.md band | Frontend as-built |
-|-------|-------------------|-------------------|
-| A Foundation | Days 1–14 | Auth routes, app shell, permission-aware nav, health-aware empty/error states |
-| B Shadow learning | Days 15–30 | Knowledge / memory / process views over backend PI and corpus surfaces |
-| C Controlled co-pilot | Days 31–60 | Live ops (`DEMO_MODE=false`): real agent/workflow forms, run-now, run detail, human gate actions, OpenAPI-typed client |
-| D Evolution sandbox | Days 61–90 | Improve pipeline on run detail; `/app/evolution` archive; evaluate / canary actions via backend only |
+| Phase | Band | Frontend as-built |
+|-------|------|-------------------|
+| A Foundation | Days 1–14 | Auth, shell, permission-aware nav |
+| B Shadow learning | Days 15–30 | Knowledge / memory / process views |
+| C Controlled co-pilot | Days 31–60 | Live ops, real forms, run-now, approvals |
+| D Evolution sandbox | Days 61–90 | Improve pipeline; `/app/evolution` |
+| **E Multi-agent graphs** | structure §11.2 E | **Graph topology, pattern authoring, GraphRunConsole, engine selector, interrupt UX** |
 
-### 33.3 As-built realization (frontend topics from structure §12.3)
+### 33.3 As-built realization
 
-| Topic | Architecture intent | Frontend as-built |
-|-------|---------------------|-------------------|
-| Ops console | Human-centered control | Next.js app under `frontend/`; dual design note: OpenDesign preferred, documented fallback |
-| Live vs demo | Real operator path | Ops profile: `NEXT_PUBLIC_DEMO_MODE=false` + live backend/Postgres; demo profile for UI-only preview |
-| Forms / mutations | Correctness + audit | Real create agent/workflow forms (Zod + react-hook-form); errors show backend message + `request_id` |
-| Human gates | Bounded autonomy | Approval actions on run / approvals surfaces; backend remains authorizer |
-| Self-improvement UI | Reflective loops | Improve: Reflect → Propose → Evaluate → Canary on run detail |
-| Evolution UI | Sandbox only | `/app/evolution` fitness archive; no client-side production DNA rewrite |
-| Operator proof | End-to-end path | E1 path uses FE login + API sequence; API e2e in `test_e1_operator_path` |
-| Human–AI rules (§10) | Confidence, evidence, correction | Surface run status, errors, request IDs; easy gate approve/reject; improve actions explicit |
-| Auth / invite routes | Account lifecycle | `/login` live; `/accept-invite` calls `POST /users/invitations/accept` and sets session |
-| Settings hub | Users / org | `UserAdminPanel` invite/disable; `OrganizationSettingsForm` PATCH org; API keys list |
+| Topic | Intent | Frontend as-built |
+|-------|--------|-------------------|
+| Ops console | Human-centered control | Next.js `frontend/` |
+| Live vs demo | Real operator path | `NEXT_PUBLIC_DEMO_MODE=false` + live API |
+| Forms | Correct mutations | Zod/RHF create forms; `request_id` errors |
+| **Graph run UI** | See multi-agent orchestration | `GraphRunConsole`, `GraphTopologyPanel` |
+| **Pattern authoring** | Configure multi-orch | `PatternAuthoringPanel` → PATCH orchestration |
+| **Run now** | Dual engine | Engine selector; start + dispatch |
+| Human gates | Bounded autonomy | `ApprovalDecisionPanel` + `RunWaitingBanner` |
+| Self-improvement | Reflective loops | Improve on run detail |
+| Evolution | Sandbox only | `/app/evolution` |
+| Domains | Pack operator UX | Recommend workflow, special skills panels |
+| Auth | Session cookies | BFF login; `gso_access_token` + `frontend_session` |
+| Operator proof | E1 | Login → workflow → run (langgraph) → gate → complete |
 
-### 33.3a Backend API contracts the console must honor (as-built)
+### 33.3a Backend API contracts the console must honor
 
-These routes are implemented in `backend/` (see BE tasks + `TASK_TO_CODE_TRACEABILITY.md`). Frontend product bar **honors** them via `backendApi` / live-ops surfaces; regenerate OpenAPI types after backend schema changes.
+| Domain | Backend API (`/api/v1`) | FE surface |
+|--------|-------------------------|------------|
+| Auth | login, logout, session BFF | Login |
+| Workflows | CRUD, **topology**, **PATCH orchestration** | Workflow detail |
+| Runs | run, dispatch, steps, stream, **graph-state**, **trajectory** | Graph run console |
+| Orchestration | **patterns**, **engines** | Pattern authoring |
+| Approvals | list, get, decision | Interrupt UX |
+| Domains | recommend, special-skills, **graphs** | Domains |
+| Evolution / improve | variants, reflect, canary | Evolution + Improve |
+| Knowledge / memory / eval / PI / audit | corresponding routes | Domain sections |
 
-| Domain | Backend API (prefix `/api/v1`) | FE surface |
-|--------|--------------------------------|------------|
-| Auth | `POST /auth/login`, refresh, logout, `/auth/me`, API keys | Login, session |
-| Users | `GET/POST /users`, `GET/PATCH /users/{id}` | Settings users |
-| Invitations | `GET/POST /users/invitations`, `POST /users/invitations/accept` | Settings invite + `/accept-invite` |
-| Organizations | `GET /organizations`, `GET/PATCH /organizations/{id}` | Settings organization |
-| Runs | start, list/get/steps, cancel, retry, stream | Workflow run detail |
-| Run lifecycle | `POST .../pause`, `.../resume`, `.../expire` | Run detail actions (status badges already include paused) |
-| Approvals | list, approve, reject, decision | Approvals + run gate |
-| Evolution | variants, archive, evaluate, promote, rollback | `/app/evolution` |
-| Improvement | reflect, lessons, auto-propose, skills | Improve pipeline on run detail |
-| Loops | start/list/get | Optional ops advanced |
-| Knowledge / memory / eval / PI / audit | corresponding BE routes | Domain app sections |
+### 33.4 structure.md → frontend surface
 
-After backend OpenAPI changes: run `pnpm api:generate` so `src/lib/api/generated/openapi.d.ts` matches FastAPI.
-### 33.4 structure.md sections primarily realized in frontend
+| structure.md | Frontend surface |
+|--------------|------------------|
+| §4 Execution / LangGraph | Run now, topology, GraphRunConsole, pattern authoring |
+| §4.2.4 HITL interrupts | Approvals detail, waiting banner |
+| §5 Evolution | `/app/evolution`, Improve |
+| §8 Evaluation | Evaluations + trajectory display |
+| §9 Agents | Agents / tools |
+| §10 HAI | Confidence, errors, previews, correction |
+| §11 Operator path | Login → run → gate → improve |
 
-| structure.md | Spec folder (planning/structure) | Frontend surface |
-|--------------|----------------------------------|------------------|
-| §4 Execution + human gates | `11`–`12` | Run detail, approvals, run-now |
-| §5 Evolution sandbox | `14_evolution-sandbox-engine` | `/app/evolution`, Improve canary steps |
-| §8 Evaluation | `13_evaluation-harness-and-corpus` | Evaluations pages + Improve evaluate step |
-| §9 Agent roster | `15_agent-roster-and-control-roles` | Agents / tools lists and detail |
-| §10 Human–AI interaction | `16_human-ai-interaction-rules` | Confidence/error UX, previews, correction actions |
-| §11 Rollout / operator path | `17_phased-rollout-and-operator-path` | Login → dashboard → run → gate → improve path |
+### 33.5 Component map (as-built paths)
 
-### 33.5 Explicit non-goals (current product bar)
+```text
+frontend/src/components/domain/
+  graph/graph-topology-panel.tsx
+  graph/graph-run-console.tsx
+  graph/pattern-authoring-panel.tsx
+  run-workflow-button.tsx
+  run-waiting-banner.tsx
+  approval-decision-panel.tsx
+  improve-run-button.tsx
+  domain pack panels (recommend / special-skills)
+frontend/src/lib/api/client.ts
+frontend/src/app/app/[...slug]/page.tsx
+```
 
-Do **not** treat as missing `frontend.md` / `structure.md` requirements for mark ~100:
+### 33.6 Explicit non-goals
 
-- Always-on Playwright UI CI with permanent servers (smoke may skip if servers down)  
-- Full commercial LightRAG / Neo4j graph explorer product  
-- Live external CRM / email / billing SaaS admin consoles  
-- DGM-style host application self-rewrite UI  
-- Infinite enterprise content authoring for every `business/` leaf  
-- Replacing backend authorization with client-only permission checks  
+- Client-side workflow execution or authorization  
+- Free-form graph code editor (config forms only)  
+- Mandatory LangSmith Studio embed  
+- Always-on Playwright CI with permanent servers  
+- Full film-studio Discover gallery  
+- Replacing backend with demo-only mock for product bar ops profile  
 
-### 33.6 Runtime entry points
+### 33.7 Runtime entry points
 
 | Layer | Entry |
 |-------|--------|
-| Frontend code | `frontend/` — Next.js ops console |
-| API dependency | `backend/` FastAPI (`backend.md` §24; BE SDD under `planning/backend/`) |
-| Backend task → code | `planning/backend/TASK_TO_CODE_TRACEABILITY.md` |
-| Backend implement gap | `planning/gap_analysis_for_backend.md` (100/100 product bar) |
-| OpenAPI types | `pnpm api:generate` → `src/lib/api/generated/openapi.d.ts` |
-| Continuity / evidence | `memory/handoff.md`, `status.md` |
-| Ops profile | `NEXT_PUBLIC_DEMO_MODE=false` + running backend + Postgres |
+| Frontend | `frontend/` Next.js |
+| API | `backend/` FastAPI (`backend.md` §24) |
+| OpenAPI types | `pnpm api:generate` |
+| Ops profile | `NEXT_PUBLIC_DEMO_MODE=false`, `NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000/api/v1` |
+| Local start | repo `start_all.ps1` / `pnpm dev` |
 
-### 33.7 Acceptance delta vs mark ~100
-
-Product bar treats the following as **shipped** for the ops console (see `frontend/README.md`):
+### 33.8 Acceptance (ops console + LangGraph)
 
 ```text
 - Auth + app shell + dynamic /app domain surfaces
 - Real agent/workflow create forms
-- Run now with valid payload
-- Improve pipeline on run detail
-- /app/evolution archive
+- Run now with engine selector + dispatch
+- Graph topology + pattern authoring on workflow detail
+- Graph run console (status, events, trajectory)
+- Interrupt-aware approvals + waiting banner
+- Improve pipeline + /app/evolution
 - Typed API client + OpenAPI generation
-- Accept-invite → POST /users/invitations/accept
-- Settings users invite/disable + organization PATCH
-- Run detail cancel/retry/pause/resume/expire
+- Accept-invite + settings users/org
 - lint / typecheck / unit tests / build green
-- FE SDD under planning/frontend/ (FE-01…20 requirements/design/tasks)
-- Gap analysis: planning/gap_analysis_for_frontend.md (product bar 100/100)
 ```
 
-**Optional hygiene (not product-bar blockers):**
+### 33.9 Document control
 
-```text
-- Regenerate OpenAPI client after pulling latest backend schema (`pnpm api:generate`)
-```
+| Field | Value |
+|-------|-------|
+| Version | **3.1** |
+| Supersedes | pre–LangGraph frontend plan (2026-07-10) |
+| Change | Aligned with structure.md v3.1: graph ops UI, dual-engine run, pattern authoring, interrupt UX, domain graphs |
 
-Remaining items in earlier acceptance lists (e.g. full billing, always-on E2E CI, OpenDesign MCP always available) stay **vision or non-goal**, not product-bar blockers — aligned with `structure.md` §12.4 and `backend.md` §24.5.

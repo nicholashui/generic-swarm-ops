@@ -24,6 +24,16 @@ def workflow_detail_route(workflow_id: str, current_user: AuthenticatedUser = De
     return get_workflow(current_user, workflow_id)
 
 
+@router.get("/{workflow_id}/topology")
+def workflow_topology_route(workflow_id: str, current_user: AuthenticatedUser = Depends(get_current_user)) -> dict:
+    """LangGraph / DNA topology for FE graph canvas (LG-11)."""
+    runtime.assert_permission(current_user, "workflows:read")
+    workflow = get_workflow(current_user, workflow_id)
+    from app.infrastructure.langgraph_engine.compiler import build_topology
+
+    return build_topology(workflow)
+
+
 @router.post("", dependencies=[Depends(workflow_write_rate_limit)] if workflow_write_rate_limit else [])
 def create_workflow_route(payload: WorkflowCreateRequest, current_user: AuthenticatedUser = Depends(get_current_user)) -> dict:
     return create_workflow(current_user, payload.model_dump())
@@ -31,7 +41,11 @@ def create_workflow_route(payload: WorkflowCreateRequest, current_user: Authenti
 
 @router.patch("/{workflow_id}", dependencies=[Depends(workflow_write_rate_limit)] if workflow_write_rate_limit else [])
 def update_workflow_route(workflow_id: str, payload: WorkflowUpdateRequest, current_user: AuthenticatedUser = Depends(get_current_user)) -> dict:
-    return update_workflow(current_user, workflow_id, payload.model_dump(exclude_unset=True))
+    data = payload.model_dump(exclude_unset=True)
+    # Avoid wiping steps when client only patches orchestration
+    if "steps" in data and not data["steps"]:
+        data.pop("steps")
+    return update_workflow(current_user, workflow_id, data)
 
 
 @router.post("/{workflow_id}/versions", dependencies=[Depends(workflow_write_rate_limit)] if workflow_write_rate_limit else [])
@@ -67,9 +81,15 @@ def archive_workflow_route(workflow_id: str, current_user: AuthenticatedUser = D
 
 @router.post("/{workflow_id}/run", dependencies=[Depends(workflow_write_rate_limit)] if workflow_write_rate_limit else [])
 def workflow_run_route(workflow_id: str, payload: WorkflowStartRequest, idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"), current_user: AuthenticatedUser = Depends(get_current_user)) -> dict:
-    return start_run(workflow_id, current_user, payload.input_payload, idempotency_key=idempotency_key)
+    body = dict(payload.input_payload or {})
+    if payload.engine:
+        body["engine"] = payload.engine
+    return start_run(workflow_id, current_user, body, idempotency_key=idempotency_key)
 
 
 @router.post("/{workflow_id}/runs", dependencies=[Depends(workflow_write_rate_limit)] if workflow_write_rate_limit else [])
 def workflow_runs_alias_route(workflow_id: str, payload: WorkflowStartRequest, idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"), current_user: AuthenticatedUser = Depends(get_current_user)) -> dict:
-    return start_run(workflow_id, current_user, payload.input_payload, idempotency_key=idempotency_key)
+    body = dict(payload.input_payload or {})
+    if payload.engine:
+        body["engine"] = payload.engine
+    return start_run(workflow_id, current_user, body, idempotency_key=idempotency_key)
