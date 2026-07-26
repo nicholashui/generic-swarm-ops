@@ -1,4 +1,5 @@
 """SQLAlchemy engine/session helpers for Postgres (backend/.env DATABASE_URL)."""
+
 from __future__ import annotations
 
 from functools import lru_cache
@@ -15,6 +16,7 @@ def get_engine():
 
     return create_engine(
         settings.sync_database_url,
+        connect_args={"connect_timeout": settings.database_connect_timeout_sec},
         pool_size=settings.database_pool_size,
         max_overflow=settings.database_max_overflow,
         pool_pre_ping=settings.database_pool_pre_ping,
@@ -29,7 +31,9 @@ def get_session():
         return None
     from sqlalchemy.orm import sessionmaker
 
-    SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, future=True)
+    SessionLocal = sessionmaker(
+        bind=engine, autoflush=False, autocommit=False, future=True
+    )
     return SessionLocal()
 
 

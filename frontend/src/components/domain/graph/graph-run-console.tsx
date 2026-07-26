@@ -20,7 +20,9 @@ type StreamEvent = {
 export function GraphRunConsole({ runId }: { runId: string }) {
   const [run, setRun] = useState<Record<string, unknown> | null>(null);
   const [events, setEvents] = useState<StreamEvent[]>([]);
-  const [trajectory, setTrajectory] = useState<Record<string, unknown> | null>(null);
+  const [trajectory, setTrajectory] = useState<Record<string, unknown> | null>(
+    null,
+  );
   const [error, setError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
@@ -29,14 +31,18 @@ export function GraphRunConsole({ runId }: { runId: string }) {
       return;
     }
     try {
-      const r = (await backendApi.getWorkflowRun(runId)) as Record<string, unknown>;
-      setRun(r);
-      const gs = (await backendApi.getWorkflowRunGraphState(runId).catch(() => null)) as Record<
+      const r = (await backendApi.getWorkflowRun(runId)) as Record<
         string,
         unknown
-      > | null;
-      if (gs?.trajectory) setTrajectory(gs.trajectory as Record<string, unknown>);
-      else if (r.trajectory) setTrajectory(r.trajectory as Record<string, unknown>);
+      >;
+      setRun(r);
+      const gs = (await backendApi
+        .getWorkflowRunGraphState(runId)
+        .catch(() => null)) as Record<string, unknown> | null;
+      if (gs?.trajectory)
+        setTrajectory(gs.trajectory as Record<string, unknown>);
+      else if (r.trajectory)
+        setTrajectory(r.trajectory as Record<string, unknown>);
       try {
         const traj = (await backendApi.getWorkflowRunTrajectory(runId)) as {
           trajectory?: Record<string, unknown>;
@@ -52,9 +58,12 @@ export function GraphRunConsole({ runId }: { runId: string }) {
   }, [runId]);
 
   useEffect(() => {
-    void refresh();
-    const t = setInterval(() => void refresh(), 3000);
-    return () => clearInterval(t);
+    const initialRefresh = window.setTimeout(() => void refresh(), 0);
+    const t = window.setInterval(() => void refresh(), 3000);
+    return () => {
+      window.clearTimeout(initialRefresh);
+      window.clearInterval(t);
+    };
   }, [refresh]);
 
   useEffect(() => {
@@ -77,7 +86,11 @@ export function GraphRunConsole({ runId }: { runId: string }) {
               id: `m${i}`,
               type: String(m.role || "message"),
               message: String(m.content || m.to || JSON.stringify(m)),
-              nodeId: m.step_id ? String(m.step_id) : m.to ? String(m.to) : undefined,
+              nodeId: m.step_id
+                ? String(m.step_id)
+                : m.to
+                  ? String(m.to)
+                  : undefined,
             })),
           );
         } else if (gs?.current_step_id) {
@@ -106,28 +119,52 @@ export function GraphRunConsole({ runId }: { runId: string }) {
   const engine = String(run?.engine || "…");
   const pattern = String(run?.orchestration_pattern || "…");
   const workflowId = run?.workflow_id ? String(run.workflow_id) : undefined;
+  const latestEvent = events[events.length - 1];
+  const latestAnnouncement = latestEvent
+    ? `${latestEvent.type || latestEvent.event || "Graph event"}${
+        latestEvent.nodeId || latestEvent.step_id
+          ? ` · ${latestEvent.nodeId || latestEvent.step_id}`
+          : ""
+      }${latestEvent.message ? ` — ${latestEvent.message}` : ""}`
+    : "No stream events yet.";
 
   return (
     <div className="space-y-4">
       <RunWaitingBanner runId={runId} />
       <div className="grid gap-3 rounded-[24px] border border-white/10 bg-white/5 p-5 sm:grid-cols-4">
         <div>
-          <p className="text-[10px] uppercase tracking-widest text-muted">Status</p>
-          <p className="mt-1 text-sm font-semibold text-white">{status}</p>
+          <p className="text-[10px] uppercase tracking-widest text-muted">
+            Status
+          </p>
+          <p
+            className="mt-1 text-sm font-semibold text-white"
+            aria-live="polite"
+          >
+            {status}
+          </p>
         </div>
         <div>
-          <p className="text-[10px] uppercase tracking-widest text-muted">Engine</p>
+          <p className="text-[10px] uppercase tracking-widest text-muted">
+            Engine
+          </p>
           <p className="mt-1 text-sm font-semibold text-white">{engine}</p>
         </div>
         <div>
-          <p className="text-[10px] uppercase tracking-widest text-muted">Pattern</p>
+          <p className="text-[10px] uppercase tracking-widest text-muted">
+            Pattern
+          </p>
           <p className="mt-1 text-sm font-semibold text-white">{pattern}</p>
         </div>
         <div>
-          <p className="text-[10px] uppercase tracking-widest text-muted">Workflow</p>
+          <p className="text-[10px] uppercase tracking-widest text-muted">
+            Workflow
+          </p>
           <p className="mt-1 text-sm font-semibold text-white">
             {workflowId ? (
-              <Link className="underline underline-offset-2" href={`/app/workflows/${workflowId}`}>
+              <Link
+                className="underline underline-offset-2"
+                href={`/app/workflows/${workflowId}`}
+              >
                 {workflowId}
               </Link>
             ) : (
@@ -140,20 +177,34 @@ export function GraphRunConsole({ runId }: { runId: string }) {
       <GraphTopologyPanel workflowId={workflowId} runId={runId} />
       {trajectory ? (
         <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
-          <p className="text-sm font-semibold text-white">Trajectory score</p>
+          <h2 className="text-sm font-semibold text-white">Trajectory score</h2>
           <pre className="mt-3 overflow-x-auto rounded-xl bg-black/30 p-3 text-[11px] text-[var(--accent-2)]">
             {JSON.stringify(trajectory, null, 2)}
           </pre>
         </div>
       ) : null}
       <div className="rounded-[24px] border border-white/10 bg-white/5 p-5">
-        <p className="text-sm font-semibold text-white">Graph events</p>
-        <ul className="mt-3 max-h-64 space-y-2 overflow-y-auto text-xs text-muted">
+        <h2
+          id="graph-events-heading"
+          className="text-sm font-semibold text-white"
+        >
+          Graph events
+        </h2>
+        <p className="sr-only" aria-live="polite" aria-atomic="true">
+          {latestAnnouncement}
+        </p>
+        <ul
+          className="mt-3 max-h-64 space-y-2 overflow-y-auto text-xs text-muted"
+          aria-labelledby="graph-events-heading"
+        >
           {events.length === 0 ? (
             <li>No stream events yet.</li>
           ) : (
             events.map((e, i) => (
-              <li key={e.id || i} className="rounded-lg border border-white/5 bg-black/20 px-2 py-1.5">
+              <li
+                key={e.id || i}
+                className="rounded-lg border border-white/5 bg-black/20 px-2 py-1.5"
+              >
                 <span className="text-white/90">{e.type || e.event}</span>
                 {e.nodeId || e.step_id ? ` · ${e.nodeId || e.step_id}` : ""}
                 {e.message ? ` — ${e.message}` : ""}

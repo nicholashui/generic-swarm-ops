@@ -10,18 +10,11 @@ import { AppError } from "@/lib/errors/app-error";
 const TOKEN_COOKIE = ACCESS_TOKEN_COOKIE;
 let accessToken: string | null = null;
 
-function readBrowserCookie(name: string): string | null {
-  if (typeof document === "undefined") return null;
-  const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
-  if (!match) return null;
-  try {
-    return decodeURIComponent(match[1]);
-  } catch {
-    return match[1];
-  }
-}
-
-function writeBrowserCookie(name: string, value: string | null, httpOnlyNote = false) {
+function writeBrowserCookie(
+  name: string,
+  value: string | null,
+  httpOnlyNote = false,
+) {
   // Browser JS cannot set httpOnly; only used for non-secret session display cookie.
   if (typeof document === "undefined" || httpOnlyNote) return;
   if (value) {
@@ -97,13 +90,19 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   if (token) headers.Authorization = `Bearer ${token}`;
 
   const base = resolveApiBaseUrl().replace(/\/$/, "");
-  const response = await fetch(`${base}${path.startsWith("/") ? path : `/${path}`}`, {
-    credentials: "same-origin",
-    cache: "no-store",
-    ...options,
-    headers,
-  });
-  const headerRequestId = response.headers.get("X-Request-ID") || response.headers.get("x-request-id") || undefined;
+  const response = await fetch(
+    `${base}${path.startsWith("/") ? path : `/${path}`}`,
+    {
+      credentials: "same-origin",
+      cache: "no-store",
+      ...options,
+      headers,
+    },
+  );
+  const headerRequestId =
+    response.headers.get("X-Request-ID") ||
+    response.headers.get("x-request-id") ||
+    undefined;
   if (!response.ok) {
     const payload = (await response.json().catch(() => ({
       error: { message: response.statusText, code: "unknown" },
@@ -117,11 +116,18 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
     const requestId = headerRequestId || bodyRequestId;
     let message = payload.error?.message || response.statusText;
     if (!payload.error?.message && Array.isArray(payload.detail)) {
-      message = payload.detail.map((d) => d.msg || "validation error").join("; ");
+      message = payload.detail
+        .map((d) => d.msg || "validation error")
+        .join("; ");
     } else if (!payload.error?.message && typeof payload.detail === "string") {
       message = payload.detail;
     }
-    throw new AppError(message || response.statusText, response.status, requestId, payload.error?.code);
+    throw new AppError(
+      message || response.statusText,
+      response.status,
+      requestId,
+      payload.error?.code,
+    );
   }
   return response.json() as Promise<T>;
 }
@@ -141,7 +147,11 @@ export async function logoutViaBff(): Promise<void> {
 
 export const backendApi = {
   login: (email: string, password: string) =>
-    request<{ access_token: string; refresh_token?: string; user: Record<string, unknown> }>("/auth/login", {
+    request<{
+      access_token: string;
+      refresh_token?: string;
+      user: Record<string, unknown>;
+    }>("/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     }),
@@ -169,18 +179,35 @@ export const backendApi = {
   listAuditLogs: () => request("/audit-logs"),
   listApiKeys: () => request("/auth/api-keys"),
   listUsers: () => request("/users"),
-  updateUser: (userId: string, payload: { name?: string; role?: string; department?: string; status?: string }) =>
+  updateUser: (
+    userId: string,
+    payload: {
+      name?: string;
+      role?: string;
+      department?: string;
+      status?: string;
+    },
+  ) =>
     request(`/users/${encodeURIComponent(userId)}`, {
       method: "PATCH",
       body: JSON.stringify(payload),
     }),
   listInvitations: () => request("/users/invitations"),
-  createInvitation: (payload: { email: string; name?: string; role?: string; department?: string }) =>
+  createInvitation: (payload: {
+    email: string;
+    name?: string;
+    role?: string;
+    department?: string;
+  }) =>
     request("/users/invitations", {
       method: "POST",
       body: JSON.stringify(payload),
     }),
-  acceptInvitation: (payload: { token: string; password: string; name?: string }) =>
+  acceptInvitation: (payload: {
+    token: string;
+    password: string;
+    name?: string;
+  }) =>
     request<{
       access_token?: string;
       refresh_token?: string;
@@ -193,17 +220,28 @@ export const backendApi = {
   listOrganizations: () => request("/organizations"),
   getOrganization: (organizationId: string) =>
     request(`/organizations/${encodeURIComponent(organizationId)}`),
-  updateOrganization: (organizationId: string, payload: { name?: string; slug?: string; status?: string }) =>
+  updateOrganization: (
+    organizationId: string,
+    payload: { name?: string; slug?: string; status?: string },
+  ) =>
     request(`/organizations/${encodeURIComponent(organizationId)}`, {
       method: "PATCH",
       body: JSON.stringify(payload),
     }),
-  decideApproval: (approvalId: string, decision: "approved" | "rejected", reason?: string) =>
+  decideApproval: (
+    approvalId: string,
+    decision: "approved" | "rejected",
+    reason?: string,
+  ) =>
     request(`/approvals/${approvalId}/decision`, {
       method: "POST",
       body: JSON.stringify({ decision, reason: reason || decision }),
     }),
-  startWorkflowRun: (workflowId: string, payload: Record<string, unknown> = {}, engine?: string) =>
+  startWorkflowRun: (
+    workflowId: string,
+    payload: Record<string, unknown> = {},
+    engine?: string,
+  ) =>
     request(`/workflows/${workflowId}/run`, {
       method: "POST",
       body: JSON.stringify({
@@ -252,9 +290,15 @@ export const backendApi = {
   retryWorkflowRun: (runId: string) =>
     request(`/workflow-runs/${runId}/retry`, { method: "POST", body: "{}" }),
   pauseWorkflowRun: (runId: string) =>
-    request(`/workflow-runs/${encodeURIComponent(runId)}/pause`, { method: "POST", body: "{}" }),
+    request(`/workflow-runs/${encodeURIComponent(runId)}/pause`, {
+      method: "POST",
+      body: "{}",
+    }),
   resumeWorkflowRun: (runId: string) =>
-    request(`/workflow-runs/${encodeURIComponent(runId)}/resume`, { method: "POST", body: "{}" }),
+    request(`/workflow-runs/${encodeURIComponent(runId)}/resume`, {
+      method: "POST",
+      body: "{}",
+    }),
   expireWorkflowRun: (runId: string, reason?: string) =>
     request(`/workflow-runs/${encodeURIComponent(runId)}/expire`, {
       method: "POST",
@@ -264,22 +308,36 @@ export const backendApi = {
   searchKnowledge: (query: string) =>
     request(`/knowledge/search?query=${encodeURIComponent(query)}`),
   reflectRun: (runId: string) =>
-    request(`/improvement/reflect/${encodeURIComponent(runId)}`, { method: "POST", body: "{}" }),
+    request(`/improvement/reflect/${encodeURIComponent(runId)}`, {
+      method: "POST",
+      body: "{}",
+    }),
   listImprovementLessons: (workflowId?: string) =>
-    request(`/improvement/lessons${workflowId ? `?workflow_id=${encodeURIComponent(workflowId)}` : ""}`),
+    request(
+      `/improvement/lessons${workflowId ? `?workflow_id=${encodeURIComponent(workflowId)}` : ""}`,
+    ),
   autoProposeImprovement: (payload: { workflow_id: string; run_id?: string }) =>
-    request("/improvement/auto-propose", { method: "POST", body: JSON.stringify(payload) }),
+    request("/improvement/auto-propose", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
   evolutionArchive: () => request("/evolution/archive"),
   listEvolutionVariants: () => request("/evolution/variants"),
   evaluateVariant: (variantId: string) =>
-    request(`/evolution/variants/${encodeURIComponent(variantId)}/evaluate`, { method: "POST", body: "{}" }),
+    request(`/evolution/variants/${encodeURIComponent(variantId)}/evaluate`, {
+      method: "POST",
+      body: "{}",
+    }),
   promoteVariant: (variantId: string, mode: "canary" | "promote" = "canary") =>
     request(`/evolution/variants/${encodeURIComponent(variantId)}/promote`, {
       method: "POST",
       body: JSON.stringify({ mode }),
     }),
   runCoevolution: (payload: Record<string, unknown> = {}) =>
-    request("/evolution/coevolution/run", { method: "POST", body: JSON.stringify(payload) }),
+    request("/evolution/coevolution/run", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
   governanceReview: () => request("/evolution/governance/review"),
   lessonUtilityDashboard: (agentId?: string, limit = 20) => {
     const params = new URLSearchParams();
@@ -307,7 +365,10 @@ export const backendApi = {
       body: JSON.stringify({ push_neo4j: pushNeo4j }),
     }),
   proposeSkill: (payload: Record<string, unknown>) =>
-    request("/improvement/skills/propose", { method: "POST", body: JSON.stringify(payload) }),
+    request("/improvement/skills/propose", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
   listSkillProposals: () => request("/improvement/skills"),
   startImprovementLoop: (payload: Record<string, unknown>) =>
     request("/loops/run", { method: "POST", body: JSON.stringify(payload) }),

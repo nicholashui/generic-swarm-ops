@@ -31,7 +31,9 @@ def _cors_origins_from_env() -> list[str]:
     ]
     if not raw or raw == "*":
         return dev_defaults
-    origins = [part.strip() for part in raw.split(",") if part.strip() and part.strip() != "*"]
+    origins = [
+        part.strip() for part in raw.split(",") if part.strip() and part.strip() != "*"
+    ]
     return origins or dev_defaults
 
 
@@ -44,7 +46,11 @@ def sync_database_url(url: str | None) -> str | None:
         return "postgresql+psycopg://" + url[len("postgresql+asyncpg://") :]
     if url.startswith("postgres://"):
         return "postgresql+psycopg://" + url[len("postgres://") :]
-    if url.startswith("postgresql://") and "+psycopg" not in url and "+asyncpg" not in url:
+    if (
+        url.startswith("postgresql://")
+        and "+psycopg" not in url
+        and "+asyncpg" not in url
+    ):
         return "postgresql+psycopg://" + url[len("postgresql://") :]
     return url
 
@@ -59,8 +65,12 @@ class Settings:
     cors_allowed_origins: list[str] = field(
         default_factory=lambda: _cors_origins_from_env()
     )
-    rate_limit_enabled: bool = os.getenv("GENERIC_SWARM_RATE_LIMIT_ENABLED", "true").lower() == "true"
-    auth_rate_limit_per_minute: int = int(os.getenv("GENERIC_SWARM_AUTH_RATE_LIMIT_PER_MINUTE", "12"))
+    rate_limit_enabled: bool = (
+        os.getenv("GENERIC_SWARM_RATE_LIMIT_ENABLED", "true").lower() == "true"
+    )
+    auth_rate_limit_per_minute: int = int(
+        os.getenv("GENERIC_SWARM_AUTH_RATE_LIMIT_PER_MINUTE", "12")
+    )
     workflow_write_rate_limit_per_minute: int = int(
         os.getenv("GENERIC_SWARM_WORKFLOW_WRITE_RATE_LIMIT_PER_MINUTE", "30")
     )
@@ -68,28 +78,60 @@ class Settings:
     database_url: str | None = field(default_factory=lambda: os.getenv("DATABASE_URL"))
     database_pool_size: int = int(os.getenv("DATABASE_POOL_SIZE", "5"))
     database_max_overflow: int = int(os.getenv("DATABASE_MAX_OVERFLOW", "5"))
-    database_pool_pre_ping: bool = os.getenv("DATABASE_POOL_PRE_PING", "true").lower() == "true"
+    database_pool_pre_ping: bool = (
+        os.getenv("DATABASE_POOL_PRE_PING", "true").lower() == "true"
+    )
+    database_connect_timeout_sec: int = max(
+        1, int(os.getenv("DATABASE_CONNECT_TIMEOUT_SEC", "5"))
+    )
+    database_retry_interval_sec: int = max(
+        1, int(os.getenv("DATABASE_RETRY_INTERVAL_SEC", "30"))
+    )
     # Force JSON file store even if DATABASE_URL is set (tests / offline)
-    force_json_store: bool = os.getenv("GENERIC_SWARM_FORCE_JSON_STORE", "false").lower() == "true"
+    force_json_store: bool = (
+        os.getenv("GENERIC_SWARM_FORCE_JSON_STORE", "false").lower() == "true"
+    )
     # Self-improvement
-    auto_reflect: bool = os.getenv("GENERIC_SWARM_AUTO_REFLECT", "true").lower() == "true"
+    auto_reflect: bool = (
+        os.getenv("GENERIC_SWARM_AUTO_REFLECT", "true").lower() == "true"
+    )
     # Optional LLM critic (HTTP OpenAI-compatible chat completions). Empty = rule-based only.
-    llm_critic_enabled: bool = os.getenv("GENERIC_SWARM_LLM_CRITIC_ENABLED", "false").lower() == "true"
-    llm_api_base: str | None = field(default_factory=lambda: os.getenv("GENERIC_SWARM_LLM_API_BASE") or os.getenv("OPENAI_API_BASE"))
-    llm_api_key: str | None = field(default_factory=lambda: os.getenv("GENERIC_SWARM_LLM_API_KEY") or os.getenv("OPENAI_API_KEY"))
+    llm_critic_enabled: bool = (
+        os.getenv("GENERIC_SWARM_LLM_CRITIC_ENABLED", "false").lower() == "true"
+    )
+    llm_api_base: str | None = field(
+        default_factory=lambda: os.getenv("GENERIC_SWARM_LLM_API_BASE")
+        or os.getenv("OPENAI_API_BASE")
+    )
+    llm_api_key: str | None = field(
+        default_factory=lambda: os.getenv("GENERIC_SWARM_LLM_API_KEY")
+        or os.getenv("OPENAI_API_KEY")
+    )
     llm_model: str = os.getenv("GENERIC_SWARM_LLM_MODEL", "gpt-4o-mini")
     # Embeddings / pgvector
-    embeddings_enabled: bool = os.getenv("GENERIC_SWARM_EMBEDDINGS_ENABLED", "true").lower() == "true"
-    pgvector_enabled: bool = os.getenv("GENERIC_SWARM_PGVECTOR_ENABLED", "false").lower() == "true"
+    embeddings_enabled: bool = (
+        os.getenv("GENERIC_SWARM_EMBEDDINGS_ENABLED", "true").lower() == "true"
+    )
+    pgvector_enabled: bool = (
+        os.getenv("GENERIC_SWARM_PGVECTOR_ENABLED", "false").lower() == "true"
+    )
     # Neo4j federation (optional export / bolt)
     neo4j_uri: str | None = field(default_factory=lambda: os.getenv("NEO4J_URI"))
     neo4j_user: str | None = field(default_factory=lambda: os.getenv("NEO4J_USER"))
-    neo4j_password: str | None = field(default_factory=lambda: os.getenv("NEO4J_PASSWORD"))
+    neo4j_password: str | None = field(
+        default_factory=lambda: os.getenv("NEO4J_PASSWORD")
+    )
     # LangGraph orchestration (structure.md §4 dual-engine)
     # LG-17: default to langgraph for multi-agent orchestration; override with legacy for rollback
-    engine_default: str = os.getenv("GENERIC_SWARM_ENGINE_DEFAULT", "langgraph").strip().lower()
-    langgraph_enabled: bool = os.getenv("GENERIC_SWARM_LANGGRAPH_ENABLED", "true").lower() == "true"
-    lg_checkpoint: str = os.getenv("GENERIC_SWARM_LG_CHECKPOINT", "memory").strip().lower()
+    engine_default: str = (
+        os.getenv("GENERIC_SWARM_ENGINE_DEFAULT", "langgraph").strip().lower()
+    )
+    langgraph_enabled: bool = (
+        os.getenv("GENERIC_SWARM_LANGGRAPH_ENABLED", "true").lower() == "true"
+    )
+    lg_checkpoint: str = (
+        os.getenv("GENERIC_SWARM_LG_CHECKPOINT", "memory").strip().lower()
+    )
     lg_max_nodes: int = int(os.getenv("GENERIC_SWARM_LG_MAX_NODES", "200"))
     lg_max_handoffs: int = int(os.getenv("GENERIC_SWARM_LG_MAX_HANDOFFS", "32"))
 

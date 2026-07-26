@@ -16,7 +16,13 @@ from app.infrastructure.governance.structure_validators import (
 ROOT = Path(__file__).resolve().parents[4]
 FIXTURES = ROOT / "business" / "fixtures" / "negative"
 EXAMPLES = ROOT / "business" / "examples"
-PUBLISH_DRC = ROOT / "business" / "experts" / "decision-requirement-cards" / "drc_contract_exception_001.json"
+PUBLISH_DRC = (
+    ROOT
+    / "business"
+    / "experts"
+    / "decision-requirement-cards"
+    / "drc_contract_exception_001.json"
+)
 
 
 def _load(path: Path) -> dict:
@@ -72,7 +78,13 @@ class StructureSddValidatorsTest(unittest.TestCase):
         self.assertIn("Evolution Manager", text)
 
     def test_runtime_tier_policy_exists(self) -> None:
-        path = ROOT / "business" / "governance" / "use-case-risk-tiering" / "runtime-tier-policy.json"
+        path = (
+            ROOT
+            / "business"
+            / "governance"
+            / "use-case-risk-tiering"
+            / "runtime-tier-policy.json"
+        )
         data = _load(path)
         self.assertEqual(len(data.get("tiers") or []), 6)
         self.assertIn("drc_binding", data)
@@ -104,7 +116,10 @@ class StructureSddValidatorsTest(unittest.TestCase):
             "status": "draft",
             "rollback": {"reversible": False, "rollback_steps": []},
             "verification": {"required_checks": ["x"]},
-            "guardrails": {"human_approval_required_if": ["never"], "forbidden_actions": ["x"]},
+            "guardrails": {
+                "human_approval_required_if": ["never"],
+                "forbidden_actions": ["x"],
+            },
             "fitness_metrics": ["error_rate"],
             "audit_log_write_required": True,
             "production_ready": False,
@@ -117,28 +132,66 @@ class StructureSddValidatorsTest(unittest.TestCase):
             runtime.activate_workflow_version(user, wf_id, created["version"])
 
     def test_rejection_records_lesson(self) -> None:
-        from app.runtime import runtime
+        import uuid
+        from tempfile import TemporaryDirectory
 
-        token = runtime.issue_token("admin@example.com", "admin-password")
-        user = runtime.authenticate(token["access_token"])
-        self.assertTrue(hasattr(runtime, "_record_rejection_lesson"))
-        run = runtime.start_workflow_run(
-            "wf_customer_onboarding_v12",
-            user,
-            {
-                "case_id": "reject_lesson_case",
-                "signed_contract": "c.pdf",
-                "customer_profile": {"company": "Acme"},
-                "billing_details": {"plan": "standard"},
-            },
+        from app.core.config import settings
+        from app.runtime import AuthenticatedUser, RuntimeServices, RuntimeStore
+
+        reviewer = AuthenticatedUser(
+            id="user_reviewer",
+            organization_id="org_default",
+            email="reviewer@example.com",
+            name="Reviewer",
+            role="reviewer",
         )
-        approval_id = run.get("approval_request_id")
-        if run.get("status") == "awaiting_approval" and approval_id:
-            rev = runtime.issue_token("reviewer@example.com", "reviewer-password")
-            reviewer = runtime.authenticate(rev["access_token"])
-            runtime.decide_approval(approval_id, "rejected", "test reject for lesson", reviewer)
-            lessons = runtime.store.data.get("improvement_lessons") or []
-            self.assertTrue(any(l.get("source") == "approval.rejected" for l in lessons), lessons)
+        run_id = f"run_rejection_lesson_{uuid.uuid4().hex[:8]}"
+        approval_id = f"approval_rejection_lesson_{uuid.uuid4().hex[:8]}"
+        lesson_id = f"lesson_reject_{approval_id}"
+        prior_force_json = settings.force_json_store
+
+        try:
+            settings.force_json_store = True
+            with TemporaryDirectory() as temp_dir:
+                store = RuntimeStore(Path(temp_dir) / "runtime.json")
+                service = RuntimeServices.__new__(RuntimeServices)
+                service.store = store
+                store.collection("workflow_runs").append(
+                    {
+                        "id": run_id,
+                        "organization_id": reviewer.organization_id,
+                        "workflow_id": "wf_customer_onboarding_v12",
+                    }
+                )
+                store.collection("approvals").append(
+                    {
+                        "id": approval_id,
+                        "organization_id": reviewer.organization_id,
+                        "run_id": run_id,
+                        "step_id": "verify_contract",
+                        "status": "pending",
+                    }
+                )
+
+                decision = service.decide_approval(
+                    approval_id,
+                    "rejected",
+                    "test reject for lesson",
+                    reviewer,
+                )
+                self.assertEqual(decision["status"], "rejected")
+                reloaded = RuntimeStore(store.data_file)
+                lessons = reloaded.state.get("improvement_lessons") or []
+                self.assertTrue(
+                    any(
+                        lesson.get("id") == lesson_id
+                        and lesson.get("source") == "approval.rejected"
+                        for lesson in lessons
+                    ),
+                    lessons,
+                )
+        finally:
+            settings.force_json_store = prior_force_json
 
 
 if __name__ == "__main__":

@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { backendApi } from "@/lib/api/client";
 import { cachedFetch } from "@/lib/api/client-cache";
@@ -44,8 +43,10 @@ async function fetchSkills(): Promise<SpecialSkillsResponse> {
   if (env.demoMode) {
     return DEMO_SKILLS;
   }
-  return cachedFetch("domains:video:special-skills", async () =>
-    (await backendApi.videoSpecialSkills()) as SpecialSkillsResponse,
+  return cachedFetch(
+    "domains:video:special-skills",
+    async () =>
+      (await backendApi.videoSpecialSkills()) as SpecialSkillsResponse,
   );
 }
 
@@ -96,23 +97,33 @@ export function SpecialSkillsPanel() {
     <div className="space-y-4" data-testid="special-skills-panel">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent)]">
+          <h2 className="text-xs uppercase tracking-[0.24em] text-[var(--accent)]">
             Special skills
-          </p>
+          </h2>
           <p className="mt-1 text-sm text-muted">
             Pack integrations from{" "}
-            <code className="text-xs text-white/80">business/video/special_skills/</code>
+            <code className="text-xs text-white/80">
+              business/video/special_skills/
+            </code>
             {" — "}
             catalog visibility only (not live media execution).
           </p>
         </div>
         <div className="flex items-center gap-2">
           <StatusBadge status={count >= 17 ? "completed" : "pending"} />
-          <span className="text-sm text-white" data-testid="special-skills-count">
+          <span
+            className="text-sm text-white"
+            data-testid="special-skills-count"
+            aria-live="polite"
+          >
             {loading ? "…" : `${count} skills`}
           </span>
           {!env.demoMode ? (
-            <Button type="button" variant="secondary" onClick={() => void load()}>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => void load()}
+            >
               Refresh
             </Button>
           ) : null}
@@ -126,7 +137,10 @@ export function SpecialSkillsPanel() {
       ) : null}
 
       <div className="overflow-x-auto rounded-md border border-white/10">
-        <table className="min-w-full text-left text-sm" data-testid="special-skills-table">
+        <table
+          className="min-w-full text-left text-sm"
+          data-testid="special-skills-table"
+        >
           <thead className="bg-white/[0.04] text-xs uppercase tracking-wide text-muted">
             <tr>
               <th className="px-3 py-2">skill_id</th>

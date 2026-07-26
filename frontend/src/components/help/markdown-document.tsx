@@ -4,7 +4,10 @@ import { useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import type { Components } from "react-markdown";
-import { htmlImgTagsToMarkdown, resolveMarkdownAssetUrl } from "@/lib/help/resolve-doc-paths";
+import {
+  htmlImgTagsToMarkdown,
+  resolveMarkdownAssetUrl,
+} from "@/lib/help/resolve-doc-paths";
 import { useMarkdown } from "@/lib/help/use-markdown";
 import { cn } from "@/lib/utils";
 
@@ -24,8 +27,8 @@ function buildComponents(markdownPath: string | null): Components {
         typeof src === "string" && markdownPath
           ? resolveMarkdownAssetUrl(src, markdownPath)
           : src;
-      // eslint-disable-next-line @next/next/no-img-element
       return (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           {...rest}
           src={typeof resolved === "string" ? resolved : undefined}
@@ -49,7 +52,13 @@ function buildComponents(markdownPath: string | null): Components {
       const isBlock = Boolean(className);
       if (isBlock) {
         return (
-          <code className={cn("font-[var(--font-mono)] text-xs text-[var(--accent-2)]", className)} {...rest}>
+          <code
+            className={cn(
+              "font-[var(--font-mono)] text-xs text-[var(--accent-2)]",
+              className,
+            )}
+            {...rest}
+          >
             {children}
           </code>
         );
@@ -79,7 +88,10 @@ function buildComponents(markdownPath: string | null): Components {
       </div>
     ),
     th: ({ children, ...rest }) => (
-      <th className="border border-white/15 bg-white/5 px-3 py-2 font-semibold" {...rest}>
+      <th
+        className="border border-white/15 bg-white/5 px-3 py-2 font-semibold"
+        {...rest}
+      >
         {children}
       </th>
     ),
@@ -117,12 +129,18 @@ function buildComponents(markdownPath: string | null): Components {
       </p>
     ),
     ul: ({ children, ...rest }) => (
-      <ul className="my-2 list-disc space-y-1 pl-5 text-[var(--foreground)]" {...rest}>
+      <ul
+        className="my-2 list-disc space-y-1 pl-5 text-[var(--foreground)]"
+        {...rest}
+      >
         {children}
       </ul>
     ),
     ol: ({ children, ...rest }) => (
-      <ol className="my-2 list-decimal space-y-1 pl-5 text-[var(--foreground)]" {...rest}>
+      <ol
+        className="my-2 list-decimal space-y-1 pl-5 text-[var(--foreground)]"
+        {...rest}
+      >
         {children}
       </ol>
     ),
@@ -157,7 +175,10 @@ export function MarkdownDocument({
 
   if (state.status === "loading") {
     return (
-      <div className={cn("p-4 text-sm text-muted", className)} data-testid="help-md-loading">
+      <div
+        className={cn("p-4 text-sm text-muted", className)}
+        data-testid="help-md-loading"
+      >
         Loading document…
       </div>
     );
@@ -165,11 +186,19 @@ export function MarkdownDocument({
 
   if (state.status === "error") {
     return (
-      <div className={cn("space-y-2 p-4 text-sm", className)} data-testid="help-md-error" role="alert">
-        <p className="font-medium text-[var(--danger)]">Could not load document</p>
+      <div
+        className={cn("space-y-2 p-4 text-sm", className)}
+        data-testid="help-md-error"
+        role="alert"
+      >
+        <p className="font-medium text-[var(--danger)]">
+          Could not load document
+        </p>
         <p className="text-muted">{state.error}</p>
         {candidates[0] ? (
-          <p className="font-[var(--font-mono)] text-xs text-muted">Tried: {candidates.join(" → ")}</p>
+          <p className="font-[var(--font-mono)] text-xs text-muted">
+            Tried: {candidates.join(" → ")}
+          </p>
         ) : null}
       </div>
     );
@@ -178,14 +207,20 @@ export function MarkdownDocument({
   // ready
   if (!state.markdown) {
     return (
-      <div className={cn("p-4 text-sm text-muted", className)} data-testid="help-md-empty">
+      <div
+        className={cn("p-4 text-sm text-muted", className)}
+        data-testid="help-md-empty"
+      >
         {emptyMessage}
       </div>
     );
   }
 
   return (
-    <div className={cn("help-markdown p-4 text-sm", className)} data-testid="help-md-ready">
+    <div
+      className={cn("help-markdown p-4 text-sm", className)}
+      data-testid="help-md-ready"
+    >
       {state.resolvedPath ? (
         <p className="mb-3 font-[var(--font-mono)] text-[10px] uppercase tracking-wider text-muted">
           {state.resolvedPath}

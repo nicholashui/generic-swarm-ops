@@ -2,6 +2,7 @@
   "mcpServers": {
     "opendesign": {
       "command": "C:\\Users\\NH24831\\AppData\\Local\\Programs\\Open Design\\Open Design.exe",
+      "autoApprove": ["*"],
       "args": [
         "C:\\Users\\NH24831\\AppData\\Local\\Programs\\Open Design\\resources\\app\\prebundled\\daemon\\daemon-cli.mjs",
         "mcp"

@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import threading
+import time
 import uuid
 from contextvars import ContextVar
 from copy import deepcopy
@@ -58,7 +59,6 @@ def sanitize_legacy_product_names_inplace(value: Any) -> None:
                 value[key] = _sanitize_product_name_str(item)
             else:
                 sanitize_legacy_product_names_inplace(item)
-
 
 
 def parse_dt(value: str | None) -> datetime | None:
@@ -266,9 +266,11 @@ class RuntimeStore:
         from app.core.config import settings as app_settings
 
         self.data_file = data_file
+        self.pending_file = data_file.with_name(f"{data_file.name}.pending")
         self.lock = threading.RLock()
         self.settings = app_settings
         self.backend = "json-file"
+        self._postgres_retry_at = 0.0
         self.state = self._load()
 
     def _ensure_postgres_schema(self, conn) -> None:
@@ -286,6 +288,18 @@ class RuntimeStore:
             )
         )
 
+    def _mark_pending_snapshot(self) -> None:
+        try:
+            self.pending_file.write_text("pending\n", encoding="utf-8")
+        except OSError:
+            pass
+
+    def _clear_pending_snapshot(self) -> None:
+        try:
+            self.pending_file.unlink(missing_ok=True)
+        except OSError:
+            pass
+
     def _load_from_postgres(self) -> dict[str, Any] | None:
         from sqlalchemy import text
 
@@ -294,34 +308,63 @@ class RuntimeStore:
         engine = get_engine()
         if engine is None:
             return None
+        pending_payload: dict[str, Any] | None = None
+        if self.pending_file.exists() and self.data_file.exists():
+            try:
+                loaded = json.loads(self.data_file.read_text(encoding="utf-8"))
+                if isinstance(loaded, dict):
+                    pending_payload = loaded
+            except (OSError, json.JSONDecodeError):
+                pending_payload = None
+        should_clear_pending = False
         try:
             with engine.begin() as conn:
                 self._ensure_postgres_schema(conn)
-                row = conn.execute(text("SELECT payload FROM runtime_state WHERE id = 1")).first()
+                row = conn.execute(
+                    text("SELECT payload FROM runtime_state WHERE id = 1")
+                ).first()
                 if row and row[0] is not None:
                     payload = row[0]
                     if isinstance(payload, str):
-                        return json.loads(payload)
-                    if isinstance(payload, dict):
-                        return payload
-                    return dict(payload)
-                # Seed from existing JSON file if present (one-time migrate into Postgres)
-                if self.data_file.exists():
-                    payload = json.loads(self.data_file.read_text(encoding="utf-8"))
+                        payload = json.loads(payload)
+                    elif isinstance(payload, dict):
+                        payload = payload
+                    else:
+                        payload = dict(payload)
+                    if pending_payload is not None:
+                        conn.execute(
+                            text(
+                                """
+                                UPDATE runtime_state
+                                SET payload = CAST(:payload AS jsonb), updated_at = NOW()
+                                WHERE id = 1
+                                """
+                            ),
+                            {"payload": json.dumps(pending_payload)},
+                        )
+                        payload = pending_payload
+                        should_clear_pending = True
                 else:
-                    payload = _empty_runtime_state()
-                conn.execute(
-                    text(
-                        """
-                        INSERT INTO runtime_state (id, payload, updated_at)
-                        VALUES (1, CAST(:payload AS jsonb), NOW())
-                        ON CONFLICT (id) DO UPDATE
-                        SET payload = EXCLUDED.payload, updated_at = NOW()
-                        """
-                    ),
-                    {"payload": json.dumps(payload)},
-                )
-                return payload
+                    # Seed from existing JSON file if present (one-time migrate into Postgres)
+                    if self.data_file.exists():
+                        payload = json.loads(self.data_file.read_text(encoding="utf-8"))
+                    else:
+                        payload = _empty_runtime_state()
+                    conn.execute(
+                        text(
+                            """
+                            INSERT INTO runtime_state (id, payload, updated_at)
+                            VALUES (1, CAST(:payload AS jsonb), NOW())
+                            ON CONFLICT (id) DO UPDATE
+                            SET payload = EXCLUDED.payload, updated_at = NOW()
+                            """
+                        ),
+                        {"payload": json.dumps(payload)},
+                    )
+                    should_clear_pending = True
+            if should_clear_pending:
+                self._clear_pending_snapshot()
+            return payload
         except Exception:
             # Fall back to JSON so local unit tests/dev still work if DB is down
             return None
@@ -358,13 +401,18 @@ class RuntimeStore:
             if payload is not None:
                 self.backend = "postgres"
                 return sanitize_legacy_product_names(payload)
+            self._postgres_retry_at = time.monotonic() + self.settings.database_retry_interval_sec
         # JSON fallback
         self.backend = "json-file"
         if self.data_file.exists():
-            return sanitize_legacy_product_names(json.loads(self.data_file.read_text(encoding="utf-8")))
+            return sanitize_legacy_product_names(
+                json.loads(self.data_file.read_text(encoding="utf-8"))
+            )
         default = _empty_runtime_state()
         self.data_file.parent.mkdir(parents=True, exist_ok=True)
-        self.data_file.write_text(json.dumps(default, indent=2) + "\n", encoding="utf-8")
+        self.data_file.write_text(
+            json.dumps(default, indent=2) + "\n", encoding="utf-8"
+        )
         return default
 
     def save(self) -> None:
@@ -372,14 +420,34 @@ class RuntimeStore:
             # In-place only — replacing self.state would break live collection() refs.
             sanitize_legacy_product_names_inplace(self.state)
             saved_pg = False
-            if self.settings.use_postgres:
+            should_try_pg = self.settings.use_postgres and (
+                self.backend == "postgres"
+                or (
+                    self.pending_file.exists()
+                    and time.monotonic() >= self._postgres_retry_at
+                )
+            )
+            if should_try_pg:
                 saved_pg = self._save_to_postgres()
                 if saved_pg:
                     self.backend = "postgres"
+                    self._postgres_retry_at = 0.0
+                else:
+                    self.backend = "json-file"
+                    self._postgres_retry_at = (
+                        time.monotonic() + self.settings.database_retry_interval_sec
+                    )
             # Always keep a JSON snapshot as offline backup / migrate source
             self.data_file.parent.mkdir(parents=True, exist_ok=True)
-            self.data_file.write_text(json.dumps(self.state, indent=2) + "\n", encoding="utf-8")
-            if not saved_pg and not self.settings.use_postgres:
+            self.data_file.write_text(
+                json.dumps(self.state, indent=2) + "\n", encoding="utf-8"
+            )
+            if self.settings.use_postgres:
+                if saved_pg:
+                    self._clear_pending_snapshot()
+                else:
+                    self._mark_pending_snapshot()
+            else:
                 self.backend = "json-file"
 
     def collection(self, name: str) -> list[dict[str, Any]]:
@@ -2549,7 +2617,7 @@ class RuntimeServices:
         decided_by: AuthenticatedUser,
         reason: str | None,
     ) -> None:
-        lessons = self.store.data.setdefault("improvement_lessons", [])
+        lessons = self.store.state.setdefault("improvement_lessons", [])
         lesson = {
             "id": f"lesson_reject_{approval.get('id', 'unknown')}",
             "type": "decision",
@@ -2561,7 +2629,10 @@ class RuntimeServices:
             "summary": reason or "Human rejected gated step",
             "utility": 0.6,
             "provenance": {
-                "source_refs": [f"approval:{approval.get('id')}", f"run:{run.get('id')}"],
+                "source_refs": [
+                    f"approval:{approval.get('id')}",
+                    f"run:{run.get('id')}",
+                ],
                 "captured_by": decided_by.id,
                 "recorded_at": utc_now(),
             },

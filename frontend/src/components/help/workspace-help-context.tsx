@@ -57,7 +57,9 @@ type WorkspaceHelpContextValue = {
   clearAgentSpecFocus: () => void;
 };
 
-const WorkspaceHelpContext = createContext<WorkspaceHelpContextValue | null>(null);
+const WorkspaceHelpContext = createContext<WorkspaceHelpContextValue | null>(
+  null,
+);
 
 function clampWidth(width: number): number {
   const max = helpDrawerMaxForViewport();
@@ -89,21 +91,31 @@ export function WorkspaceHelpProvider({
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [rightPanelOpen, setRightPanelOpen] = useState(false);
-  const [rightPanelWidth, setRightPanelWidthState] = useState(HELP_DRAWER_DEFAULT_WIDTH);
+  const [rightPanelWidth, setRightPanelWidthState] = useState(
+    HELP_DRAWER_DEFAULT_WIDTH,
+  );
   const [rightPanelDragging, setRightPanelDragging] = useState(false);
   const [activeTabId, setActiveTabId] = useState(defaultTabId);
-  const [agentSpecFocus, setAgentSpecFocus] = useState<AgentSpecFocus | null>(null);
+  const [agentSpecFocus, setAgentSpecFocus] = useState<AgentSpecFocus | null>(
+    null,
+  );
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    setRightPanelWidthState(readStoredWidth());
-    setHydrated(true);
+    const hydrationTask = window.setTimeout(() => {
+      setRightPanelWidthState(readStoredWidth());
+      setHydrated(true);
+    }, 0);
+    return () => window.clearTimeout(hydrationTask);
   }, []);
 
   useEffect(() => {
     if (!hydrated) return;
     try {
-      window.localStorage.setItem(HELP_DRAWER_WIDTH_STORAGE_KEY, String(rightPanelWidth));
+      window.localStorage.setItem(
+        HELP_DRAWER_WIDTH_STORAGE_KEY,
+        String(rightPanelWidth),
+      );
     } catch {
       // ignore quota / private mode
     }
@@ -213,14 +225,18 @@ export function WorkspaceHelpProvider({
   );
 
   return (
-    <WorkspaceHelpContext.Provider value={value}>{children}</WorkspaceHelpContext.Provider>
+    <WorkspaceHelpContext.Provider value={value}>
+      {children}
+    </WorkspaceHelpContext.Provider>
   );
 }
 
 export function useWorkspaceHelp(): WorkspaceHelpContextValue {
   const ctx = useContext(WorkspaceHelpContext);
   if (!ctx) {
-    throw new Error("useWorkspaceHelp must be used within WorkspaceHelpProvider");
+    throw new Error(
+      "useWorkspaceHelp must be used within WorkspaceHelpProvider",
+    );
   }
   return ctx;
 }
